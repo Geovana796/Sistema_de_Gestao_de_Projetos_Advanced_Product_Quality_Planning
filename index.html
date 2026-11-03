@@ -4,10 +4,10 @@
   Setor: S2 — Engenharia / Desenvolvimento de Processo e Industrialização
   Processo: S2-A · APQP (Painel gerencial)  ·  Cartografia: S2-1 APQP / S2-2 PPAP
   Autor: Citizen Developer S2 (Geovana Correia) com apoio do Claude
-  Versão: v42      Data: 30/10/2026      Versão anterior: v38 (30/10/2026)
+  Versão: v43      Data: 30/10/2026      Versão anterior: v38 (30/10/2026)
   Biblioteca: Vue 3.5.13 + PrimeVue 4.5.5 (tema Aura com preset nas cores do brandbook CGR) · Fonte: Lato
   ATENÇÃO: todos os dados são fictícios. Nenhum cliente, part number, pessoa ou valor é real.
-  O QUE MUDOU (v38 → v42):
+  O QUE MUDOU (v38 → v43):
    - Agente de nomeações cria o projeto automaticamente em Projetos ao ler o e-mail (próximo N° APQP livre; RFQ, cliente
      e projeto do e-mail), com etiqueta "A conferir"; a Analista confere, informa N° CI e líder em "Editar cadastro"
      (ao concluir: equipe preenchida com o líder, aviso ao líder, Histórico). Checklist GR0–GR4 gerado na criação.
@@ -146,7 +146,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gestão de Projetos APQP · v42</title>
+<title>Gestão de Projetos APQP · v43</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@7.0.0/primeicons.css">
@@ -459,7 +459,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .mc-fch i{font-size:10px;cursor:pointer}.mc-fil a{color:#148ec2;font-weight:700;margin-left:4px}
 .p-datatable .p-datatable-tbody>tr.mc-sel>td{background:#e3eaf5!important;font-weight:700}
 
-/* ===== v42 — projeto criado pelo agente + documentos da nomeação ===== */
+/* ===== v43 — projeto criado pelo agente + documentos da nomeação ===== */
 .chip.c-conf{background:#fbeee2;color:#b05f1d;font-weight:700}
 .org{display:block;color:#148ec2;font-size:11px;margin-top:2px}.org.est{color:#d67c2f;font-weight:700}.tg-cad{display:inline-block;background:#eef3d6;color:#5d6418;border-radius:6px;padding:0 6px;font-size:10.5px;font-weight:700;margin-top:2px}
 .kom-t{width:100%;border-collapse:collapse;font-size:13px}.kom-t th{text-align:left;color:#869199;font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);padding:4px 6px}.kom-t td{border-bottom:1px solid var(--line);padding:5px 6px}.kom-c h3 .pi{color:#a4ae2d}
@@ -1248,7 +1248,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
 </head>
 <body>
 <div id="app" v-cloak></div>
-<div class="carregando" id="carregando">Carregando Gestão de Projetos APQP v42…</div>
+<div class="carregando" id="carregando">Carregando Gestão de Projetos APQP v43…</div>
 
 <!-- =========================================================
      BLOCO DE DADOS DE EXEMPLO (JSON, schemaVersion 2) — 100% FICTÍCIOS
@@ -11613,7 +11613,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
   <header class="topbar tb9">
     <button class="hb-menu" @click="ui.menu==='oculto'?setMenu('aberto'):setMenu('oculto')" v-tooltip.bottom="ui.menu==='oculto'?'Mostrar menu':'Ocultar menu'"><i class="pi pi-bars"></i></button>
     <div class="brand"><img class="logo-cgr" :src="LOGO_COR" alt="CGR — Form your world.">
-      <div class="brand-t"><h1>Gestão de Projetos APQP</h1><small>S2-A · APQP · protótipo v42</small></div></div>
+      <div class="brand-t"><h1>Gestão de Projetos APQP</h1></div></div>
     <span class="spacer"></span>
     <div class="nv-w">
       <button class="nv-b" @click="ui.novoMenu=!ui.novoMenu" :class="{on:ui.novoMenu}"><i class="pi pi-plus"></i><span>Novo</span><i class="pi pi-angle-down" style="font-size:11px"></i></button>
@@ -11648,7 +11648,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
   </nav>
 
   <main class="main">
-  <div class="banner-fict"><i class="pi pi-info-circle"></i> Protótipo v42 para visualizar a interface e navegar pelas funcionalidades. Todos os nomes, clientes, números e datas são <b>fictícios</b>. As alterações ficam só nesta sessão; os anexos ficam salvos neste navegador (Configuração › Dados para exportar/importar o JSON).</div>
+  <div class="banner-fict"><i class="pi pi-info-circle"></i> Protótipo v43 para visualizar a interface e navegar pelas funcionalidades. Todos os nomes, clientes, números e datas são <b>fictícios</b>. As alterações ficam só nesta sessão; os anexos ficam salvos neste navegador (Configuração › Dados para exportar/importar o JSON).</div>
   <div class="page-title" v-if="PAGINAS[ui.aba]"><div><h2>{{ PAGINAS[ui.aba].t }}</h2><p v-if="PAGINAS[ui.aba].d">{{ PAGINAS[ui.aba].d }}</p></div></div>
   <Tabs v-model:value="ui.aba" class="nav">
     <TabList>
@@ -12264,7 +12264,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
           <TabPanel value="fluxo">
             <div class="fx-top">
               <b class="fx-tt">Processo (BPMN)</b>
-              <span class="mini">Consulta para todos os perfis · versão v42 · 30/10/2026</span>
+              <span class="mini">Consulta para todos os perfis · versão v43 · 30/10/2026</span>
             </div>
             <div class="fx-l">
               <div class="fx-nav">
