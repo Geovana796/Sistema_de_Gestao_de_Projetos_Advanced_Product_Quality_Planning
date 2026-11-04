@@ -4,10 +4,23 @@
   Setor: S2 — Engenharia / Desenvolvimento de Processo e Industrialização
   Processo: S2-A · APQP (Painel gerencial)  ·  Cartografia: S2-1 APQP / S2-2 PPAP
   Autor: Citizen Developer S2 (Geovana Correia) com apoio do Claude
-  Versão: v50      Data: 03/11/2026      Versão anterior: v49 (03/11/2026)
+  Versão: v58      Data: 04/11/2026      Versão anterior: v57 (04/11/2026)
   Biblioteca: Vue 3.5.13 + PrimeVue 4.5.5 (tema Aura com preset nas cores do brandbook CGR) · Fonte: Lato · SheetJS 0.18.5 (sob demanda, leitura da RFQ)
   ATENÇÃO: todos os dados são fictícios. Nenhum cliente, part number, pessoa ou valor é real.
-  O QUE MUDOU (v49 → v50): Regras atualizadas (Cadastro reescrito; nova seção 2 “Nomeação e anexos”; Alertas e
+  O QUE MUDOU (v57 → v58): Sprint — cartão vai para “Validação” na hora e a evidência é pedida em seguida;
+     o cartão mostra o arquivo anexado (clique abre) ou “Falta evidência” com botão Anexar; Validação → Feito
+     exige evidência no documento. Regras (Sprint) atualizadas.
+  v57 (v56 → v57): mais contraste (fundo cinza-azulado, borda e sombra nos cartões, trilho dos gráficos
+     em cinza-azulado) para telas sem luz noturna; detalhe dos indicadores do Acompanhamento em uma linha.
+  v56 (v55 → v56): cartões da Gestão na altura do conteúdo (sem espaço em branco); no notebook o conjunto
+     fica centralizado na vertical; em monitor grande fica no topo, no tamanho do notebook, e a sobra fica embaixo.
+  v55 (v54 → v55): em monitor grande, Gestão e Acompanhamento ficam no tamanho do notebook (1366×768),
+     sem gráficos maiores, e o conjunto fica centralizado na vertical.
+  v54 (v53 → v54): Gestão ajustada à altura da tela do notebook (sem sobra abaixo do Acompanhamento):
+     cartões de indicador esticam e centralizam os gráficos com tamanho máximo; motivo em laranja quando um
+     indicador não tem dado para calcular. Regras (seção 10) atualizadas.
+  v53: Responsáveis com exclusão; gráficos menores; áreas na Equipe; vários anexos por documento; Próximos passos.
+  O QUE MUDOU (v49 → v53): Regras atualizadas (Cadastro reescrito; nova seção 2 “Nomeação e anexos”; Alertas e
      Acompanhamento com anéis e “Mostrar todos”); Como fazer da Analista com “Conferir projeto” e “Anexar a RFQ”;
      visão geral das Regras com o agente; BPMN 1 com leitura de KOM/RFQ, criação com anexos e Conferir cadastro.
   v49: anel da sprint centralizado; Projetos críticos e Alertas com 3 itens + “Mostrar todos”; Conferir cadastro salva
@@ -157,7 +170,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gestão de Projetos APQP · v50</title>
+<title>Gestão de Projetos APQP · v58</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@7.0.0/primeicons.css">
@@ -170,10 +183,10 @@
   --navy:#1b3d79;      /* Solid blue — primária */
   --pink:#b31671;      /* Fancy pink — primária / contraste para informação-chave */
   --grey:#869199;      /* Soft grey */
-  --cool:#148ec2;      /* Cool blue */
-  --green:#a4ae2d;     /* Vivid green */
+  --cool:#5b78a8;      /* Cool blue */
+  --green:#1b3d79;     /* Vivid green */
   --orange:#d67c2f;    /* Warm orange */
-  --green-tx:#5f6618;  /* tom escuro do vivid green, só para texto sobre fundo claro (legibilidade) */
+  --green-tx:#1b3d79;  /* tom escuro do vivid green, só para texto sobre fundo claro (legibilidade) */
   --line:rgba(134,145,153,.3); /* "grey at 30%" (traço de tabelas) */
   --bg:#f4f6f9; --card:#ffffff; --ink:#1b3d79; --muted:#5d6a75;
 }
@@ -194,7 +207,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Lato',Verd
 .ficticio{background:var(--orange);color:#fff;font-weight:900;font-size:11px;padding:4px 8px;border-radius:4px;letter-spacing:.5px}
 .sel-user{min-width:230px}
 .bell.p-button{color:#fff}
-.aviso{background:#fff7ef;border-bottom:1px solid #f0d6bf;color:#7a4a1c;font-size:12px;padding:6px 22px}
+.aviso{background:#f6f7f9;border-bottom:1px solid #f0d6bf;color:#7a4a1c;font-size:12px;padding:6px 22px}
 .conteudo{padding:0 22px 40px}
 .nav .p-tablist{background:transparent}
 .nav .p-tab{font-weight:700}
@@ -239,10 +252,10 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Lato',Verd
 
 /* Tags com texto + cor (nunca só cor) */
 .p-tag.tg{font-weight:900;font-size:11px}
-.p-tag.tg-ok{background:#eef0d5;color:var(--green-tx)}
-.p-tag.tg-ent{background:#dcf0f8;color:#0d5f82}
+.p-tag.tg-ok{background:#eef1f6;color:var(--green-tx)}
+.p-tag.tg-ent{background:#eef1f6;color:#1b3d79}
 .p-tag.tg-pend{background:#eceff2;color:#5d6a75}
-.p-tag.tg-nok{background:#f6dceb;color:var(--pink)}
+.p-tag.tg-nok{background:#f6f7f9;color:var(--pink)}
 .p-tag.tg-na{background:#f4f5f6;color:#9aa3aa}
 .p-tag.tg-r{background:var(--pink);color:#fff}
 .p-tag.tg-y{background:var(--orange);color:#fff}
@@ -320,10 +333,10 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .pg-dt .p-datatable-tbody>tr>td{padding:10px 10px}
 .num-al{color:var(--cgr-pink);font-weight:900}
 .gut-c{display:inline-block;font-size:11.5px;font-weight:700;border:1.5px solid currentColor;border-radius:999px;padding:1px 9px;white-space:nowrap;background:#fff}
-.gut-c.g-alta{color:#b31671}.gut-c.g-média{color:#d67c2f}.gut-c.g-baixa{color:#148ec2}
+.gut-c.g-alta{color:#b31671}.gut-c.g-média{color:#d67c2f}.gut-c.g-baixa{color:#5b78a8}
 .m6d{display:flex;align-items:center;gap:4px}
 .m6d i{width:10px;height:10px;border-radius:50%;display:inline-block;border:1.5px solid transparent}
-.m6d i.ok{background:#a4ae2d}.m6d i.nok{background:#b31671}.m6d i.pend{background:#cfd6de}.m6d i.na{background:#fff;border-color:#cfd6de}
+.m6d i.ok{background:#1b3d79}.m6d i.nok{background:#b31671}.m6d i.pend{background:#cfd6de}.m6d i.na{background:#fff;border-color:#cfd6de}
 .m6ok{margin-left:4px;width:16px;height:16px;border-radius:50%;background:#1b3d79;color:#fff;display:inline-flex;align-items:center;justify-content:center}.m6ok i{font-size:8px;width:auto;height:auto;border:0;background:none}
 
 /* ===== v25 — botão único "+ Novo" e vínculo das ações ===== */
@@ -358,11 +371,11 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 @media (max-width:700px){.na-pr-g{grid-template-columns:1fr 1fr}}
 
 /* ===== v28 — Agente IA e Matriz Esforço × Impacto ===== */
-.ag-h{display:flex;align-items:center;gap:8px;color:var(--cgr-solid-blue)}.ag-h .pi-sparkles{color:#148ec2}
-.ag-sim{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#e7f3fa;color:#148ec2;border-radius:5px;padding:1px 6px;margin-left:4px}
+.ag-h{display:flex;align-items:center;gap:8px;color:var(--cgr-solid-blue)}.ag-h .pi-sparkles{color:#5b78a8}
+.ag-sim{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#eef1f6;color:#5b78a8;border-radius:5px;padding:1px 6px;margin-left:4px}
 .ag-wait{padding:8px 0 2px}
 .ag-g{display:grid;grid-template-columns:300px 1fr;gap:14px;margin-top:8px;align-items:start}
-.ag-why ul{margin:6px 0;padding-left:0;list-style:none;font-size:12.5px;color:var(--cgr-solid-blue)}.ag-why li{padding:2px 0}.ag-why li b{display:inline-block;width:14px;color:#148ec2}
+.ag-why ul{margin:6px 0;padding-left:0;list-style:none;font-size:12.5px;color:var(--cgr-solid-blue)}.ag-why li{padding:2px 0}.ag-why li b{display:inline-block;width:14px;color:#5b78a8}
 .ag-adj{margin-top:8px}
 .mx{display:grid;grid-template-columns:22px 1fr;grid-template-rows:auto auto auto;column-gap:4px}
 .mx-yl{grid-row:1/3;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:11px;font-weight:700;color:#869199;letter-spacing:.06em;text-transform:uppercase}
@@ -376,7 +389,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .mx-q:hover{box-shadow:0 2px 8px rgba(27,61,121,.15)}
 .mx-lg .mx-q{min-height:96px;cursor:default}.mx-lg .mx-q span{font-size:11.5px;line-height:1.3;opacity:.95}
 .pm-g{display:grid;grid-template-columns:420px 1fr;gap:16px;align-items:start}
-.ag-box{display:flex;gap:10px;background:#eef6fb;border:1px solid #cfe6f3;border-radius:10px;padding:8px 12px;margin-bottom:10px;color:var(--cgr-solid-blue)}.ag-box>.pi{color:#148ec2;margin-top:3px}.ag-box ul{margin:4px 0 0;padding-left:16px}
+.ag-box{display:flex;gap:10px;background:#f3f5f8;border:1px solid #dfe5ee;border-radius:10px;padding:8px 12px;margin-bottom:10px;color:var(--cgr-solid-blue)}.ag-box>.pi{color:#5b78a8;margin-top:3px}.ag-box ul{margin:4px 0 0;padding-left:16px}
 .pr-ia{font-size:9px;margin-left:3px;opacity:.9}
 .oo{background:#f4f6f9;border-radius:10px;padding:10px 12px}.oo-l{display:flex;gap:8px;align-items:center}
 .oo-c{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}.oo-chip{display:inline-flex;align-items:center;gap:6px;background:#1b3d79;color:#fff;border-radius:14px;padding:3px 10px;font-size:12px}.oo-chip i{font-size:10px;cursor:pointer}
@@ -388,7 +401,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .fx-l{display:grid;grid-template-columns:260px 1fr;gap:14px;align-items:start}
 .fx-nav{display:flex;flex-direction:column;gap:6px;position:sticky;top:80px}
 .fx-b{font:inherit;font-size:13.5px;text-align:left;border:1px solid var(--line);background:#fff;color:var(--cgr-solid-blue);border-radius:10px;padding:10px 12px;cursor:pointer;line-height:1.3}
-.fx-b:hover{border-color:#148ec2}.fx-b.on{background:#1b3d79;border-color:#1b3d79;color:#fff;font-weight:700}
+.fx-b:hover{border-color:#5b78a8}.fx-b.on{background:#1b3d79;border-color:#1b3d79;color:#fff;font-weight:700}
 .fx-perf{margin-top:8px;background:#f4f6f9;border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--cgr-solid-blue);display:flex;flex-direction:column;gap:6px;line-height:1.35}
 .fx-m{min-width:0;padding:14px 16px}
 .fx-h{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}.fx-h h3{margin:0 0 4px}.fx-h p{margin:0;max-width:760px;font-size:13px}
@@ -415,10 +428,10 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .rg-tl strong{font-size:12.5px;line-height:1.25;margin-top:4px}.rg-tl small{font-size:11px;opacity:.75}
 .rg-pil{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid rgba(255,255,255,.18);padding-top:12px}
 .rg-pil>div{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.08);border-radius:10px;padding:9px 12px}
-.rg-pil i{font-size:16px;margin-top:2px;color:#a9d6ee}.rg-pil span{font-size:12px;opacity:.9;line-height:1.35}.rg-pil b{display:block;font-size:13px;opacity:1}
+.rg-pil i{font-size:16px;margin-top:2px;color:#c9d3e4}.rg-pil span{font-size:12px;opacity:.9;line-height:1.35}.rg-pil b{display:block;font-size:13px;opacity:1}
 .rg-idx{position:sticky;top:60px;z-index:3;display:flex;flex-wrap:wrap;gap:6px;background:#f4f6f9;padding:10px 0;box-shadow:0 6px 8px -8px rgba(27,61,121,.25)}
 .rg-idx a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#1b3d79;background:#fff;border:1px solid var(--line);border-radius:20px;padding:5px 12px;text-decoration:none}
-.rg-idx a:hover{border-color:#148ec2;color:#148ec2}.rg-idx i{font-size:12px;color:#148ec2}
+.rg-idx a:hover{border-color:#5b78a8;color:#5b78a8}.rg-idx i{font-size:12px;color:#5b78a8}
 .rg-g{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .rg-c{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;scroll-margin-top:120px;box-shadow:0 1px 3px rgba(27,61,121,.05)}
 .rg-c header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -426,10 +439,10 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .rg-c h3{margin:0;font-size:15.5px;color:#1b3d79}
 .rg-c ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
 .rg-c li{position:relative;padding-left:16px;font-size:13.5px;line-height:1.5;color:#2c3e5c}
-.rg-c ul li::before{content:'';position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:#148ec2}
+.rg-c ul li::before{content:'';position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:#5b78a8}
 .rg-k{display:inline-block;background:#1b3d79;color:#fff;border-radius:6px;padding:0 7px;font-size:12px;font-weight:700}
-.rg-v{display:inline-block;background:#e7f3fa;color:#0f6f9a;border-radius:6px;padding:0 6px;font-weight:700}
-.rg-st{display:inline-block;border-radius:6px;padding:0 6px;font-size:12px;font-weight:700;color:#fff}.rg-st.ent{background:#148ec2}.rg-st.ok{background:#a4ae2d}.rg-st.nok{background:#d67c2f}
+.rg-v{display:inline-block;background:#eef1f6;color:#1b3d79;border-radius:6px;padding:0 6px;font-weight:700}
+.rg-st{display:inline-block;border-radius:6px;padding:0 6px;font-size:12px;font-weight:700;color:#fff}.rg-st.ent{background:#5b78a8}.rg-st.ok{background:#1b3d79}.rg-st.nok{background:#d67c2f}
 .rg-pk{color:#b31671}.rg-or{color:#d67c2f}
 .rg-pf{display:flex;flex-direction:column;gap:8px}.rg-pf>div{background:#f4f6f9;border-radius:10px;padding:8px 12px;font-size:12.5px;line-height:1.4;color:#2c3e5c}.rg-pf b{display:block;color:#1b3d79;font-size:13px;margin-bottom:2px}
 .rg-mx{display:grid;grid-template-columns:18px 40px 1fr 1fr;grid-template-rows:auto auto auto;gap:5px;margin:0 0 12px}
@@ -467,25 +480,25 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 /* ===== v38 — filtro cruzado em Meios de controle e produção ===== */
 .mc-fil{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0 0;font-size:12.5px;color:#1b3d79;font-weight:700}
 .mc-fch{display:inline-flex;align-items:center;gap:6px;background:#1b3d79;color:#fff;border-radius:14px;padding:3px 10px;font-weight:700}
-.mc-fch i{font-size:10px;cursor:pointer}.mc-fil a{color:#148ec2;font-weight:700;margin-left:4px}
+.mc-fch i{font-size:10px;cursor:pointer}.mc-fil a{color:#5b78a8;font-weight:700;margin-left:4px}
 .p-datatable .p-datatable-tbody>tr.mc-sel>td{background:#e3eaf5!important;font-weight:700}
 
-/* ===== v50 — projeto criado pelo agente + documentos da nomeação ===== */
-.chip.c-conf{background:#fbeee2;color:#b05f1d;font-weight:700}
+/* ===== v58 — projeto criado pelo agente + documentos da nomeação ===== */
+.chip.c-conf{background:#f6f7f9;color:#b05f1d;font-weight:700}
 .m-ges>.banner-fict,.m-ges>.page-title,.m-ges .ges{max-width:1560px;margin-left:auto;margin-right:auto}
 .m-ges .page-title{width:100%}
-.ges{display:flex;flex-direction:column;min-height:calc(100vh - var(--ges-top,220px) - 41px)}
-.ges .kp3{flex:3 1 auto}
+.ges{display:flex;flex-direction:column;min-height:0}
+.ges .kp3{flex:0 0 auto}
 .ges .kp{padding:16px 20px 12px}
 .ges .kp-t{font-size:clamp(15px,1.9vh,18px)}.ges .kp-s{font-size:clamp(11px,1.4vh,13px)}
 .ges .kp-b{gap:clamp(14px,2.2vh,26px)}
-.ges .ring-w svg{width:clamp(105px,min(23vh,11vw),240px);height:auto}
-.ges .gauge-w svg{width:clamp(140px,min(30vh,12vw),340px);height:auto}
+.ges .ring-w svg{width:clamp(90px,min(15vh,7.5vw),160px);height:auto}
+.ges .gauge-w svg{width:clamp(125px,min(20vh,9vw),230px);height:auto}
 .ges .leg{font-size:clamp(12px,1.55vh,14px);gap:clamp(5px,1vh,10px)}
 .ges .mbars{gap:clamp(7px,1.4vh,14px)}.ges .mb{font-size:clamp(11px,1.45vh,13px)}.ges .mb-t{height:clamp(10px,1.4vh,14px)}
-.ges .gcols{height:clamp(110px,25vh,280px)}.ges .mbars{min-width:140px}.ges .gc-t{max-width:clamp(30px,3.6vh,42px)}
+.ges .gcols{height:clamp(90px,16vh,180px)}.ges .mbars{min-width:140px}.ges .gc-t{max-width:clamp(30px,3.6vh,42px)}
 .ges .kp-f{font-size:clamp(11px,1.4vh,13px)}
-.ges .sec-wrap{flex:.75 1 auto;display:flex;flex-direction:column;margin-bottom:0}
+.ges .sec-wrap{flex:0 0 auto;display:flex;flex-direction:column;margin-bottom:0}
 .ges .ac-f{flex:1;padding:clamp(8px,1.6vh,18px) 8px}
 .ges .ac-r{gap:clamp(10px,1.4vh,16px)}.ges .ac-r>span:first-child svg{width:clamp(46px,8vh,82px);height:auto}
 .ges .ac-tx b{font-size:clamp(12.5px,1.65vh,15px)}.ges .ac-tx small{font-size:clamp(11px,1.4vh,13px);white-space:normal;overflow:visible}
@@ -494,27 +507,27 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 @media (max-height:700px){.ges .kp{padding:10px 16px 6px}.ges .kp-b{padding:4px 0 2px}.ges .sec-wrap{margin-top:10px}.ges .sec-h{margin-bottom:4px}.ges .ac-f{padding:4px 6px}.ges .ac-q{margin-top:2px;padding-top:4px}}
 @media (max-width:1560px){.ges .ac-f{grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,2fr)}.ges .ac-r{gap:8px;padding:6px 6px}.ges .ac-l{grid-template-columns:clamp(128px,9.5vw,150px) minmax(40px,1fr) 24px;gap:8px}.ges .ac-q{padding-left:10px}}
 .sp4-c>div:first-child{display:flex;justify-content:center;align-items:center;flex:1}.sp4-c{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.cp-falta{margin-right:auto;font-size:12px;color:#9a5418;background:#fdf1e6;border-radius:8px;padding:6px 10px}.cp-falta.ok{color:#5d6418;background:#f1f4dc}
+.cp-falta{margin-right:auto;font-size:12px;color:#9a5418;background:#f6f7f9;border-radius:8px;padding:6px 10px}.cp-falta.ok{color:#1b3d79;background:#eef1f6}
 .nm-ag{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(27,61,121,.08);display:flex;align-items:center;gap:14px;padding:10px 16px;margin-bottom:10px}
-.nm-ic{width:38px;height:38px;border-radius:50%;background:#e6f3fa;color:#148ec2;display:grid;place-items:center;flex:none}
+.nm-ic{width:38px;height:38px;border-radius:50%;background:#eef1f6;color:#5b78a8;display:grid;place-items:center;flex:none}
 .nm-ag b{font-size:14px;color:#1b3d79}.nm-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;align-items:center}
-.nchip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;border-radius:20px;padding:3px 9px;background:#eef1f6;color:#5b6b80;margin-right:4px}.nchip.n-ok{background:#f1f4dc;color:#5d6418}.nchip.n-lr{background:#fdf1e6;color:#9a5418}.nchip.n-pk{background:#fbe7f0;color:#8f1059}
-.nm-lk{font-size:12px;font-weight:900;color:#148ec2;text-decoration:none;margin-left:6px}.nm-como{margin-top:8px;padding:8px 10px;background:#f6f8fb;border-radius:8px}
+.nchip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;border-radius:20px;padding:3px 9px;background:#eef1f6;color:#5b6b80;margin-right:4px}.nchip.n-ok{background:#eef1f6;color:#1b3d79}.nchip.n-lr{background:#f6f7f9;color:#9a5418}.nchip.n-pk{background:#f6f7f9;color:#8f1059}
+.nm-lk{font-size:12px;font-weight:900;color:#5b78a8;text-decoration:none;margin-left:6px}.nm-como{margin-top:8px;padding:8px 10px;background:#f6f8fb;border-radius:8px}
 .nm-fil{display:flex;gap:8px;margin-bottom:10px}.nm-fil button{all:unset;cursor:pointer;background:#fff;border:1px solid #dfe5ee;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:#5b6b80}.nm-fil button.a{background:#1b3d79;color:#fff;border-color:#1b3d79}
 .nmc{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(27,61,121,.08);margin-bottom:10px;overflow:hidden}.nmc.desc{opacity:.55}
 .nmc-h{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.5fr) minmax(0,.9fr);gap:16px;align-items:center;padding:12px 16px}
 .nmc-t b{display:block;font-size:14.5px;font-weight:900;color:#1b3d79}.nmc-t small{font-size:11.5px;color:#869199}
-.nmc-pp{display:flex;align-items:center}.nmc-ln{flex:1;height:2px;background:#dfe5ee;margin-bottom:16px}.nmc-ln.g{background:#a4ae2d}
+.nmc-pp{display:flex;align-items:center}.nmc-ln{flex:1;height:2px;background:#dfe5ee;margin-bottom:16px}.nmc-ln.g{background:#1b3d79}
 .nmc-st{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:#5b6b80;width:62px;text-align:center}
 .nmc-st i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#fff;background:#c9d3e4}
-.nmc-st.s-ok i{background:#a4ae2d}.nmc-st.s-av i{background:#d67c2f}.nmc-st.s-x i{background:#b31671}
+.nmc-st.s-ok i{background:#1b3d79}.nmc-st.s-av i{background:#d67c2f}.nmc-st.s-x i{background:#b31671}
 .nmc-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}.nmc-r>span:last-child{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:4px}.nmc-ap{font-size:20px;font-weight:900;color:#1b3d79}
 .nmc-b{border-top:1px solid #eef1f6;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;padding:12px 16px;background:#fbfcfe}
 .nmc-f{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 14px}.nmc-f>div{font-size:13px;font-weight:700;color:#1b3d79}.nmc-f small{display:block;font-size:10.5px;color:#869199;font-weight:400}
-.src{font-size:9.5px;font-weight:900;border-radius:4px;padding:0 5px;margin-left:5px;vertical-align:1px}.src.s-r{background:#e6f3fa;color:#0f6f99}.src.s-k{background:#f1f4dc;color:#5d6418}.src.s-e{background:#eef1f6;color:#5b6b80}
+.src{font-size:9.5px;font-weight:900;border-radius:4px;padding:0 5px;margin-left:5px;vertical-align:1px}.src.s-r{background:#eef1f6;color:#1b3d79}.src.s-k{background:#eef1f6;color:#1b3d79}.src.s-e{background:#eef1f6;color:#5b6b80}
 .nmc-f .vz{color:#b31671;font-weight:900}
 .nmc-dc{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
-.nmc-al{display:flex;flex-direction:column;gap:5px}.nmc-a{font-size:12px;font-weight:700;border-radius:8px;padding:5px 9px}.nmc-a.n-lr{background:#fdf1e6;color:#9a5418}.nmc-a.n-pk{background:#fbe7f0;color:#8f1059}
+.nmc-al{display:flex;flex-direction:column;gap:5px}.nmc-a{font-size:12px;font-weight:700;border-radius:8px;padding:5px 9px}.nmc-a.n-lr{background:#f6f7f9;color:#9a5418}.nmc-a.n-pk{background:#f6f7f9;color:#8f1059}
 .nmc-bt{display:flex;gap:8px;justify-content:space-between;margin-top:6px}
 @media (max-width:1200px){.nmc-h{grid-template-columns:1fr}.nmc-r{align-items:flex-start}.nmc-b{grid-template-columns:1fr}.nmc-f{grid-template-columns:repeat(2,1fr)}}
 .rf{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(27,61,121,.08);display:flex;align-items:center;gap:4px;padding:8px 8px;margin-bottom:12px}
@@ -523,7 +536,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .rf-k b{font-size:22px;font-weight:900;line-height:1.05;color:#1b3d79}.rf-k small{font-size:11px;color:#869199}
 .rf-comp{flex:1.4;cursor:default}.rf-comp:hover{background:none}.rf-st{display:flex;height:9px;border-radius:5px;overflow:hidden;gap:1px;margin:4px 0;background:#eef1f6}
 .rf-lg{display:flex;gap:12px;font-size:11px;color:#5b6b80}.rf-lg span:before{content:'';display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;background:var(--c)}
-.al-mais{all:unset;display:block;width:100%;box-sizing:border-box;text-align:center;padding:8px;font-size:12.5px;font-weight:900;color:#148ec2;cursor:pointer;border-top:1px solid #eef1f6}.al-mais:hover{background:#f1f5fb}
+.al-mais{all:unset;display:block;width:100%;box-sizing:border-box;text-align:center;padding:8px;font-size:12.5px;font-weight:900;color:#5b78a8;cursor:pointer;border-top:1px solid #eef1f6}.al-mais:hover{background:#f1f5fb}
 @media (max-width:1200px){.rf{flex-wrap:wrap}.rf-i{flex:1 1 30%}}
 .ac-h{display:flex;align-items:center;gap:8px}.ac-h .ac-tg{margin-left:auto}
 .ac-f{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(27,61,121,.08);display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,1.75fr);align-items:center;padding:8px 6px}
@@ -533,19 +546,99 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .ac-l{all:unset;box-sizing:border-box;display:grid;grid-template-columns:150px 1fr 30px;align-items:center;gap:10px;padding:3px 8px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;color:#1b3d79}
 .ac-l s{display:flex;height:7px;border-radius:4px;overflow:hidden;gap:1px;background:#eef1f6}.ac-l em{font-style:normal;font-weight:900;text-align:right}
 @media (max-width:1200px){.ac-f{grid-template-columns:repeat(3,minmax(0,1fr))}.ac-q{grid-column:1/-1;border-left:0;border-top:1px solid #eef1f6;padding:8px 6px 2px;margin-top:6px}}
-.org{display:block;color:#148ec2;font-size:11px;margin-top:2px}.org.est{color:#d67c2f;font-weight:700}.tg-cad{display:inline-block;background:#eef3d6;color:#5d6418;border-radius:6px;padding:0 6px;font-size:10.5px;font-weight:700;margin-top:2px}
-.kom-t{width:100%;border-collapse:collapse;font-size:13px}.kom-t th{text-align:left;color:#869199;font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);padding:4px 6px}.kom-t td{border-bottom:1px solid var(--line);padding:5px 6px}.kom-c h3 .pi{color:#a4ae2d}
-.conf-box{display:flex;gap:12px;align-items:center;background:#fdf3ea;border:1px solid #f1d2b5;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;color:#5a3a1a}
+.org{display:block;color:#5b78a8;font-size:11px;margin-top:2px}.org.est{color:#d67c2f;font-weight:700}.tg-cad{display:inline-block;background:#eef1f6;color:#1b3d79;border-radius:6px;padding:0 6px;font-size:10.5px;font-weight:700;margin-top:2px}
+.kom-t{width:100%;border-collapse:collapse;font-size:13px}.kom-t th{text-align:left;color:#869199;font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);padding:4px 6px}.kom-t td{border-bottom:1px solid var(--line);padding:5px 6px}.kom-c h3 .pi{color:#1b3d79}
+.conf-box{display:flex;gap:12px;align-items:center;background:#f6f7f9;border:1px solid #f1d2b5;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;color:#5a3a1a}
 .conf-box>.pi{color:#d67c2f;font-size:18px}.conf-box>div{flex:1}
 .nm-g{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
 .nm-mail h3{display:flex;gap:8px;align-items:center;font-size:15px}
-.nm-al{margin:8px 0;display:flex;flex-direction:column;gap:4px}.nm-al>div{background:#fdf3ea;color:#8a4c12;border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:700}.nm-al i{color:#d67c2f}
+.nm-al{margin:8px 0;display:flex;flex-direction:column;gap:4px}.nm-al>div{background:#f6f7f9;color:#8a4c12;border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:700}.nm-al i{color:#d67c2f}
 .nm-up{display:flex;gap:8px;align-items:center}
 .nm-vazio{color:#869199;font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:10px;text-align:center}
 .nm-doc{display:flex;align-items:center;gap:10px;padding:8px 6px;border-bottom:1px solid var(--line)}
 .nm-tp{background:#e3eaf5;color:#1b3d79;font-weight:700;font-size:11.5px;border-radius:6px;padding:2px 8px;white-space:nowrap}
 .nm-n{flex:1;display:flex;flex-direction:column;min-width:0}.nm-n b{font-size:13px;color:#1b3d79;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:900px){.nm-g{grid-template-columns:1fr}}
+
+.eq-x{margin-left:auto;font-size:10px;color:#b31671;cursor:pointer;padding:2px}.eq-add{display:flex;align-items:center;gap:10px;margin-top:8px}
+.ev-x{display:flex;align-items:center;gap:8px;margin-top:3px}.ev-x .pi{font-size:11px;color:#869199;cursor:pointer}.ev-x .pi-times{color:#b31671}
+.pp-box{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px}.pp-h{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#1b3d79}.pp-h .pi{color:#869199}
+.pp-t{font-size:12.5px;color:#334155;white-space:pre-line;margin-top:4px}.pp-old{font-size:10.5px;font-weight:700;color:#d67c2f;border:1px solid #f0c9a3;border-radius:20px;padding:1px 8px;white-space:nowrap}
+.pp-hist{margin-top:6px;border-top:1px dashed var(--line);padding-top:6px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:#334155}
+.pl-pp{font-size:12px;color:#334155;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
+.cr-pp{font-size:11.5px;color:#334155;border-top:1px dashed var(--line);padding-top:6px;margin-top:6px}.cr-pp .pi{color:#869199}
+
+/* ===== v58 — Gestão ajustada à altura da tela (sem sobra), gráficos com tamanho máximo ===== */
+.ges{min-height:calc(100vh - var(--ges-top,220px) - 42px)}
+.ges .kp3{flex:1 1 auto;grid-auto-rows:1fr}
+.ges .kp{min-height:0}
+.ges .kp-b{justify-content:center;align-items:center}
+.ges .ring-w svg{width:clamp(90px,min(24vh,11vw),220px)}
+.ges .gauge-w svg{width:clamp(125px,min(30vh,11vw),260px)}.ges .gauge-w{flex:0 0 auto}.ges .kp-b .mbars{flex:1 1 auto;min-width:170px;max-width:340px}
+.ges .gcols{height:clamp(90px,28vh,300px)}.ges .gc-t{max-width:clamp(30px,4.6vh,52px)}
+.ges .leg{font-size:clamp(12px,1.65vh,15px);gap:clamp(5px,1.4vh,14px)}.ges .lg-c{white-space:nowrap}.ges .mb{grid-template-columns:auto minmax(60px,1fr) auto;gap:10px}.ges .mb{font-size:clamp(11px,1.6vh,15px)}.ges .mb-t{height:clamp(10px,1.6vh,16px)}.ges .mbars{gap:clamp(7px,2vh,20px)}
+.ges .kp-b{gap:clamp(14px,3vh,40px)}
+.ges .sec-wrap{flex:0 0 auto;margin-top:clamp(12px,2.2vh,24px)}
+.ges .ac-f{padding:clamp(10px,2.4vh,28px) 8px}
+.ges .ac-r>span:first-child svg{width:clamp(46px,min(9.5vh,4.4vw),92px)}
+/* ===== v58 — tamanho fixo de notebook em telas grandes, conjunto centralizado ===== */
+.m-ges>.banner-fict,.m-ges>.page-title,.m-ges .ges{max-width:1180px}
+.ges .ac-f{grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,2fr)}.ges .ac-r{gap:8px;padding:6px 6px}.ges .ac-l{grid-template-columns:clamp(128px,9.5vw,150px) minmax(40px,1fr) 24px;gap:8px}.ges .ac-q{padding-left:10px}
+.ges{min-height:min(calc(100vh - var(--ges-top,220px) - 42px),610px);margin-top:max(0px,calc((100vh - var(--ges-top,220px) - 42px - 610px)/2))}
+.ges .ring-w svg{width:clamp(90px,min(24vh,11vw),150px)}
+.ges .gauge-w svg{width:clamp(125px,min(30vh,11vw),150px)}
+.ges .gcols{height:clamp(90px,28vh,215px)}.ges .gc-t{max-width:clamp(30px,4.6vh,35px)}
+.ges .leg{font-size:clamp(12px,1.65vh,12.7px);gap:clamp(5px,1.4vh,10.8px)}.ges .mb{font-size:clamp(11px,1.6vh,12.3px)}.ges .mb-t{height:clamp(10px,1.6vh,12.3px)}.ges .mbars{gap:clamp(7px,2vh,15.4px)}
+.ges .kp-b{gap:clamp(14px,3vh,23px)}.ges .kp-b .mbars{max-width:300px}
+.ges .sec-wrap{margin-top:clamp(12px,2.2vh,17px)}
+.ges .ac-f{padding:clamp(10px,2.4vh,18.4px) 8px}
+.ges .ac-r>span:first-child svg{width:clamp(46px,min(9.5vh,4.4vw),60px)}
+.ges .kp-t{font-size:clamp(15px,1.9vh,15px)}.ges .kp-s,.ges .kp-f{font-size:clamp(11px,1.4vh,11px)}
+.ges .ac-r{gap:clamp(10px,1.4vh,11px)}.ges .ac-tx b{font-size:clamp(12.5px,1.65vh,12.7px)}.ges .ac-tx small{font-size:11px}.ges .ac-q{gap:clamp(2px,1vh,7.7px)}.ges .ac-l{font-size:12px}.ges .ac-l s{height:clamp(7px,1.2vh,9.2px)}
+/* ===== v58 — cartões na altura do conteúdo; centraliza só a sobra pequena (notebook) ===== */
+.ges{min-height:0!important;margin-top:min(50px,max(0px,calc((100vh - var(--ges-top,116px) - 42px - var(--gh,600px))/2)))!important}
+.ges .kp3{flex:0 0 auto!important;grid-auto-rows:auto!important}.ges .kp-b{padding:14px 0 10px!important}
+/* ===== v58 — evidência no cartão da sprint ===== */
+.k-ev{display:flex;align-items:center;gap:6px;margin-top:7px;padding:5px 8px;border-radius:6px;background:#eef2f8;color:#1b3d79;font-size:11.5px;font-weight:700;cursor:pointer;min-width:0}
+.k-ev span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:underline}.k-ev b{margin-left:auto;font-size:11px;color:#5b78a8}
+.k-falta{display:flex;align-items:center;gap:6px;margin-top:7px;padding:5px 8px;border-radius:6px;background:#fdf3ea;color:#d67c2f;font-size:11.5px;font-weight:700}
+.k-anx{margin-left:auto;border:1px solid #d67c2f;background:#fff;color:#d67c2f;border-radius:6px;padding:2px 8px;font:inherit;font-size:11px;cursor:pointer}
+/* ===== v58 — contraste: fundo, borda dos cartões e trilho dos gráficos; detalhe do Acompanhamento em uma linha ===== */
+:root{--bg:#e9edf3}body{background:#e9edf3!important}
+.kp,.ac-f,.card,.rf{border:1px solid #d5dde9!important;box-shadow:0 2px 6px rgba(27,61,121,.10)!important}
+.gc-t,.mb-t,.ac-l s{background:#d8dfe9!important}
+.ges .ac-r{gap:6px!important}.ges .ac-tx{min-width:0;overflow:hidden}.ges .ac-tx small{display:block;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis}
+.ges .ac-r>span:first-child svg{width:46px!important}.ges .ac-r{padding:6px 4px!important}.ges .ac-tx small{font-size:10.5px!important}.ges .ac-tx b{white-space:nowrap}
+.ges .ac-f{grid-template-columns:repeat(5,auto) minmax(250px,1fr)!important;column-gap:clamp(6px,1vw,22px);justify-content:space-between}.ges .ac-tx{overflow:visible}.ges .ac-l{grid-template-columns:150px minmax(50px,1fr) 22px!important}.ges .ac-l span{white-space:nowrap}.ges .ac-q{padding-left:12px!important}
+.kp-mot{font-size:12px;font-weight:700;color:#d67c2f;margin:4px 0 2px;text-align:center}
+.kp-b .mini.kp-mot{display:block}
+/* ===== v58 — paleta neutra: azul-marinho e cinza; laranja = atenção; rosa = crítico ===== */
+.kp,.kp.abaixo,.kp.neutro,.kp.ok{border-top:1px solid var(--line)!important}
+.kp-ic,.kp.abaixo .kp-ic,.kp.neutro .kp-ic{background:#f0f2f6!important;color:#5d6a75!important}
+.kp-sel,.kp.neutro .kp-sel{background:#fff!important;color:#5d6a75!important;border-color:#dfe5ee!important}
+.kp.abaixo .kp-sel{background:#fff!important;color:#d67c2f!important;border-color:#f0c9a3!important}
+.av{background:#eef1f6!important;color:#1b3d79!important}
+.chip,.tg{box-shadow:none}
+.rf,.ac-f,.nm-ag,.nmc,.card,.kp{box-shadow:0 1px 2px rgba(27,61,121,.05)!important}
+.alp,.ali{box-shadow:none}
+.ali{border-left-width:2px!important}
+.nmc-a.n-lr,.nmc-a.n-pk,.nm-al>div{background:#fff!important;border:1px solid #e3e7ee}
+.nmc-a.n-lr{border-left:3px solid #d67c2f!important}.nmc-a.n-pk{border-left:3px solid #b31671!important}
+.nchip.n-ok{background:#fff!important;border:1px solid #c9d3e4;color:#1b3d79!important}
+.nchip.n-lr{background:#fff!important;border:1px solid #f0c9a3;color:#d67c2f!important}
+.nchip.n-pk{background:#fff!important;border:1px solid #e9b3cf;color:#b31671!important}
+.nchip{background:#fff!important;border:1px solid #e3e7ee}
+.conf-box{background:#fff!important;border-color:#f0c9a3!important}
+
+.kp.kp,.kp.kp.abaixo,.kp.kp.neutro{border-top:1px solid var(--line)!important}
+.pk,.kpi,.mc-k,.an-k,.tile{border-top:1px solid var(--line)!important}
+.kcard,.cartao,.tc,.ib,.if-card,.agente,.mc-faixa,.crit,.dlg-sec .crit{border-left:1px solid var(--line)!important}
+.kcard.atrasado,.kcard[class*="venc"]{border-left:1px solid var(--line)!important}
+.acr{border-left-width:3px!important}
+.col-h .bar{background:#dfe5ee!important}
+.rk,.rk.r-venc,.rk.r-d7,.rk.r-ok{background:#fff!important;border:1px solid var(--line)!important}
+.rk.r-ok b{color:#1b3d79!important}
+.ad-blk.n2,.ad-blk.n3{background:#fff!important;border:1px solid var(--line);border-left-width:3px!important}
 </style>
 
 <style>
@@ -598,7 +691,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .sp-dias{display:flex;gap:3px;margin-top:6px}.sp-dias i{flex:1;height:6px;border-radius:3px;background:#e3e8ec}.sp-dias i.on{background:var(--navy)}.sp-dias i.hoje{background:var(--pink)}
 .rk3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
 .rk{border-radius:10px;padding:10px 6px;text-align:center;display:flex;flex-direction:column;gap:2px}.rk b{font-size:30px;line-height:1;font-weight:900}.rk span{font-size:11px;line-height:1.2}
-.rk.r-venc{background:#fbeaf3;color:var(--pink)}.rk.r-d7{background:#fdf0e3;color:#b4601a}.rk.r-esc{background:#fdf0e3;color:var(--orange)}.rk.r-ok{background:#f1f3d9;color:#59611a}
+.rk.r-venc{background:#f6f7f9;color:var(--pink)}.rk.r-d7{background:#f6f7f9;color:#b4601a}.rk.r-esc{background:#f6f7f9;color:var(--orange)}.rk.r-ok{background:#eef1f6;color:#1b3d79}
 .sp-filtro{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .av{width:24px;height:24px;border-radius:50%;background:var(--cool);color:#fff;font-size:10px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex:none}
 .avf{border:2px solid transparent;border-radius:50%;background:none;padding:1px;cursor:pointer}.avf.on{border-color:var(--navy)}
@@ -618,13 +711,13 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .kcard .meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
 .kcard .who{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--muted)}
 .kcard .btns{margin-left:auto;display:flex;gap:2px;opacity:0;transition:opacity .15s}.kcard:hover .btns{opacity:1}
-.kcard .dl{font-size:10.5px;font-weight:900;border-radius:8px;padding:1px 7px;background:#f1f3d9;color:#59611a}.kcard .dl.u-venc{background:var(--pink);color:#fff}.kcard .dl.u-7{background:#fdf0e3;color:#b4601a}
+.kcard .dl{font-size:10.5px;font-weight:900;border-radius:8px;padding:1px 7px;background:#eef1f6;color:#1b3d79}.kcard .dl.u-venc{background:var(--pink);color:#fff}.kcard .dl.u-7{background:#f6f7f9;color:#b4601a}
 .chip{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;border-radius:8px;padding:1px 7px;background:#eceff2;color:#5d6a75}
-.chip.c-blue{background:#e3eaf5;color:var(--navy)}.chip.c-venc{background:#fbeaf3;color:var(--pink)}.chip.c-d7{background:#fdf0e3;color:#b4601a}.chip.c-n2{background:var(--orange);color:#fff}.chip.c-n3{background:var(--pink);color:#fff}.chip.c-n1{background:#eceff2;color:#5d6a75}.chip.c-item{background:#dcf0f8;color:#0d5f82}
+.chip.c-blue{background:#e3eaf5;color:var(--navy)}.chip.c-venc{background:#f6f7f9;color:var(--pink)}.chip.c-d7{background:#f6f7f9;color:#b4601a}.chip.c-n2{background:var(--orange);color:#fff}.chip.c-n3{background:var(--pink);color:#fff}.chip.c-n1{background:#eceff2;color:#5d6a75}.chip.c-item{background:#eef1f6;color:#1b3d79}
 .iconbtn{border:0;background:none;color:var(--muted);cursor:pointer;padding:3px 5px;border-radius:5px}.iconbtn:hover{background:#eaeef5;color:var(--navy)}
 .dropempty{border:2px dashed #cfd5d9;border-radius:10px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--navy);font-size:12px}
 .blpanel{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:10px}
-.blpanel.drag{background:#fbeee2;outline:2px dashed var(--orange)}
+.blpanel.drag{background:#f6f7f9;outline:2px dashed var(--orange)}
 .blhead{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;flex-wrap:wrap;border-bottom:1px solid var(--line)}
 .blhead b{font-size:15px}
 .blbody{padding:6px 10px 10px}
@@ -632,18 +725,18 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 /* Projetos / documentos */
 .blq{color:var(--pink);font-weight:900}
 .p-tag.tg-blq{background:#fff;border:1px solid var(--pink);color:var(--pink);font-size:10px;padding:1px 5px}
-.flag-blq{background:#fbeaf3;border:1px solid #f0bcd8;color:var(--pink);border-radius:6px;padding:8px 12px;font-size:12px;margin:8px 0}
+.flag-blq{background:#f6f7f9;border:1px solid #f0bcd8;color:var(--pink);border-radius:6px;padding:8px 12px;font-size:12px;margin:8px 0}
 .prog2{position:relative;height:14px;background:#eef1f5;border-radius:3px;overflow:hidden}
-.prog2 i{position:absolute;left:0;top:0;bottom:0}.prog2 i.e{background:#a9cbe6}.prog2 i.v{background:var(--navy)}
+.prog2 i{position:absolute;left:0;top:0;bottom:0}.prog2 i.e{background:#c9d3e4}.prog2 i.v{background:var(--navy)}
 .prog2 span{position:absolute;inset:0;font-size:10px;font-weight:900;color:#fff;text-align:center;line-height:14px;mix-blend-mode:difference}
 .equipe{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:6px 0 10px}
 .equipe div{font-size:12px;background:#f6f8fb;border-radius:6px;padding:5px 7px}.equipe label{display:block;font-size:10px;font-weight:900;color:var(--muted)}
 .linkarq{color:var(--cool);cursor:pointer;text-decoration:underline}
 /* Nomeações / agente */
 .agente{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-left:4px solid var(--cool);border-radius:8px;padding:12px 14px;margin-bottom:12px;flex-wrap:wrap}
-.agente .ic{width:40px;height:40px;border-radius:50%;background:#dcf0f8;color:#0d5f82;display:flex;align-items:center;justify-content:center;font-size:18px}
+.agente .ic{width:40px;height:40px;border-radius:50%;background:#eef1f6;color:#1b3d79;display:flex;align-items:center;justify-content:center;font-size:18px}
 .cf{display:inline-block;font-size:10px;font-weight:900;border-radius:6px;padding:0 5px;margin-left:4px}
-.cf.alta{background:#eef0d5;color:var(--green-tx)}.cf.baixa{background:#fdf0e3;color:#b4601a}
+.cf.alta{background:#eef1f6;color:var(--green-tx)}.cf.baixa{background:#f6f7f9;color:#b4601a}
 pre.email{white-space:pre-wrap;background:#f6f8fb;border-radius:6px;padding:10px;font-family:inherit;font-size:12px;margin:6px 0}
 /* Regras */
 .regras{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -685,7 +778,7 @@ pre.email{white-space:pre-wrap;background:#f6f8fb;border-radius:6px;padding:10px
 .if-pn{font-size:30px;font-weight:900;line-height:1.1;margin:2px 0 6px}
 .if-pc{font-size:13px;font-weight:700}.if-pp{font-size:12px;opacity:.8;margin-bottom:10px}
 .if-pg{display:flex;justify-content:center;gap:12px;font-size:12px;opacity:.9;margin-bottom:10px}
-.if-pb{height:6px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden}.if-pb i{display:block;height:100%;background:#a4ae2d;border-radius:3px}
+.if-pb{height:6px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden}.if-pb i{display:block;height:100%;background:#1b3d79;border-radius:3px}
 .if-pt{font-size:11px;opacity:.8;margin-top:5px}
 .if-leg{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;font-size:12px;color:var(--cgr-grey)}
 @media (max-width:1200px){.if-flow{grid-template-columns:1fr}.if-arr{display:none}.if-mid{position:static;padding:10px 0}}
@@ -736,7 +829,7 @@ pre.email{white-space:pre-wrap;background:#f6f8fb;border-radius:6px;padding:10px
 .an-st{display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:var(--c);border-radius:999px;padding:3px 11px;white-space:nowrap}
 .an-ev{font-size:12px;color:var(--cgr-solid-blue)}.an-ev.z{color:#b8c0c8}
 .an-rai{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap;background:#eef0f2;color:var(--cgr-solid-blue)}
-.an-rai.r-con{background:#e6f3fa;color:#0f6e98}.an-rai.r-rep{background:#fbeaf3;color:#b31671}.an-rai.r-sem{background:#eef0f2;color:#869199}.an-rai.r-apr{background:#f1f3d9;color:#5d6614}.an-rai.r-em{background:#e6f3fa;color:#0f6e98}.an-rai.r-pen{background:#fbefe4;color:#a85a17}
+.an-rai.r-con{background:#eef1f6;color:#1b3d79}.an-rai.r-rep{background:#f6f7f9;color:#b31671}.an-rai.r-sem{background:#eef0f2;color:#869199}.an-rai.r-apr{background:#eef1f6;color:#1b3d79}.an-rai.r-em{background:#eef1f6;color:#1b3d79}.an-rai.r-pen{background:#f6f7f9;color:#a85a17}
 .lnk.b{font-weight:700}
 .p-tag.tg-intg{background:#e8eef7;color:#1b3d79;border-color:#c9d3e4}
 @media (max-width:1200px){.an-k5{grid-template-columns:repeat(3,1fr)}.an-g2{grid-template-columns:1fr}}
@@ -761,7 +854,7 @@ button.an-ev:disabled{cursor:default;border-color:transparent;background:transpa
 .ev-l{display:flex;flex-direction:column;gap:8px}
 .ev-i{display:flex;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 10px;cursor:pointer;font-family:var(--font)}
 .ev-i.on{border-color:var(--cgr-solid-blue);box-shadow:0 0 0 1px var(--cgr-solid-blue)}
-.ev-ic{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;background:#e6f3fa;color:#148ec2}.ev-ic.pdf{background:#f7e3ee;color:#b31671}
+.ev-ic{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none;background:#eef1f6;color:#5b78a8}.ev-ic.pdf{background:#f6f7f9;color:#b31671}
 .ev-tx{display:flex;flex-direction:column;min-width:0}.ev-tx b{font-size:13px;color:var(--cgr-solid-blue)}.ev-tx small{font-size:11px;color:var(--cgr-grey);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ev-v{display:flex;flex-direction:column;gap:8px;background:#f4f6f9;border-radius:12px;padding:10px}
 .ev-v img{width:100%;border-radius:8px;background:#fff;max-height:520px;object-fit:contain}
@@ -773,16 +866,16 @@ button.an-ev:disabled{cursor:default;border-color:transparent;background:transpa
 .dlg-sec .an-sub{display:none}
 /* ===== v18 — janelas dos KPIs em formato de painel e paleta rebalanceada ===== */
 .topbar{border-bottom-color:var(--cgr-solid-blue)!important}
-.if-proj{border-bottom-color:#a4ae2d!important}
+.if-proj{border-bottom-color:#1b3d79!important}
 .kp.abaixo{border-top-color:#d67c2f!important}
-.kp.abaixo .kp-ic{background:#fbefe4!important;color:#d67c2f!important}
-.kp.abaixo .kp-sel{background:#fbefe4!important;color:#a85a17!important;border-color:#f0c9a3!important}
+.kp.abaixo .kp-ic{background:#f6f7f9!important;color:#d67c2f!important}
+.kp.abaixo .kp-sel{background:#f6f7f9!important;color:#a85a17!important;border-color:#f0c9a3!important}
 .tc-n.al{color:var(--cgr-solid-blue)!important}
 .tc-n.al::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#b31671;margin-left:4px;vertical-align:top}
 .crit{border-left:4px solid var(--cgr-solid-blue)!important}
 .g5-hoje-lbl{background:var(--cgr-solid-blue)!important}.g5-hoje{border-left-color:var(--cgr-solid-blue)!important}
 .g5-ms.ppap i{background:#d67c2f!important}.g5-ms.ppap em{color:#a85a17!important}
-.st.cur .st-c{box-shadow:0 0 0 3px #b9dcef!important}.st-s.cur{color:var(--cgr-solid-blue)!important}
+.st.cur .st-c{box-shadow:0 0 0 3px #c9d3e4!important}.st-s.cur{color:var(--cgr-solid-blue)!important}
 .gc.clk:hover .gc-l{color:var(--cgr-cool-blue)!important}
 .pj-hero{border-left-color:var(--cgr-solid-blue)!important}
 .tl-pt.ppap i{background:#d67c2f!important}.tl-pt.hoje i{background:var(--cgr-solid-blue)!important}
@@ -799,7 +892,7 @@ button.an-ev:disabled{cursor:default;border-color:transparent;background:transpa
 .ds-k{display:flex;gap:8px;margin-left:auto;margin-right:12px;flex-wrap:wrap}
 .ds-kk{display:flex;flex-direction:column;align-items:flex-start;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:6px 12px;min-width:92px}
 .ds-kk b{font-size:20px;font-weight:900;line-height:1.1}.ds-kk span{font-size:11px;opacity:.85}
-.ds-kk.r b{color:#ffb3db}.ds-kk.o b{color:#ffcf9f}.ds-kk.g b{color:#e3ec8f}
+.ds-kk.r b{color:#ffb3db}.ds-kk.o b{color:#ffcf9f}.ds-kk.g b{color:#c9d3e4}
 .ds-f{display:flex;align-items:center;gap:12px;width:100%}.ds-f .p-button{margin-left:auto}
 .dlg-sec .legenda{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:12px}
 .dlg-sec .sec-body>h3{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:14px;margin:0 0 12px}
@@ -811,21 +904,21 @@ button.an-ev:disabled{cursor:default;border-color:transparent;background:transpa
 .dlg-sec .hb-row:hover{box-shadow:0 6px 18px rgba(27,61,121,.10)}
 .hb-mid{display:flex;flex-direction:column;gap:7px;min-width:0}
 .hb-nums{display:flex;gap:16px;font-size:12px;color:var(--cgr-grey)}.hb-nums i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
-.hb-nums .g i{background:#a4ae2d}.hb-nums .y i{background:#d67c2f}.hb-nums .r i{background:#b31671}
+.hb-nums .g i{background:#1b3d79}.hb-nums .y i{background:#d67c2f}.hb-nums .r i{background:#b31671}
 .dlg-sec .hb-bar{height:12px;border-radius:6px;gap:2px;background:#eef0f2}.dlg-sec .hb-bar i{font-size:0;border-radius:6px}
 .dlg-sec .hb-k{display:flex;gap:8px}
 .hk{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:6px;align-items:center;background:#f4f6f9;border-radius:10px;padding:7px 12px;min-width:104px;color:var(--cgr-grey)}
 .hk i{grid-row:1/3;font-size:14px}.hk b{font-size:18px;font-weight:900;color:var(--cgr-solid-blue);line-height:1}.hk span{font-size:10.5px;line-height:1.1}
-.hk.al{background:#fbeaf3}.hk.al i,.hk.al b{color:#b31671}.hk.at{background:#fbefe4}.hk.at i,.hk.at b{color:#d67c2f}
+.hk.al{background:#f6f7f9}.hk.al i,.hk.al b{color:#b31671}.hk.at{background:#f6f7f9}.hk.at i,.hk.at b{color:#d67c2f}
 /* críticos */
 .dlg-sec .crit-g{gap:14px}
 .dlg-sec .crit{border:1px solid var(--line)!important;border-left:4px solid var(--cgr-solid-blue)!important;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(27,61,121,.06);display:flex;flex-direction:column;gap:10px;transition:box-shadow .15s}
 .dlg-sec .crit:hover{box-shadow:0 8px 22px rgba(27,61,121,.12)}
 .cr-h{display:flex;align-items:flex-start;gap:10px}.cr-n{font-size:22px;font-weight:900;color:var(--cgr-solid-blue);line-height:1}.cr-c{font-size:13px;color:var(--cgr-grey);margin-top:3px}
-.cr-tag{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#b31671;background:#fbeaf3;border-radius:999px;padding:3px 10px}.cr-tag i{width:7px;height:7px;border-radius:50%;background:#b31671}
+.cr-tag{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#b31671;background:#f6f7f9;border-radius:999px;padding:3px 10px}.cr-tag i{width:7px;height:7px;border-radius:50%;background:#b31671}
 .cr-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .cr-l{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--cgr-solid-blue);margin-right:4px}
-.cr-pr{display:flex;align-items:center;gap:8px}.cr-pr span{flex:1;height:8px;border-radius:4px;background:#eef0f2;overflow:hidden}.cr-pr span i{display:block;height:100%;background:linear-gradient(90deg,#1b3d79,#148ec2);border-radius:4px}
+.cr-pr{display:flex;align-items:center;gap:8px}.cr-pr span{flex:1;height:8px;border-radius:4px;background:#eef0f2;overflow:hidden}.cr-pr span i{display:block;height:100%;background:linear-gradient(90deg,#1b3d79,#5b78a8);border-radius:4px}
 .cr-pr b{font-size:14px;font-weight:900;color:var(--cgr-solid-blue)}.cr-pr small{font-size:11px;color:var(--cgr-grey)}
 .cr-m{display:flex;flex-direction:column;gap:4px;border-top:1px dashed var(--line);padding-top:8px}
 .cr-mi{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--cgr-solid-blue)}.cr-mi i{width:22px;height:22px;border-radius:6px;background:#eef2f8;color:var(--cgr-solid-blue);display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex:none}
@@ -856,9 +949,9 @@ button.an-ev.z{border:1px dashed #cfd6de;background:#fff}
 .dt-e{display:flex;align-items:center;gap:10px;position:relative;padding:4px 0;font-size:12.5px;color:var(--cgr-grey)}
 .dt-e:not(:last-child)::after{content:"";position:absolute;left:11px;top:26px;height:10px;border-left:2px solid #dfe4ea}
 .dt-dot{width:24px;height:24px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;background:#eef0f2;color:#869199}
-.dt-e.ok{color:var(--cgr-solid-blue)}.dt-e.ok .dt-dot{background:#a4ae2d;color:#fff}.dt-e.ok::after{border-color:#a4ae2d!important}
+.dt-e.ok{color:var(--cgr-solid-blue)}.dt-e.ok .dt-dot{background:#1b3d79;color:#fff}.dt-e.ok::after{border-color:#1b3d79!important}
 .dt-e.cur{color:var(--cgr-solid-blue);font-weight:700}.dt-e.cur .dt-dot{background:var(--cgr-solid-blue);color:#fff;box-shadow:0 0 0 3px #c9d3e4}
-.dt-e.late .dt-dot{background:#b31671;color:#fff;box-shadow:0 0 0 3px #f7d3e6}.dt-e.late{color:#b31671;font-weight:700}
+.dt-e.late .dt-dot{background:#b31671;color:#fff;box-shadow:0 0 0 3px #f6f7f9}.dt-e.late{color:#b31671;font-weight:700}
 .dt-ev{display:flex;flex-wrap:wrap;gap:8px}
 .dt-evi{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:#f8fafc;border-radius:8px;padding:6px 10px;font-family:var(--font);font-size:12px;color:var(--cgr-solid-blue);cursor:pointer}.dt-evi:hover{border-color:var(--cgr-cool-blue)}
 .dt-ir{display:grid;grid-template-columns:auto 1fr auto auto auto auto;align-items:center;gap:12px;padding:8px 6px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px;color:var(--cgr-solid-blue)}.dt-ir:hover{background:#f4f6f9}
@@ -866,7 +959,7 @@ button.an-ev.z{border:1px dashed #cfd6de;background:#fff}
 </style>
 <style>
 /* ===== v3 — padrão visual do GestaoAgilAPQP + Brand Book CGR (Lato; paleta oficial) ===== */
-:root{ --cgr-solid-blue:#1b3d79; --cgr-cool-blue:#148ec2; --cgr-pink:#b31671; --cgr-green:#a4ae2d; --cgr-orange:#d67c2f; --cgr-grey:#869199;
+:root{ --cgr-solid-blue:#1b3d79; --cgr-cool-blue:#5b78a8; --cgr-pink:#b31671; --cgr-green:#1b3d79; --cgr-orange:#d67c2f; --cgr-grey:#869199;
   --bg:#f3f5f9; --surface:#ffffff; --ink:#1b3d79; --ink-2:color-mix(in srgb,#1b3d79 72%,#fff); --muted:var(--ink-2); --font:Lato, Verdana, sans-serif; }
 html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px}
 .topbar{background:#fff;color:var(--cgr-solid-blue);border-bottom:3px solid var(--cgr-pink);display:flex;align-items:center;gap:16px;padding:8px 20px;position:sticky;top:0;z-index:20;box-shadow:0 2px 6px rgba(27,61,121,.12)}
@@ -892,7 +985,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .side-foot{margin-top:18px;padding:10px;border-top:1px solid var(--line);font-size:11px;color:var(--cgr-grey);line-height:1.5}
 .side-foot b{color:var(--cgr-grey)}
 .main{padding:18px 22px 40px;min-width:0}
-.banner-fict{background:#fbf3ea;border:1px solid #efcaa4;border-radius:8px;padding:8px 14px;font-size:12px;color:var(--cgr-solid-blue);margin-bottom:14px}
+.banner-fict{background:#f6f7f9;border:1px solid #efcaa4;border-radius:8px;padding:8px 14px;font-size:12px;color:var(--cgr-solid-blue);margin-bottom:14px}
 .banner-fict .pi{color:var(--cgr-orange);margin-right:6px}
 .page-title{display:flex;align-items:flex-end;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .page-title h2{margin:0;font-size:20px;font-weight:900;color:var(--cgr-solid-blue)}
@@ -916,9 +1009,9 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .tile b{font-size:26px;font-weight:700;color:var(--cgr-solid-blue);min-width:44px}.tile.al b{color:var(--cgr-pink)}
 .tile span{color:var(--cgr-solid-blue)}
 .p-tag.tg{border-radius:10px;font-size:11px;font-weight:700;padding:2px 8px;border:1px solid transparent}
-.p-tag.tg-ok{background:#f1f3d9;color:#1b3d79;border-color:#d3d88d}
-.p-tag.tg-nok{background:#f7e3ee;color:var(--cgr-pink);border-color:#e5b3d0}
-.p-tag.tg-ent{background:#e3f2f9;color:#148ec2;border-color:#a1d2e8}
+.p-tag.tg-ok{background:#eef1f6;color:#1b3d79;border-color:#c9d3e4}
+.p-tag.tg-nok{background:#f6f7f9;color:var(--cgr-pink);border-color:#e5b3d0}
+.p-tag.tg-ent{background:#eef1f6;color:#5b78a8;border-color:#c9d3e4}
 .p-tag.tg-pend,.p-tag.tg-na,.p-tag.tg-int{background:#eef0f2;color:#1b3d79;border-color:#d3d7da}
 .p-tag.tg-n1{background:#eaeef5;color:var(--cgr-solid-blue);border-color:#c9d3e4}
 .chip{border-radius:10px;font-size:11px;padding:2px 8px}
@@ -933,10 +1026,10 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .mc-k .l{font:700 11px Lato,sans-serif;text-transform:uppercase;color:#869199;letter-spacing:.3px}
 .mc-k b{font:900 24px Lato,sans-serif;color:var(--c,#1b3d79);line-height:1.1}
 .mc-k .s{font-size:11px;color:#869199}
-.mc-bar{height:6px;border-radius:6px;background:#e6ebf2;overflow:hidden;min-width:60px}.mc-bar i{display:block;height:100%;background:#148ec2;border-radius:6px}
+.mc-bar{height:6px;border-radius:6px;background:#e6ebf2;overflow:hidden;min-width:60px}.mc-bar i{display:block;height:100%;background:#5b78a8;border-radius:6px}
 .mc-dois{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-.mc-faixa{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-left:4px solid #148ec2;border-radius:12px;padding:9px 14px;margin-bottom:12px;cursor:pointer;font-size:13px}
-.mc-faixa:hover{background:#f6f9fc}.mc-faixa b{font-weight:900}.mc-faixa .r{color:#b31671}.mc-faixa .go{margin-left:auto;color:#148ec2;font-weight:700}
+.mc-faixa{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-left:4px solid #5b78a8;border-radius:12px;padding:9px 14px;margin-bottom:12px;cursor:pointer;font-size:13px}
+.mc-faixa:hover{background:#f6f9fc}.mc-faixa b{font-weight:900}.mc-faixa .r{color:#b31671}.mc-faixa .go{margin-left:auto;color:#5b78a8;font-weight:700}
 .mc-sec{font:900 12px Lato,sans-serif;text-transform:uppercase;color:#1b3d79;margin:14px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
 .mc-pend{display:flex;flex-wrap:wrap;gap:6px 12px}
 @media (max-width:1100px){.mc-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.mc-dois{grid-template-columns:1fr}}
@@ -949,11 +1042,11 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .am-etapas{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin:6px 0 10px}
 .am-et{border:1px solid var(--line);border-radius:10px;padding:6px 4px;text-align:center;background:#fff;font-size:11px;line-height:1.15;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .am-et .n{width:20px;height:20px;border-radius:50%;background:#e6ebf2;color:#5d6a75;font:900 11px Lato,sans-serif;display:flex;align-items:center;justify-content:center}
-.am-et.ok{border-color:#c9d36a;background:#f6f8e6}.am-et.ok .n{background:#a4ae2d;color:#fff}
-.am-et.atual{border-color:#148ec2;box-shadow:0 0 0 2px rgba(20,142,194,.18)}.am-et.atual .n{background:#148ec2;color:#fff}
-.am-et.bad{border-color:#e5b3d0;background:#fbeef5}.am-et.bad .n{background:#b31671;color:#fff}
+.am-et.ok{border-color:#a9b8d0;background:#eef1f6}.am-et.ok .n{background:#1b3d79;color:#fff}
+.am-et.atual{border-color:#5b78a8;box-shadow:0 0 0 2px rgba(20,142,194,.18)}.am-et.atual .n{background:#5b78a8;color:#fff}
+.am-et.bad{border-color:#e5b3d0;background:#f6f7f9}.am-et.bad .n{background:#b31671;color:#fff}
 .am-cond{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin:4px 0 10px}
-.am-cond div{font-size:12.5px;display:flex;gap:6px;align-items:flex-start}.am-cond .y{color:#7b8c1c}.am-cond .x{color:#b31671}
+.am-cond div{font-size:12.5px;display:flex;gap:6px;align-items:flex-start}.am-cond .y{color:#1b3d79}.am-cond .x{color:#b31671}
 .am-tbl{width:100%;border-collapse:collapse;font-size:13px}.am-tbl th{font:700 11px Lato,sans-serif;text-transform:uppercase;color:#869199;text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)}
 .am-tbl td{padding:5px 8px;border-bottom:1px solid #eef1f4;vertical-align:middle}
 .am-chips{display:flex;flex-wrap:wrap;gap:3px}.am-chips span{font:11px 'Courier New',monospace;background:#eef2f9;color:#1b3d79;border-radius:6px;padding:1px 6px}
@@ -967,12 +1060,12 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .kp:hover{box-shadow:0 6px 18px rgba(27,61,121,.14);transform:translateY(-1px)}
 .kp.abaixo{border-top-color:var(--cgr-pink)}.kp.neutro{border-top-color:var(--cgr-solid-blue)}
 .kp-h{display:flex;align-items:center;gap:10px}
-.kp-ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f1f3d9;color:#6f7a12;flex:none}
-.kp.abaixo .kp-ic{background:#f7e3ee;color:var(--cgr-pink)}.kp.neutro .kp-ic{background:#eaeef5;color:var(--cgr-solid-blue)}
+.kp-ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eef1f6;color:#1b3d79;flex:none}
+.kp.abaixo .kp-ic{background:#f6f7f9;color:var(--cgr-pink)}.kp.neutro .kp-ic{background:#eaeef5;color:var(--cgr-solid-blue)}
 .kp-t{font-weight:900;font-size:15px;color:var(--cgr-solid-blue)}
 .kp-s{font-size:11px;color:var(--cgr-grey)}
-.kp-sel{margin-left:auto;font-size:11px;font-weight:700;border-radius:10px;padding:2px 9px;background:#f1f3d9;color:#1b3d79;border:1px solid #d3d88d;white-space:nowrap}
-.kp.abaixo .kp-sel{background:#f7e3ee;color:var(--cgr-pink);border-color:#e5b3d0}.kp.neutro .kp-sel{background:#eaeef5;color:var(--cgr-solid-blue);border-color:#c9d3e4}
+.kp-sel{margin-left:auto;font-size:11px;font-weight:700;border-radius:10px;padding:2px 9px;background:#eef1f6;color:#1b3d79;border:1px solid #c9d3e4;white-space:nowrap}
+.kp.abaixo .kp-sel{background:#f6f7f9;color:var(--cgr-pink);border-color:#e5b3d0}.kp.neutro .kp-sel{background:#eaeef5;color:var(--cgr-solid-blue);border-color:#c9d3e4}
 .kp-b{display:flex;align-items:center;gap:14px;padding:10px 0 4px;flex:1}
 .ring-w{flex:none}
 .leg{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--ink-2)}
@@ -990,7 +1083,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .gc{display:flex;flex-direction:column;align-items:center;gap:3px}
 .gc-v{font-size:11px;font-weight:900;color:var(--cgr-solid-blue)}
 .gc-t{flex:1;width:100%;max-width:30px;background:#eef1f5;border-radius:6px;position:relative;overflow:hidden}
-.gc-t i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#148ec2,#1b3d79);border-radius:6px}
+.gc-t i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#5b78a8,#1b3d79);border-radius:6px}
 .gc-l{font-size:10px;font-weight:700;color:var(--cgr-grey)}
 .sec-wrap{margin-top:18px}
 .tl5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
@@ -1026,8 +1119,8 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .big3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
 .bg{display:flex;align-items:center;gap:12px;border-radius:12px;padding:12px 16px;border-top:5px solid}
 .bg b{font-size:36px;font-weight:900;line-height:1}.bg span{font-size:12px;font-weight:700;color:var(--cgr-solid-blue);line-height:1.25}
-.bg.n2{background:#fdf3ea;border-color:var(--cgr-orange)}.bg.n2 b{color:var(--cgr-orange)}
-.bg.n3{background:#fbeaf3;border-color:var(--cgr-pink)}.bg.n3 b{color:var(--cgr-pink)}
+.bg.n2{background:#f6f7f9;border-color:var(--cgr-orange)}.bg.n2 b{color:var(--cgr-orange)}
+.bg.n3{background:#f6f7f9;border-color:var(--cgr-pink)}.bg.n3 b{color:var(--cgr-pink)}
 .bg.blq{background:#f3f5f9;border-color:var(--cgr-solid-blue)}.bg.blq b{color:var(--cgr-solid-blue)}
 .exc-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .exc{background:#fff;border:1px solid var(--line);border-left:5px solid var(--cgr-solid-blue);border-radius:10px;padding:10px 12px}
@@ -1057,7 +1150,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .g5-row:not(.g5-head):hover .g5-l,.g5-row:not(.g5-head):hover .g5-r{background:#f1f5fb}
 .g5-l{position:sticky;left:0;z-index:3;background:#fff;padding:9px 10px;display:flex;gap:8px;align-items:center;border-right:1px solid var(--line);cursor:pointer;font-size:12.5px;color:var(--cgr-solid-blue)}
 .g5-lt .mini{font-size:11px}
-.g5-dot{width:10px;height:10px;border-radius:50%;flex:none}.d-r{background:#b31671}.d-y{background:#d67c2f}.d-g{background:#a4ae2d}.d-b{background:#1b3d79}
+.g5-dot{width:10px;height:10px;border-radius:50%;flex:none}.d-r{background:#b31671}.d-y{background:#d67c2f}.d-g{background:#1b3d79}.d-b{background:#1b3d79}
 .g5-r{position:relative;height:58px}
 .g5-head .g5-l{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);cursor:default;background:#f3f5f9}
 .g5-head .g5-r{height:50px;background:#f3f5f9;border-bottom:2px solid var(--cgr-solid-blue)}
@@ -1069,7 +1162,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .g5-grid{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(134,145,153,.25)}.g5-grid.atual{background:rgba(27,61,121,.06)}
 .g5-hoje{position:absolute;top:0;bottom:0;border-left:2px dashed var(--cgr-pink);z-index:2}
 .g5-fase{position:absolute;top:10px;height:20px;border-radius:5px;font-size:9.5px;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;border-right:2px solid #fff;box-shadow:0 1px 2px rgba(16,24,40,.12)}
-.g5-fase.done{background:#a4ae2d}.g5-fase.cur{background:#1b3d79}.g5-fase.late{background:#b31671}.g5-fase.fut{background:#dfe5ee;color:#5d6a75}
+.g5-fase.done{background:#1b3d79}.g5-fase.cur{background:#1b3d79}.g5-fase.late{background:#b31671}.g5-fase.fut{background:#dfe5ee;color:#5d6a75}
 .g5-ms{position:absolute;top:30px;transform:translateX(-7px);display:flex;align-items:center;gap:3px;z-index:3;white-space:nowrap}
 .g5-ms i{width:11px;height:11px;transform:rotate(45deg);display:block;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .g5-ms.ppap i{background:#b31671}.g5-ms.sop i{background:#1b3d79}
@@ -1093,10 +1186,10 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .pk{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-top:4px solid var(--cgr-solid-blue);border-radius:10px;padding:8px 12px;min-width:170px}
 .pk.ok{border-top-color:var(--cgr-green)}.pk.aten{border-top-color:var(--cgr-orange)}.pk.venc{border-top-color:var(--cgr-pink)}
 .pk-ic{width:34px;height:34px;border-radius:50%;background:#eaeef5;color:var(--cgr-solid-blue);display:flex;align-items:center;justify-content:center;flex:none}
-.pk.ok .pk-ic{background:#f1f3d9;color:#6f7a12}.pk.aten .pk-ic{background:#fbeee2;color:#d67c2f}.pk.venc .pk-ic{background:#f7e3ee;color:#b31671}
+.pk.ok .pk-ic{background:#eef1f6;color:#1b3d79}.pk.aten .pk-ic{background:#f6f7f9;color:#d67c2f}.pk.venc .pk-ic{background:#f6f7f9;color:#b31671}
 .pk-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}
 .pk-v{font-size:18px;font-weight:900;color:var(--cgr-solid-blue);line-height:1.15}
-.pk.venc .pk-v{color:var(--cgr-pink)}.pk.aten .pk-v{color:#b4601a}.pk.ok .pk-v{color:#6f7a12}
+.pk.venc .pk-v{color:var(--cgr-pink)}.pk.aten .pk-v{color:#b4601a}.pk.ok .pk-v{color:#1b3d79}
 .pk-d{font-size:11px;color:var(--cgr-grey)}
 .pk-l{font-size:11.5px;color:var(--ink-2)}.pk-l i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}.pk-l b{color:var(--cgr-solid-blue)}
 .pj-cards{display:grid;grid-template-columns:1.1fr 1.3fr 1fr 1.2fr;gap:12px;margin-bottom:12px}
@@ -1113,7 +1206,7 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .tl-line{position:absolute;left:0;right:0;top:12px;height:3px;background:#dfe5ee;border-radius:2px}
 .tl-pt{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;font-size:10.5px;color:var(--cgr-solid-blue);white-space:nowrap}
 .tl-pt i{width:14px;height:14px;border-radius:50%;background:#1b3d79;border:3px solid #fff;box-shadow:0 0 0 1px #c9d3e4;margin-top:5px;margin-bottom:3px}
-.tl-pt.hoje i{background:#b31671}.tl-pt.ppap i{background:#b31671;border-radius:2px;transform:rotate(45deg)}.tl-pt.sop i{background:#1b3d79;border-radius:2px;transform:rotate(45deg)}.tl-pt.ev i{background:#148ec2}.tl-pt.ok i{background:#a4ae2d}
+.tl-pt.hoje i{background:#b31671}.tl-pt.ppap i{background:#b31671;border-radius:2px;transform:rotate(45deg)}.tl-pt.sop i{background:#1b3d79;border-radius:2px;transform:rotate(45deg)}.tl-pt.ev i{background:#5b78a8}.tl-pt.ok i{background:#1b3d79}
 .tl-pt b{font-size:11px}.tl-pt em{font-style:normal;color:var(--cgr-grey);font-size:10px}
 .pj-eq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:12px}
 .pj-eq .pj-lb{margin:0 6px 0 0}
@@ -1127,11 +1220,11 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .st-c{position:relative;z-index:1;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;background:#eef0f2;color:#869199;border:3px solid #fff;box-shadow:0 0 0 1px #d3d7da}
 .st.done .st-c{background:var(--cgr-green);color:#fff;box-shadow:0 0 0 1px var(--cgr-green)}
 .st.cur .st-c{background:var(--cgr-solid-blue);color:#fff;box-shadow:0 0 0 3px var(--cgr-pink)}
-.st.late .st-c{background:var(--cgr-pink);color:#fff;box-shadow:0 0 0 3px #f7e3ee}
+.st.late .st-c{background:var(--cgr-pink);color:#fff;box-shadow:0 0 0 3px #f6f7f9}
 .st:hover .st-c{transform:scale(1.06)}
 .st-cod{font-weight:900;color:var(--cgr-solid-blue);margin-top:6px;font-size:14px}
 .st-p{font-size:11px;color:var(--ink-2)}
-.st-s{font-size:10.5px;color:#6f7a12;font-weight:700;margin-top:2px}.st-s.cur{color:var(--cgr-pink)}.st-s.fut{color:var(--cgr-grey);font-weight:400}
+.st-s{font-size:10.5px;color:#1b3d79;font-weight:700;margin-top:2px}.st-s.cur{color:var(--cgr-pink)}.st-s.fut{color:var(--cgr-grey);font-weight:400}
 @media (max-width:1200px){.pj-hero{grid-template-columns:1fr}.pj-k{flex-wrap:wrap}.pj-cards{grid-template-columns:1fr 1fr}}
 </style>
 <style>
@@ -1152,15 +1245,15 @@ html,body{background:var(--bg);color:var(--ink);font-family:var(--font);font-siz
 .pl-dt{display:flex;flex-direction:column;gap:3px;align-items:flex-start}.pl-dt b{color:var(--cgr-solid-blue);font-size:13px;white-space:nowrap}
 .pl-sem{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .pl-del{opacity:0;transition:opacity .15s}.pl tr:hover .pl-del{opacity:1}
-.c-ok2{background:#f1f3d9;color:#6f7a12;border-color:#d3d88d}
-tr.destaque>td{background:#fff4e5!important;box-shadow:inset 0 0 0 9999px rgba(214,124,47,.08)}
+.c-ok2{background:#eef1f6;color:#1b3d79;border-color:#c9d3e4}
+tr.destaque>td{background:#f6f7f9!important;box-shadow:inset 0 0 0 9999px rgba(214,124,47,.08)}
 tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
-.exc-dec{font-size:11.5px;color:#b4601a;background:#fdf3ea;border-radius:6px;padding:4px 8px;margin-top:6px}
+.exc-dec{font-size:11.5px;color:#b4601a;background:#f6f7f9;border-radius:6px;padding:4px 8px;margin-top:6px}
 .exc-b{flex-wrap:wrap}
 .ad-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .ad-g{grid-template-columns:repeat(4,1fr);background:#f6f8fb;border-radius:10px;padding:10px 12px}
 .ad-blk{border-radius:10px;padding:8px 12px;margin-top:10px;font-size:12.5px;color:var(--cgr-solid-blue)}
-.ad-blk.n2{background:#fdf3ea;border-left:4px solid var(--cgr-orange)}.ad-blk.n3{background:#fbeaf3;border-left:4px solid var(--cgr-pink)}
+.ad-blk.n2{background:#f6f7f9;border-left:4px solid var(--cgr-orange)}.ad-blk.n3{background:#f6f7f9;border-left:4px solid var(--cgr-pink)}
 .ad-log{max-height:150px;overflow:auto;font-size:12px;color:var(--cgr-solid-blue);background:#f6f8fb;border-radius:8px;padding:6px 10px}
 .ad-log div{padding:3px 0;border-bottom:1px dashed var(--line)}
 .ad-f{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;width:100%}
@@ -1211,9 +1304,9 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
 .alp-h b{font-size:15px;color:var(--cgr-solid-blue)}
 .ali{display:grid;grid-template-columns:34px 1fr auto 16px;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;border-left:4px solid transparent}
 .ali:hover{background:#f1f5fb}
-.ali.f-venc{border-left-color:#b31671}.ali.f-d2{border-left-color:#d67c2f}.ali.f-d7{border-left-color:#e0a14a}.ali.f-d15{border-left-color:#148ec2}.ali.f-d30{border-left-color:#1b3d79}.ali.f-novo{border-left-color:#a4ae2d}
+.ali.f-venc{border-left-color:#b31671}.ali.f-d2{border-left-color:#d67c2f}.ali.f-d7{border-left-color:#e0a14a}.ali.f-d15{border-left-color:#5b78a8}.ali.f-d30{border-left-color:#1b3d79}.ali.f-novo{border-left-color:#1b3d79}
 .ali-ic{width:30px;height:30px;border-radius:50%;background:#eaeef5;color:var(--cgr-solid-blue);display:flex;align-items:center;justify-content:center}
-.ali.f-venc .ali-ic{background:#f7e3ee;color:#b31671}
+.ali.f-venc .ali-ic{background:#f6f7f9;color:#b31671}
 .ali-t b{font-size:13px;color:var(--cgr-solid-blue)}
 .ali-d{text-align:right}.ali-go{color:var(--cgr-grey)}
 .acg{display:flex;flex-direction:column;gap:12px}
@@ -1229,7 +1322,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
 .acr:last-child{border-bottom:0}
 .acr.lv-N2{border-left-color:var(--cgr-orange)}.acr.lv-N3{border-left-color:var(--cgr-pink)}
 .acr.done{opacity:.6}
-.acr.destaque{background:#fff4e5}
+.acr.destaque{background:#f6f7f9}
 .acr-t b{font-size:13px;color:var(--cgr-solid-blue);cursor:pointer}
 .acr-pz{display:flex;flex-direction:column;gap:2px;align-items:flex-start}.acr-pz b{font-size:12.5px;color:var(--cgr-solid-blue)}
 .acr .pl-resp{font-size:12px}.acr .pl-resp .av{width:24px;height:24px;font-size:9.5px}
@@ -1320,7 +1413,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
 </head>
 <body>
 <div id="app" v-cloak></div>
-<div class="carregando" id="carregando">Carregando Gestão de Projetos APQP v50…</div>
+<div class="carregando" id="carregando">Carregando Gestão de Projetos APQP v58…</div>
 
 <!-- =========================================================
      BLOCO DE DADOS DE EXEMPLO (JSON, schemaVersion 2) — 100% FICTÍCIOS
@@ -3780,7 +3873,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C017",
     "R4": "C020"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L02"
+    },
+    {
+     "texto": "1 - Fornecedor enviar cronograma do dispositivo de controle; 2 - Agendar try-out da ferramenta",
+     "em": "2026-10-30T09:00",
+     "por": "L02"
+    }
+   ]
   },
   {
    "apqp": "101/26",
@@ -4687,7 +4792,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C018",
     "R4": "C021"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L01"
+    },
+    {
+     "texto": "Aguardando retorno do cliente sobre a revisão do desenho; TFC em análise",
+     "em": "2026-10-20T14:00",
+     "por": "L01"
+    }
+   ]
   },
   {
    "apqp": "102/26",
@@ -5363,7 +5480,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C019",
     "R4": "C022"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L02"
+    },
+    {
+     "texto": "PPAP em montagem: falta estudo de capabilidade e MSA (Qualidade)",
+     "em": "2026-11-02T11:00",
+     "por": "L02"
+    }
+   ]
   },
   {
    "apqp": "103/26",
@@ -5966,7 +6095,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C020",
     "R4": "C023"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L01"
+    },
+    {
+     "texto": "Run@Rate agendado; confirmar disponibilidade de matéria-prima",
+     "em": "2026-10-30T09:00",
+     "por": "L01"
+    }
+   ]
   },
   {
    "apqp": "104/26",
@@ -6459,7 +6600,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C021",
     "R4": "C024"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L03"
+    },
+    {
+     "texto": "Comercial solicitar carta de nomeação oficial; KOM interno marcado",
+     "em": "2026-10-20T14:00",
+     "por": "L03"
+    }
+   ]
   },
   {
    "apqp": "105/26",
@@ -7020,7 +7173,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C022",
     "R4": "C025"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L03"
+    },
+    {
+     "texto": "Plano de controle em revisão com a Qualidade; previsão de liberação na próxima semana",
+     "em": "2026-11-02T11:00",
+     "por": "L03"
+    }
+   ]
   },
   {
    "apqp": "106/26",
@@ -8100,7 +8265,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C023",
     "R4": "C026"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L02"
+    },
+    {
+     "texto": "1 - Fornecedor enviar cronograma do dispositivo de controle; 2 - Agendar try-out da ferramenta",
+     "em": "2026-10-30T09:00",
+     "por": "L02"
+    }
+   ]
   },
   {
    "apqp": "107/26",
@@ -8533,7 +8710,19 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     "R3": "C024",
     "R4": "C027"
    },
-   "excluido": null
+   "excluido": null,
+   "passos": [
+    {
+     "texto": "Kick-off realizado; cronograma inicial enviado ao cliente",
+     "em": "2026-10-06T10:00",
+     "por": "L01"
+    },
+    {
+     "texto": "Aguardando retorno do cliente sobre a revisão do desenho; TFC em análise",
+     "em": "2026-10-20T14:00",
+     "por": "L01"
+    }
+   ]
   }
  ],
  "acoes": [
@@ -11733,27 +11922,28 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
       <div class="kp3">
         <div class="kp" :class="kpiPPAP.pct!==null && kpiPPAP.pct*100<db.parametros.metaPPAPNoPrazo?'abaixo':'ok'" @click="explodir('ppap')">
           <div class="kp-h"><span class="kp-ic"><i class="pi pi-verified"></i></span><div><div class="kp-t">PPAP no prazo</div><div class="kp-s">S2-2 · Eficácia</div></div>
-            <span class="kp-sel">{{ ppapAbaixo ? 'Abaixo da meta' : 'Na meta' }}</span></div>
+            <span class="kp-sel">{{ kpiPPAP.pct===null ? 'Sem dado' : ppapAbaixo ? 'Abaixo da meta' : 'Na meta' }}</span></div>
           <div class="kp-b">
-            <div class="ring-w" v-html="ringSVG(kpiPPAP.pct, kpiPPAP.pct!==null && kpiPPAP.pct*100<db.parametros.metaPPAPNoPrazo ? '#d67c2f':'#a4ae2d', db.parametros.metaPPAPNoPrazo/100, pctTxt(kpiPPAP.pct), 'no prazo')"></div>
+            <div class="ring-w" v-html="ringSVG(kpiPPAP.pct, kpiPPAP.pct!==null && kpiPPAP.pct*100<db.parametros.metaPPAPNoPrazo ? '#d67c2f':'#1b3d79', db.parametros.metaPPAPNoPrazo/100, pctTxt(kpiPPAP.pct), 'no prazo')"></div>
             <div class="leg">
-              <div class="lg-c" @click.stop="explodir('ppap','No prazo')" v-tooltip.top="'Clique para filtrar'"><i style="background:#a4ae2d"></i><b>{{ ppapResumo.noPrazo }}</b> no prazo</div>
+              <div class="lg-c" @click.stop="explodir('ppap','No prazo')" v-tooltip.top="'Clique para filtrar'"><i style="background:#1b3d79"></i><b>{{ ppapResumo.noPrazo }}</b> no prazo</div>
               <div class="lg-c" @click.stop="explodir('ppap','Fora do prazo')" v-tooltip.top="'Clique para filtrar'"><i style="background:#d67c2f"></i><b>{{ ppapResumo.fora }}</b> fora do prazo</div>
               <div class="lg-c" @click.stop="explodir('ppap','Em andamento')" v-tooltip.top="'Clique para filtrar'"><i style="background:#d3d7da"></i><b>{{ ppapResumo.andamento }}</b> em andamento</div>
               <div class="meta-l"><i class="meta-mk"></i>Meta {{ db.parametros.metaPPAPNoPrazo }}%</div>
             </div>
           </div>
+          <div v-if="kpiPPAP.pct===null" class="kp-mot">Sem cálculo · nenhum PPAP aprovado ainda</div>
           <div class="kp-f">Ver detalhe <i class="pi pi-arrow-right"></i></div>
         </div>
 
         <div class="kp" :class="kpiQCD.pct!==null && kpiQCD.pct*100<db.parametros.metaEficienciaQCD?'abaixo':'ok'" @click="explodir('qcd')">
           <div class="kp-h"><span class="kp-ic"><i class="pi pi-dollar"></i></span><div><div class="kp-t">Eficiência QCD do projeto</div><div class="kp-s">S2-1 · CCV estimado ÷ CCV Run@Rate</div></div>
-            <span class="kp-sel">{{ qcdAbaixo ? 'Abaixo da meta' : 'Na meta' }}</span></div>
+            <span class="kp-sel">{{ kpiQCD.pct===null ? 'Sem dado' : qcdAbaixo ? 'Abaixo da meta' : 'Na meta' }}</span></div>
           <div class="kp-b">
             <div class="gauge-w" v-html="gaugeSVG(kpiQCD.pct, db.parametros.metaEficienciaQCD/100)"></div>
             <div class="mbars">
-              <div v-for="x in kpiQCD.linhas" :key="x.p.apqp" class="mb clk" @click.stop="abrirProjeto(x.p)" v-tooltip.top="'Abrir o projeto '+x.p.apqp"><span class="mb-l">{{ x.p.apqp }}</span><span class="mb-t"><i :style="{width:Math.min(100,x.ef/1.3*100)+'%',background:x.ef*100>=db.parametros.metaEficienciaQCD?'#a4ae2d':'#d67c2f'}"></i><em :style="{left:(db.parametros.metaEficienciaQCD/130*100)+'%'}"></em></span><span class="mb-v">{{ pctTxt(x.ef) }}</span></div>
-              <div v-if="!kpiQCD.linhas.length" class="mini">Nenhum projeto com Run@Rate.</div>
+              <div v-for="x in kpiQCD.linhas" :key="x.p.apqp" class="mb clk" @click.stop="abrirProjeto(x.p)" v-tooltip.top="'Abrir o projeto '+x.p.apqp"><span class="mb-l">{{ x.p.apqp }}</span><span class="mb-t"><i :style="{width:Math.min(100,x.ef/1.3*100)+'%',background:x.ef*100>=db.parametros.metaEficienciaQCD?'#1b3d79':'#d67c2f'}"></i><em :style="{left:(db.parametros.metaEficienciaQCD/130*100)+'%'}"></em></span><span class="mb-v">{{ pctTxt(x.ef) }}</span></div>
+              <div v-if="!kpiQCD.linhas.length" class="mini kp-mot">Sem cálculo · nenhum projeto com CCV estimado e CCV do Run@Rate</div>
             </div>
           </div>
           <div class="kp-f">Ver detalhe <i class="pi pi-arrow-right"></i></div>
@@ -11772,7 +11962,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
         </div>
       </div>
 
-      <!-- ===== v50 · Acompanhamento em faixa única ===== -->
+      <!-- ===== v58 · Acompanhamento em faixa única ===== -->
       <div class="sec-wrap">
         <div class="sec-h ac-h">Acompanhamento <span class="mini" style="font-weight:400" v-if="!ui.acompOculto">— clique em um indicador ou fila para abrir o detalhe</span>
           <Button :label="ui.acompOculto?'Mostrar':'Ocultar'" :icon="ui.acompOculto?'pi pi-eye':'pi pi-eye-slash'" text size="small" class="ac-tg" @click="togAcomp"/></div>
@@ -11781,24 +11971,24 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             <span v-html="anelSVG([{v:porLider.filter(l=>l.atrasos).length,c:'#b31671'}],porLider.length,porLider.reduce((s,l)=>s+l.atrasos,0),porLider.some(l=>l.atrasos)?'#b31671':'#1b3d79')"></span>
             <span class="ac-tx"><b>Atrasos</b><small>{{ porLider.filter(l=>l.atrasos).length }} de {{ porLider.length }} líderes</small></span></button>
           <button class="ac-r" :class="{on:ui.sec==='sprint'}" @click="togSec('sprint')" v-tooltip.top="'Sprint '+sprintAtiva.id.split('-')[1]+': '+saude(sprintAtiva).feitas+' de '+saude(sprintAtiva).total+' cartões concluídos · '+backlog.length+' no backlog'">
-            <span v-html="anelSVG([{v:saude(sprintAtiva).feitas,c:'#a4ae2d'}],saude(sprintAtiva).total,saude(sprintAtiva).pct+'%')"></span>
+            <span v-html="anelSVG([{v:saude(sprintAtiva).feitas,c:'#1b3d79'}],saude(sprintAtiva).total,saude(sprintAtiva).pct+'%')"></span>
             <span class="ac-tx"><b>Sprint {{ sprintAtiva.id.split('-')[1] }}</b><small>{{ saude(sprintAtiva).feitas }}/{{ saude(sprintAtiva).total }} · {{ backlog.length }} backlog</small></span></button>
           <button class="ac-r" :class="{on:ui.sec==='gantt'}" @click="togSec('gantt')" v-tooltip.top="'Marcos nos próximos 30 dias: '+marcosPrazo.tot+' · '+marcosPrazo.ok+' no prazo (projeto sem desvio) · '+(marcosPrazo.tot-marcosPrazo.ok)+' em projeto com desvio'">
-            <span v-html="anelSVG([{v:marcosPrazo.ok,c:'#148ec2'}],marcosPrazo.tot,proximosMarcos.length)"></span>
+            <span v-html="anelSVG([{v:marcosPrazo.ok,c:'#5b78a8'}],marcosPrazo.tot,proximosMarcos.length)"></span>
             <span class="ac-tx"><b>Cronograma</b><small>{{ proximosMarcos.length ? 'próx. '+fmt(proximosMarcos[0].d).slice(0,5)+' · ' : '' }}{{ marcosPrazo.ok }} no prazo</small></span></button>
           <button class="ac-r" :class="{on:ui.sec==='gerencia'}" @click="togSec('gerencia')" v-tooltip.top="'Apoio da gerência: N2 '+necCont.N2+' (laranja) · N3 '+necCont.N3+' (rosa) · blocante '+necCont.BLQ+' (azul)'">
             <span v-html="anelSVG([{v:necCont.N2,c:'#d67c2f'},{v:necCont.N3,c:'#b31671'},{v:necCont.BLQ,c:'#1b3d79'}],necCont.N2+necCont.N3+necCont.BLQ,necGerencia.length,necGerencia.length?'#d67c2f':'#1b3d79')"></span>
             <span class="ac-tx"><b>Apoio gerência</b><small>N2 {{ necCont.N2 }} · N3 {{ necCont.N3 }} · blc {{ necCont.BLQ }}</small></span></button>
           <button class="ac-r" :class="{on:ui.sec==='criticos'}" @click="togSec('criticos')" v-tooltip.top="'Projetos ativos: '+semCont.r+' críticos (rosa) · '+semCont.y+' em atenção (laranja) · '+semCont.g+' no prazo (verde)'">
-            <span v-html="anelSVG([{v:semCont.r,c:'#b31671'},{v:semCont.y,c:'#d67c2f'},{v:semCont.g,c:'#a4ae2d'}],ativos.length,criticos.length,criticos.length?'#b31671':'#1b3d79')"></span>
+            <span v-html="anelSVG([{v:semCont.r,c:'#b31671'},{v:semCont.y,c:'#d67c2f'},{v:semCont.g,c:'#1b3d79'}],ativos.length,criticos.length,criticos.length?'#b31671':'#1b3d79')"></span>
             <span class="ac-tx"><b>Críticos</b><small>de {{ ativos.length }} ativos</small></span></button>
           <div class="ac-q">
             <button class="ac-l" :class="{on:ui.sec==='validar'}" @click="togSec('validar')" v-tooltip.top="filaValidar.length+' aguardando validação · '+filaValidar.filter(x=>x.i.blocante).length+' blocante(s) (rosa) · '+(filaValidar.length?filaValidar.reduce((m,x)=>Math.max(m,x.aguarda),0):0)+' dia(s) o mais antigo'">
               <span>Documentos p/ validar</span><s><i :style="{flex:Math.max(.001,filaValidar.filter(x=>x.i.blocante).length),background:'#b31671'}"></i><i :style="{flex:Math.max(.001,filaValidar.length-filaValidar.filter(x=>x.i.blocante).length),background:'#c9d3e4'}"></i></s><em>{{ filaValidar.length }}</em></button>
             <button class="ac-l" :class="{on:ui.sec==='meios'}" @click="togSec('meios')" v-tooltip.top="intMeios.atr+' atrasados (rosa) · '+intMeios.v7+' vencem em 7 dias (laranja) · '+intMeios.blq+' bloqueados (cinza) · '+intMeios.lib+' liberados (verde)'">
-              <span>Meios de controle</span><s><i :style="{flex:Math.max(.001,intMeios.atr),background:'#b31671'}"></i><i :style="{flex:Math.max(.001,intMeios.v7),background:'#d67c2f'}"></i><i :style="{flex:Math.max(.001,intMeios.blq),background:'#869199'}"></i><i :style="{flex:Math.max(.001,intMeios.lib),background:'#a4ae2d'}"></i></s><em>{{ intMeios.atr+intMeios.v7+intMeios.blq+intMeios.lib }}</em></button>
+              <span>Meios de controle</span><s><i :style="{flex:Math.max(.001,intMeios.atr),background:'#b31671'}"></i><i :style="{flex:Math.max(.001,intMeios.v7),background:'#d67c2f'}"></i><i :style="{flex:Math.max(.001,intMeios.blq),background:'#869199'}"></i><i :style="{flex:Math.max(.001,intMeios.lib),background:'#1b3d79'}"></i></s><em>{{ intMeios.atr+intMeios.v7+intMeios.blq+intMeios.lib }}</em></button>
             <button class="ac-l" :class="{on:ui.sec==='amostras'}" @click="togSec('amostras')" v-tooltip.top="intAmo.atr+' entregas atrasadas (rosa) · '+intAmo.risco+' em risco (laranja) · '+intAmo.sem+' sem atualização (cinza) · '+intAmo.pront+' prontas p/ encerrar (verde)'">
-              <span>Amostras</span><s><i :style="{flex:Math.max(.001,intAmo.atr),background:'#b31671'}"></i><i :style="{flex:Math.max(.001,intAmo.risco),background:'#d67c2f'}"></i><i :style="{flex:Math.max(.001,intAmo.sem),background:'#869199'}"></i><i :style="{flex:Math.max(.001,intAmo.pront),background:'#a4ae2d'}"></i></s><em>{{ intAmo.atr+intAmo.risco+intAmo.sem+intAmo.pront }}</em></button>
+              <span>Amostras</span><s><i :style="{flex:Math.max(.001,intAmo.atr),background:'#b31671'}"></i><i :style="{flex:Math.max(.001,intAmo.risco),background:'#d67c2f'}"></i><i :style="{flex:Math.max(.001,intAmo.sem),background:'#869199'}"></i><i :style="{flex:Math.max(.001,intAmo.pront),background:'#1b3d79'}"></i></s><em>{{ intAmo.atr+intAmo.risco+intAmo.sem+intAmo.pront }}</em></button>
           </div>
         </div>
       </div>
@@ -11825,6 +12015,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
         <Column header="Evolução" style="width:140px"><template #body="{data}"><span style="white-space:nowrap"><div class="prog1" v-tooltip.top="'Documentos validados: '+pctTxt(pctProjeto(data))"><i :style="{width:pctProjeto(data)*100+'%'}"></i></div><b class="prog1-v">{{ Math.round(pctProjeto(data)*100) }}%</b></span></template></Column>
         <Column header="PPAP" sortField="ppapAcordado" sortable style="width:110px"><template #body="{data}"><b class="pl-d">{{ fmt(data.ppapAcordado) }}</b><div v-if="data.ppapAprovadoEm" class="mini">aprovado</div></template></Column>
         <Column header="SOP" sortField="sop" sortable style="width:110px"><template #body="{data}"><b class="pl-d">{{ fmt(data.sop) }}</b></template></Column>
+        <Column header="Próximos passos" style="min-width:220px"><template #body="{data}"><div class="pl-pp" v-tooltip.top="ultPasso(data)?ultPasso(data).texto:''">{{ ultPasso(data) ? ultPasso(data).texto : '—' }}</div><span v-if="passoVelho(data)" class="pp-old">sem atualização há {{ diasPasso(data) }} dias</span></template></Column>
         <Column header="Semáforo" style="width:120px"><template #body="{data}"><Tag v-if="data.excluido" class="tg tg-na" value="Excluído"/><span v-else class="pl-sem"><Tag class="tg" :class="'tg-'+semaforo(data).cor" :value="semaforo(data).texto" v-tooltip.left="semaforo(data).motivos.join(' · ')"/></span></template></Column>
         <Column header="" style="width:46px"><template #body="{data}">
           <Button v-if="!data.excluido" class="pl-del" icon="pi pi-trash" text severity="danger" size="small" :disabled="!pode('admin')" v-tooltip.left="'Excluir projeto (com justificativa)'" @click.stop="abrirExcluir(data)"/>
@@ -11875,6 +12066,8 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
               <span v-if="k.carryOver>0 && !k.done" class="chip c-venc" v-tooltip.top="'Não concluído na sprint '+k.origemSprint+': entrou nesta sprint em atraso'">Em atraso · ↪ {{ k.carryOver }} sem.</span>
               <span v-if="k.reprog" class="chip c-d7" v-tooltip.top="'Reprogramações'">↻ {{ k.reprog }}</span>
               <span class="chip">{{ nomeArea(k.area) }}</span></div>
+            <div v-if="evidCard(k)" class="k-ev" @click.stop="abrirArquivo(evidCard(k).ev)" v-tooltip.top="'Evidência anexada em '+fmtTs(evidCard(k).ev.em)+' — clique para abrir'"><i class="pi pi-paperclip"></i><span>{{ evidCard(k).ev.arquivo }}</span><b v-if="evidCard(k).n">+{{ evidCard(k).n }}</b></div>
+            <div v-else-if="c.id==='VALIDACAO' && !k.done" class="k-falta"><i class="pi pi-exclamation-triangle"></i> Falta evidência <button class="k-anx" @click.stop="anexarCard(k)"><i class="pi pi-paperclip"></i> Anexar</button></div>
             <div class="who" v-tooltip.top="nome(k.resp)+' · '+emailDe(k.resp)"><span class="av">{{ ini(nome(k.resp)) }}</span>{{ nomeCurto(k.resp) }}
               <span class="btns"><button v-if="k.tipo==='ACAO'" class="iconbtn" v-tooltip.top="'Reprogramar'" :disabled="k.done" @click="abrirReprog(k.obj)"><i class="pi pi-calendar-clock"></i></button>
               <button class="iconbtn" v-tooltip.top="'Abrir projeto'" @click="abrirProjeto(projetoDe(k.apqp))"><i class="pi pi-external-link"></i></button></span></div>
@@ -11944,12 +12137,12 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
       </div>
       <div class="rf">
         <div class="ac-r rf-i" style="cursor:default;flex:1.3" v-tooltip.top="'Verde: enviados na hora · laranja: aguardam o resumo das '+db.agenteNotificacoes.resumoHora">
-          <span v-html="anelSVG([{v:db.notificacoes.filter(n=>n.situacao==='Enviado').length,c:'#a4ae2d'},{v:notifFila.length,c:'#d67c2f'}],db.notificacoes.filter(n=>n.situacao==='Enviado').length+notifFila.length,db.notificacoes.filter(n=>n.situacao==='Enviado').length+notifFila.length)"></span>
+          <span v-html="anelSVG([{v:db.notificacoes.filter(n=>n.situacao==='Enviado').length,c:'#1b3d79'},{v:notifFila.length,c:'#d67c2f'}],db.notificacoes.filter(n=>n.situacao==='Enviado').length+notifFila.length,db.notificacoes.filter(n=>n.situacao==='Enviado').length+notifFila.length)"></span>
           <span class="ac-tx"><b>E-mails gerados</b><small>imediato + resumo diário</small></span></div>
-        <button class="rf-k" :class="{on:f.ntSit==='Enviado'}" @click="f.ntSit=(f.ntSit==='Enviado'?null:'Enviado')"><b style="color:#8a9420">{{ db.notificacoes.filter(n=>n.situacao==='Enviado').length }}</b><small>enviados (imediato)</small></button>
+        <button class="rf-k" :class="{on:f.ntSit==='Enviado'}" @click="f.ntSit=(f.ntSit==='Enviado'?null:'Enviado')"><b style="color:#1b3d79">{{ db.notificacoes.filter(n=>n.situacao==='Enviado').length }}</b><small>enviados (imediato)</small></button>
         <button class="rf-k" :class="{on:f.ntSit==='Aguarda resumo diário'}" @click="f.ntSit=(f.ntSit==='Aguarda resumo diário'?null:'Aguarda resumo diário')"><b style="color:#d67c2f">{{ notifFila.length }}</b><small>aguardam resumo das {{ db.agenteNotificacoes.resumoHora }}</small></button>
         <button class="rf-k" :class="{on:f.ntSit==='Resumo'}" @click="f.ntSit=(f.ntSit==='Resumo'?null:'Resumo')"><b>{{ db.notificacoes.filter(n=>n.situacao==='Resumo').length }}</b><small>resumos enviados</small></button>
-        <div class="rf-k rf-comp"><small>composição</small><span class="rf-st"><i :style="{flex:Math.max(.001,db.notificacoes.filter(n=>n.situacao==='Enviado').length),background:'#a4ae2d'}"></i><i :style="{flex:Math.max(.001,notifFila.length),background:'#d67c2f'}"></i></span><span class="rf-lg"><span style="--c:#a4ae2d">imediato</span><span style="--c:#d67c2f">resumo</span></span></div>
+        <div class="rf-k rf-comp"><small>composição</small><span class="rf-st"><i :style="{flex:Math.max(.001,db.notificacoes.filter(n=>n.situacao==='Enviado').length),background:'#1b3d79'}"></i><i :style="{flex:Math.max(.001,notifFila.length),background:'#d67c2f'}"></i></span><span class="rf-lg"><span style="--c:#1b3d79">imediato</span><span style="--c:#d67c2f">resumo</span></span></div>
       </div>
       <div class="filtros"><Select v-model="f.ntPara" :options="db.usuarios" optionLabel="nome" optionValue="id" placeholder="Destinatário" showClear size="small" style="width:220px"/>
         <Select v-model="f.ntEv" :options="EVENTOS_NT" placeholder="Evento" showClear size="small" style="width:200px"/><span class="mini" style="margin-left:auto">{{ notifFiltradas.length }} notificação(ões)</span></div>
@@ -12042,8 +12235,8 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
         <Button label="Ler Outlook agora" icon="pi pi-refresh" size="small" :disabled="!pode('admin')" @click="simularLeitura"/>
       </div>
       <div class="rf">
-        <div class="ac-r rf-i"><span v-html="anelSVG([{v:nmKpi.lidas,c:'#148ec2'}],nmKpi.lidas,nmKpi.lidas)"></span><span class="ac-tx"><b>Nomeações lidas</b><small>pelo agente</small></span></div>
-        <div class="ac-r rf-i"><span v-html="anelSVG([{v:nmKpi.criados,c:'#a4ae2d'}],nmKpi.lidas,nmKpi.criados,'#8a9420')"></span><span class="ac-tx"><b>Projetos criados</b><small>pelo agente</small></span></div>
+        <div class="ac-r rf-i"><span v-html="anelSVG([{v:nmKpi.lidas,c:'#5b78a8'}],nmKpi.lidas,nmKpi.lidas)"></span><span class="ac-tx"><b>Nomeações lidas</b><small>pelo agente</small></span></div>
+        <div class="ac-r rf-i"><span v-html="anelSVG([{v:nmKpi.criados,c:'#1b3d79'}],nmKpi.lidas,nmKpi.criados,'#1b3d79')"></span><span class="ac-tx"><b>Projetos criados</b><small>pelo agente</small></span></div>
         <button class="ac-r rf-i" :class="{on:ui.nmFil==='conferir',zero:!nmKpi.conferir}" @click="ui.nmFil=ui.nmFil==='conferir'?'todas':'conferir'"><span v-html="anelSVG([{v:nmKpi.conferir,c:'#d67c2f'}],nmKpi.lidas,nmKpi.conferir,nmKpi.conferir?'#d67c2f':'#869199')"></span><span class="ac-tx"><b>A conferir</b><small>CI e líder pendentes</small></span></button>
         <button class="ac-r rf-i" :class="{on:ui.nmFil==='div',zero:!nmKpi.div}" @click="ui.nmFil=ui.nmFil==='div'?'todas':'div'"><span v-html="anelSVG([{v:nmKpi.div,c:'#b31671'}],nmKpi.lidas,nmKpi.div,nmKpi.div?'#b31671':'#869199')"></span><span class="ac-tx"><b>Com divergência</b><small>e-mail × KOM × RFQ</small></span></button>
         <div class="ac-r rf-i" :class="{zero:!nmKpi.naoLidos}"><span v-html="anelSVG([{v:nmKpi.naoLidos,c:'#869199'}],nmKpi.lidas,nmKpi.naoLidos)"></span><span class="ac-tx"><b>Anexos não lidos</b><small>.xlsb ou PDF escaneado</small></span></div>
@@ -12083,11 +12276,11 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     <!-- ================= INTERFACES ================= -->
     <TabPanel value="meios">
       <div class="rf">
-        <button class="ac-r rf-i" @click="f.mcStatus=null;f.mcAtraso=false" v-tooltip.top="'Mostrar todos'"><span v-html="anelSVG([{v:kpiMeios.ativos-kpiMeios.concl,c:'#148ec2'}],kpiMeios.total,kpiMeios.ativos-kpiMeios.concl)"></span><span class="ac-tx"><b>Em andamento</b><small>de {{ kpiMeios.total }} item(ns)</small></span></button>
+        <button class="ac-r rf-i" @click="f.mcStatus=null;f.mcAtraso=false" v-tooltip.top="'Mostrar todos'"><span v-html="anelSVG([{v:kpiMeios.ativos-kpiMeios.concl,c:'#5b78a8'}],kpiMeios.total,kpiMeios.ativos-kpiMeios.concl)"></span><span class="ac-tx"><b>Em andamento</b><small>de {{ kpiMeios.total }} item(ns)</small></span></button>
         <button class="ac-r rf-i" :class="{on:f.mcStatus==='aprov'}" @click="f.mcAtraso=false;f.mcStatus='aprov'"><span v-html="anelSVG([{v:kpiMeios.bloqueados,c:'#1b3d79'}],kpiMeios.total,kpiMeios.bloqueados)"></span><span class="ac-tx"><b>Aguardando / bloq.</b><small>aprovação ou orçamento/RFQ</small></span></button>
         <button class="ac-r rf-i" :class="{on:f.mcStatus==='atras'}" @click="f.mcAtraso=false;f.mcStatus='atras'"><span v-html="anelSVG([{v:kpiMeios.atrasadas,c:'#b31671'}],kpiMeios.total,kpiMeios.atrasadas,kpiMeios.atrasadas?'#b31671':'#1b3d79')"></span><span class="ac-tx"><b>Atrasados</b><small>atraso médio {{ kpiMeios.atrasoMedio }} dia(s)</small></span></button>
         <button class="ac-r rf-i" :class="{on:f.mcStatus==='aten'}" @click="f.mcAtraso=false;f.mcStatus='aten'"><span v-html="anelSVG([{v:kpiMeios.vencem7,c:'#d67c2f'}],kpiMeios.total,kpiMeios.vencem7,kpiMeios.vencem7?'#d67c2f':'#1b3d79')"></span><span class="ac-tx"><b>Vencem em 7 dias</b><small>atenção na semana</small></span></button>
-        <button class="ac-r rf-i" :class="{on:f.mcStatus==='lib'}" @click="f.mcAtraso=false;f.mcStatus='lib'"><span v-html="anelSVG([{v:kpiMeios.liberados,c:'#a4ae2d'}],kpiMeios.total,kpiMeios.liberados,'#8a9420')"></span><span class="ac-tx"><b>Liberados p/ produção</b><small>{{ kpiMeios.otd===null?'—':kpiMeios.otd+'%' }} no prazo original</small></span></button>
+        <button class="ac-r rf-i" :class="{on:f.mcStatus==='lib'}" @click="f.mcAtraso=false;f.mcStatus='lib'"><span v-html="anelSVG([{v:kpiMeios.liberados,c:'#1b3d79'}],kpiMeios.total,kpiMeios.liberados,'#1b3d79')"></span><span class="ac-tx"><b>Liberados p/ produção</b><small>{{ kpiMeios.otd===null?'—':kpiMeios.otd+'%' }} no prazo original</small></span></button>
       </div>
       <div class="mc-fil" v-if="filtrosMc.length"><i class="pi pi-filter"></i> Filtrando:<span v-for="x in filtrosMc" :key="x.c" class="mc-fch">{{ x.t }}<i class="pi pi-times" @click="f[x.c]=null"></i></span><a href="#" @click.prevent="f.mcApqp=null;f.mcForn=null;f.mcResp=null;f.mcCat=null">limpar filtros</a></div>
       <div class="mc-dois am-dois">
@@ -12128,11 +12321,11 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
 
     <TabPanel value="amostras">
       <div class="rf">
-        <div class="ac-r rf-i"><span v-html="anelSVG([{v:kpiAmostras.andamento,c:'#148ec2'}],kpiAmostras.total,kpiAmostras.andamento)"></span><span class="ac-tx"><b>Em andamento</b><small>de {{ kpiAmostras.total }} amostra(s)</small></span></div>
+        <div class="ac-r rf-i"><span v-html="anelSVG([{v:kpiAmostras.andamento,c:'#5b78a8'}],kpiAmostras.total,kpiAmostras.andamento)"></span><span class="ac-tx"><b>Em andamento</b><small>de {{ kpiAmostras.total }} amostra(s)</small></span></div>
         <div class="ac-r rf-i"><span v-html="anelSVG([{v:kpiAmostras.pendentes,c:'#d67c2f'}],kpiAmostras.total,kpiAmostras.pendentes,kpiAmostras.pendentes?'#d67c2f':'#1b3d79')"></span><span class="ac-tx"><b>Pendentes</b><small>aguardando retorno</small></span></div>
         <div class="ac-r rf-i" v-tooltip.top="'Rosa: entrega atrasada · laranja: em risco (até '+db.parametros.amostraDiasRisco+' dias)'"><span v-html="anelSVG([{v:kpiAmostras.atrasadas,c:'#b31671'},{v:kpiAmostras.risco,c:'#d67c2f'}],kpiAmostras.total,kpiAmostras.atrasadas,kpiAmostras.atrasadas?'#b31671':'#1b3d79')"></span><span class="ac-tx"><b>Entrega atrasada</b><small>+{{ kpiAmostras.risco }} em risco ({{ db.parametros.amostraDiasRisco }} dias)</small></span></div>
         <div class="ac-r rf-i"><span v-html="anelSVG([{v:kpiAmostras.semAtu,c:'#869199'}],kpiAmostras.total,kpiAmostras.semAtu)"></span><span class="ac-tx"><b>Sem atualização</b><small>há mais de {{ db.parametros.amostraSemAtualizacaoDias }} dias</small></span></div>
-        <div class="ac-r rf-i" v-tooltip.top="'Verde: prontas p/ encerrar · verde-claro: já concluídas'"><span v-html="anelSVG([{v:kpiAmostras.prontas,c:'#a4ae2d'},{v:kpiAmostras.concluidas,c:'#d9dfb0'}],kpiAmostras.total,kpiAmostras.prontas,'#8a9420')"></span><span class="ac-tx"><b>Prontas p/ encerrar</b><small>{{ kpiAmostras.concluidas }} já concluída(s)</small></span></div>
+        <div class="ac-r rf-i" v-tooltip.top="'Verde: prontas p/ encerrar · verde-claro: já concluídas'"><span v-html="anelSVG([{v:kpiAmostras.prontas,c:'#1b3d79'},{v:kpiAmostras.concluidas,c:'#c9d3e4'}],kpiAmostras.total,kpiAmostras.prontas,'#1b3d79')"></span><span class="ac-tx"><b>Prontas p/ encerrar</b><small>{{ kpiAmostras.concluidas }} já concluída(s)</small></span></div>
       </div>
       <div class="mc-dois am-dois">
         <div class="card"><h3>Amostras por status</h3>
@@ -12166,49 +12359,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
       <div class="nota">Toda amostra pertence a um projeto APQP. Ordem padrão: pela pontuação GUT (G×U×T). Encerramento (Concluído) só com 6M's aprovados, RAI aprovado, ações concluídas e entrega confirmada, aprovado pelo Gerente de Engenharia. Toda alteração fica em Histórico.</div>
     </TabPanel>
 
-    <TabPanel value="interfaces">
-      <div class="if-top">
-        <div class="if-sel"><label>Projeto</label><Select v-model="f.intApqp" :options="opApqp" placeholder="Selecione" style="width:150px"/></div>
-        <div class="if-res" v-if="projetoDe(f.intApqp)">
-          <span v-for="r in intResumo(f.intApqp)" :key="r.k" class="if-chip clk" :class="{on:f.intSit===r.cls,off:f.intSit&&f.intSit!==r.cls}" :style="{'--c':r.cor}" @click="f.intSit=(f.intSit===r.cls?null:r.cls)" v-tooltip.top="'Clique para filtrar'"><b>{{ r.n }}</b> {{ r.k }}</span>
-        </div>
-      </div>
-      <div class="if-flow" v-if="projetoDe(f.intApqp)">
-        <div class="if-col">
-          <div class="if-h"><i class="pi pi-sign-in"></i> O que chega <span>recebe de</span></div>
-          <div v-for="x in interfacesProjeto(f.intApqp,'recebe').filter(x=>!f.intSit||x.cls===f.intSit)" :key="x.codigo" class="if-card" :class="{na:x.sit==='N/A',ext:x.cls==='tg-y'}" :style="{'--c':intCor(x.cls)}">
-            <div class="if-c1"><span class="if-cod">{{ x.codigo }}</span><span class="if-nm">{{ x.nome }}</span><Tag class="tg" :class="x.cls" :value="x.sit"/></div>
-            <div class="if-vin" v-if="x.vinculo"><i class="pi pi-link"></i> {{ x.vinculo }}</div>
-            <div class="if-c2"><span class="if-d" v-for="c in x.dados" :key="c">{{ c }}</span>
-              <button class="if-js" v-tooltip.top="'Exemplo de payload JSON'" @click="verPayload(x,'recebe')"><i class="pi pi-code"></i></button></div>
-          </div>
-        </div>
-        <div class="if-arr"><i class="pi pi-arrow-right"></i></div>
-        <div class="if-mid">
-          <div class="if-proj">
-            <span class="if-pk">APQP</span>
-            <div class="if-pn">{{ projetoDe(f.intApqp).apqp }}</div>
-            <div class="if-pc">{{ projetoDe(f.intApqp).cliente }}</div>
-            <div class="if-pp">{{ projetoDe(f.intApqp).projeto }}</div>
-            <div class="if-pg"><span>Gate <b>{{ gateAtualCod(projetoDe(f.intApqp)) }}</b></span></div>
-            <div class="if-pb"><i :style="{width:Math.round(pctProjeto(projetoDe(f.intApqp))*100)+'%'}"></i></div>
-            <div class="if-pt">{{ Math.round(pctProjeto(projetoDe(f.intApqp))*100) }}% concluído</div>
-          </div>
-        </div>
-        <div class="if-arr"><i class="pi pi-arrow-right"></i></div>
-        <div class="if-col">
-          <div class="if-h"><i class="pi pi-sign-out"></i> O que sai <span>entrega para</span></div>
-          <div v-for="x in interfacesProjeto(f.intApqp,'entrega').filter(x=>!f.intSit||x.cls===f.intSit)" :key="x.codigo" class="if-card" :class="{na:x.sit==='N/A',ext:x.cls==='tg-y'}" :style="{'--c':intCor(x.cls)}">
-            <div class="if-c1"><span class="if-cod">{{ x.codigo }}</span><span class="if-nm">{{ x.nome }}</span><Tag class="tg" :class="x.cls" :value="x.sit"/></div>
-            <div class="if-vin" v-if="x.vinculo"><i class="pi pi-link"></i> {{ x.vinculo }}</div>
-            <div class="if-c2"><span class="if-d" v-for="c in x.dados" :key="c">{{ c }}</span>
-              <button class="if-js" v-tooltip.top="'Exemplo de payload JSON'" @click="verPayload(x,'entrega')"><i class="pi pi-code"></i></button></div>
-          </div>
-        </div>
-      </div>
-      <div class="vazio" v-else>Selecione um projeto para ver o fluxo de interfaces.</div>
-      <div class="if-leg"><span>Situação:</span><Tag class="tg tg-ok" value="Recebido / Entregue"/><Tag class="tg tg-ent" value="Parcial"/><Tag class="tg tg-pend" value="Pendente"/><Tag class="tg tg-na" value="N/A"/><Tag class="tg tg-intg" value="Integrado (consulta)"/><Tag class="tg tg-y" value="Externo – a integrar"/><span class="mini">calculada pelos itens de gate vinculados a cada processo</span></div>
-    </TabPanel>
+
 
     <!-- ================= HISTÓRICO ================= -->
     <TabPanel value="historico">
@@ -12251,6 +12402,8 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             <li><b>SOP só com o período</b> (ex.: “1º semestre/2027”): usa a data do fim do período, marcada como <b>estimada</b>. PPAP sem data vira alerta.</li>
             <li><b>Conferir cadastro:</b> a Analista informa o <b>N° CI</b> e escolhe o <b>líder</b> (o agente nunca define o líder). Pode salvar parcial; o projeto só sai de “A conferir” com CI e líder, e o líder é avisado.</li>
             <li><b>Manual:</b> botão <span class="rg-k">+ Novo › Projeto APQP</span>; N° APQP no formato NNN/AA, sem repetição.</li>
+            <li><b>Próximos passos:</b> atualizados pelo líder ou pela Analista na janela do projeto; o histórico é mantido. Aviso após <span class="rg-v">{{ db.parametros.diasSemAtualizacaoPassos }} dias</span> sem atualização.</li>
+            <li><b>Equipe do projeto:</b> áreas podem ser incluídas ou retiradas em “Editar cadastro e equipe”; cada documento pode ter mais de um arquivo na mesma entrega.</li>
             <li>O checklist nasce com <b>todos os itens do modelo</b>; o que não se aplicar é marcado <b>N/A</b> com justificativa.</li>
             <li><b>Modelo de gates</b> (Configuração): o Administrador inclui e edita gates e documentos. Correção de nome, área e interfaces vale também para projetos abertos; blocante vale para novos projetos.</li>
             <li><b>Excluir é lógico:</b> exige justificativa, fica no Histórico e pode ser restaurado.</li></ul></article>
@@ -12302,7 +12455,9 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             <li>Sprint de <span class="rg-v">{{ db.parametros.sprintDias }} dias</span>: A fazer → Em andamento → Validação → Feito.</li>
             <li><b>Backlog</b> = documentos pendentes do gate atual + ações abertas. A Analista puxa para a sprint.</li>
             <li>Ação pode ser planejada para uma semana futura e entra sozinha quando a sprint começar.</li>
-            <li>Só a Analista move para “Feito”. O que não fechou passa para a semana seguinte como <b>Em atraso</b>.</li></ul></article>
+            <li><b>Validação:</b> o cartão vai para “Validação” na hora e o sistema pede a evidência em seguida. O cartão mostra o arquivo anexado (clique abre) ou “Falta evidência” com o botão <b>Anexar</b>.</li>
+            <li>Só a Analista move para “Feito”. O que não fechou passa para a semana seguinte como <b>Em atraso</b>.</li>
+            <li>Documento só vai para “Feito” com evidência anexada; na ação, a evidência é recomendada.</li></ul></article>
 
           <article class="rg-c" id="rg-alertas"><header><i class="pi pi-bell"></i><h3>9. Semáforo, alertas e e-mails</h3></header><ul>
             <li><b class="rg-pk">Crítico:</b> PPAP/SOP vencido, ação vencida, N2/N3 ou avanço sem blocante. <b class="rg-or">Atenção:</b> PPAP/SOP em até 15 dias, item atrasado, rejeição ou reprogramação. Sempre calculado, nunca manual.</li>
@@ -12316,7 +12471,8 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             <li><b>% Eficiência QCD (S2-1)</b> = CCV da RFQ ÷ CCV do Run@Rate. Meta <span class="rg-v">{{ db.parametros.metaEficienciaQCD }}%</span>.</li>
             <li><b>% Conclusão por gate</b> = itens validados ÷ itens aplicáveis (N/A fica fora).</li>
             <li><b>Faixa Acompanhamento</b> (Gestão), em anéis: Atrasos (líderes com atraso ÷ líderes), Sprint (% concluído), Cronograma (marcos dos próximos 30 dias em projeto sem desvio ÷ marcos), Apoio da gerência (N2 / N3 / blocante) e Críticos (crítico / atenção / no prazo). À direita, Documentos para validar, Meios e Amostras em barras.</li>
-            <li>Clique abre o detalhe (Projetos críticos mostra os 3 primeiros e “Mostrar todos”). A faixa pode ser <b>ocultada</b>; a escolha fica salva no navegador.</li></ul></article>
+            <li>Clique abre o detalhe (Projetos críticos mostra os 3 primeiros e “Mostrar todos”). A faixa pode ser <b>ocultada</b>; a escolha fica salva no navegador.</li>
+            <li><b>Layout</b>: indicadores em cima e Acompanhamento embaixo; os cartões têm a altura do conteúdo; no notebook o conjunto fica centralizado e em monitor grande fica no topo, no tamanho do notebook. Sem dado para calcular, o cartão mostra o motivo em laranja.</li></ul></article>
 
           <article class="rg-c" id="rg-meios"><header><i class="pi pi-wrench"></i><h3>11. Meios de controle e produção</h3></header><ul>
             <li>Dispositivos de controle, meios de produção (máquinas, estações, linhas) e ferramentas (moldes, matrizes, estampos) por projeto (aba do projeto e página própria).</li>
@@ -12331,7 +12487,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             <li>GUT = G × U × T (1, 3 ou 5). Alerta de entrega em até <span class="rg-v">{{ db.parametros.amostraDiasRisco }} dias</span> e sem atualização há mais de <span class="rg-v">{{ db.parametros.amostraSemAtualizacaoDias }} dias</span>.</li></ul></article>
 
           <article class="rg-c" id="rg-rastreio"><header><i class="pi pi-history"></i><h3>13. Interfaces e rastreabilidade</h3></header><ul>
-            <li>Cada documento indica de qual processo <b>recebe</b> e para qual <b>entrega</b>; a tela Interfaces mostra a situação por projeto.</li>
+            <li>Cada documento indica de qual processo <b>recebe</b> e para qual <b>entrega</b>; a visão completa fica em <b>Configuração › Interfaces</b>.</li>
             <li>Toda alteração grava quem, quando, campo e de → para (Histórico).</li>
             <li>Exportação JSON com ou sem anexos (Configuração › Dados).</li></ul></article>
         </div>
@@ -12346,12 +12502,12 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     <!-- ================= CONFIGURAÇÃO ================= -->
     <TabPanel value="config">
       <Tabs v-model:value="ui.cfgTab">
-        <TabList><Tab value="fluxo"><i class="pi pi-sitemap" style="margin-right:6px"></i>Fluxograma</Tab><Tab value="modelo">Modelo de gates</Tab><Tab value="param">Parâmetros</Tab><Tab value="resp">Responsáveis e e-mails</Tab><Tab value="perfis">Perfis e permissões</Tab><Tab value="dados">Dados (JSON)</Tab></TabList>
+        <TabList><Tab value="fluxo"><i class="pi pi-sitemap" style="margin-right:6px"></i>Fluxograma</Tab><Tab value="modelo">Modelo de gates</Tab><Tab value="interf">Interfaces</Tab><Tab value="param">Parâmetros</Tab><Tab value="resp">Responsáveis e e-mails</Tab><Tab value="perfis">Perfis e permissões</Tab><Tab value="dados">Dados (JSON)</Tab></TabList>
         <TabPanels>
           <TabPanel value="fluxo">
             <div class="fx-top">
               <b class="fx-tt">Processo (BPMN)</b>
-              <span class="mini">Consulta para todos os perfis · versão v50 · 03/11/2026</span>
+              <span class="mini">Consulta para todos os perfis · versão v58 · 04/11/2026</span>
             </div>
             <div class="fx-l">
               <div class="fx-nav">
@@ -12361,7 +12517,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
                 <div class="fx-h"><div><h3>{{ fxAtual.t }}</h3><p class="mini">{{ fxAtual.d }}</p></div>
                   <div class="fx-z"><Button icon="pi pi-search-minus" text rounded size="small" v-tooltip.top="'Diminuir'" :disabled="ui.fx.z<=1" @click="ui.fx.z=Math.max(1,ui.fx.z-0.5)"/><span class="mini">{{ ui.fx.z===1 ? 'Ajustado' : Math.round(ui.fx.z*100)+'%' }}</span><Button icon="pi pi-search-plus" text rounded size="small" v-tooltip.top="'Aumentar'" :disabled="ui.fx.z>=3" @click="ui.fx.z=Math.min(3,ui.fx.z+0.5)"/>
                     <Button icon="pi pi-download" label="Baixar imagem (SVG)" text size="small" @click="baixarFx"/></div></div>
-                <div class="fx-leg"><span><i class="o" style="border-color:#a4ae2d"></i>Início</span><span><i class="o" style="border-color:#b31671;border-width:3px"></i>Fim</span><span><i class="r"></i>Tarefa</span><span><i class="d"></i>Decisão (gateway)</span><span>Raias = quem executa · seta tracejada = mensagem entre processos</span></div>
+                <div class="fx-leg"><span><i class="o" style="border-color:#1b3d79"></i>Início</span><span><i class="o" style="border-color:#b31671;border-width:3px"></i>Fim</span><span><i class="r"></i>Tarefa</span><span><i class="d"></i>Decisão (gateway)</span><span>Raias = quem executa · seta tracejada = mensagem entre processos</span></div>
                 <div class="fx-c" :style="{'--z':ui.fx.z}"><div class="fx-s" :class="{fit:ui.fx.z===1}" v-html="fxAtual.svg"></div></div>
               </div>
             </div>
@@ -12385,6 +12541,49 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
               </DataTable>
             </div>
           </TabPanel>
+          <TabPanel value="interf"><div class="mini" style="margin-bottom:10px">Consulta para auditoria: o que chega de cada processo e o que sai para cada processo, por projeto (mapa de processo S2).</div>
+      <div class="if-top">
+        <div class="if-sel"><label>Projeto</label><Select v-model="f.intApqp" :options="opApqp" placeholder="Selecione" style="width:150px"/></div>
+        <div class="if-res" v-if="projetoDe(f.intApqp)">
+          <span v-for="r in intResumo(f.intApqp)" :key="r.k" class="if-chip clk" :class="{on:f.intSit===r.cls,off:f.intSit&&f.intSit!==r.cls}" :style="{'--c':r.cor}" @click="f.intSit=(f.intSit===r.cls?null:r.cls)" v-tooltip.top="'Clique para filtrar'"><b>{{ r.n }}</b> {{ r.k }}</span>
+        </div>
+      </div>
+      <div class="if-flow" v-if="projetoDe(f.intApqp)">
+        <div class="if-col">
+          <div class="if-h"><i class="pi pi-sign-in"></i> O que chega <span>recebe de</span></div>
+          <div v-for="x in interfacesProjeto(f.intApqp,'recebe').filter(x=>!f.intSit||x.cls===f.intSit)" :key="x.codigo" class="if-card" :class="{na:x.sit==='N/A',ext:x.cls==='tg-y'}" :style="{'--c':intCor(x.cls)}">
+            <div class="if-c1"><span class="if-cod">{{ x.codigo }}</span><span class="if-nm">{{ x.nome }}</span><Tag class="tg" :class="x.cls" :value="x.sit"/></div>
+            <div class="if-vin" v-if="x.vinculo"><i class="pi pi-link"></i> {{ x.vinculo }}</div>
+            <div class="if-c2"><span class="if-d" v-for="c in x.dados" :key="c">{{ c }}</span>
+              <button class="if-js" v-tooltip.top="'Exemplo de payload JSON'" @click="verPayload(x,'recebe')"><i class="pi pi-code"></i></button></div>
+          </div>
+        </div>
+        <div class="if-arr"><i class="pi pi-arrow-right"></i></div>
+        <div class="if-mid">
+          <div class="if-proj">
+            <span class="if-pk">APQP</span>
+            <div class="if-pn">{{ projetoDe(f.intApqp).apqp }}</div>
+            <div class="if-pc">{{ projetoDe(f.intApqp).cliente }}</div>
+            <div class="if-pp">{{ projetoDe(f.intApqp).projeto }}</div>
+            <div class="if-pg"><span>Gate <b>{{ gateAtualCod(projetoDe(f.intApqp)) }}</b></span></div>
+            <div class="if-pb"><i :style="{width:Math.round(pctProjeto(projetoDe(f.intApqp))*100)+'%'}"></i></div>
+            <div class="if-pt">{{ Math.round(pctProjeto(projetoDe(f.intApqp))*100) }}% concluído</div>
+          </div>
+        </div>
+        <div class="if-arr"><i class="pi pi-arrow-right"></i></div>
+        <div class="if-col">
+          <div class="if-h"><i class="pi pi-sign-out"></i> O que sai <span>entrega para</span></div>
+          <div v-for="x in interfacesProjeto(f.intApqp,'entrega').filter(x=>!f.intSit||x.cls===f.intSit)" :key="x.codigo" class="if-card" :class="{na:x.sit==='N/A',ext:x.cls==='tg-y'}" :style="{'--c':intCor(x.cls)}">
+            <div class="if-c1"><span class="if-cod">{{ x.codigo }}</span><span class="if-nm">{{ x.nome }}</span><Tag class="tg" :class="x.cls" :value="x.sit"/></div>
+            <div class="if-vin" v-if="x.vinculo"><i class="pi pi-link"></i> {{ x.vinculo }}</div>
+            <div class="if-c2"><span class="if-d" v-for="c in x.dados" :key="c">{{ c }}</span>
+              <button class="if-js" v-tooltip.top="'Exemplo de payload JSON'" @click="verPayload(x,'entrega')"><i class="pi pi-code"></i></button></div>
+          </div>
+        </div>
+      </div>
+      <div class="vazio" v-else>Selecione um projeto para ver o fluxo de interfaces.</div>
+      <div class="if-leg"><span>Situação:</span><Tag class="tg tg-ok" value="Recebido / Entregue"/><Tag class="tg tg-ent" value="Parcial"/><Tag class="tg tg-pend" value="Pendente"/><Tag class="tg tg-na" value="N/A"/><Tag class="tg tg-intg" value="Integrado (consulta)"/><Tag class="tg tg-y" value="Externo – a integrar"/><span class="mini">calculada pelos itens de gate vinculados a cada processo</span></div>
+    </TabPanel>
           <TabPanel value="param">
             <div class="card" style="max-width:980px;margin-bottom:12px"><h3>Prioridade do backlog — Matriz Esforço × Impacto</h3>
               <div class="pm-g">
@@ -12410,7 +12609,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
               </div>
               <div class="nota">{{ db.parametros.prioridadeBacklog.regrasImpacto }}</div>
             </div>
-            <div class="card" style="max-width:980px;margin-bottom:12px"><h3><i class="pi pi-sparkles" style="color:var(--cgr-cool-blue,#148ec2)"></i> Agente IA de classificação <span class="ag-sim">simulado</span></h3>
+            <div class="card" style="max-width:980px;margin-bottom:12px"><h3><i class="pi pi-sparkles" style="color:var(--cgr-cool-blue,#5b78a8)"></i> Agente IA de classificação <span class="ag-sim">simulado</span></h3>
               <div class="nota" style="margin-top:0">Ao registrar uma ação, o agente lê descrição, origem, nível, vínculo, área e prazo e classifica Impacto × Esforço. A classificação vale direto; o líder pode ajustar com motivo (fica no histórico). No protótipo o agente é um conjunto de regras; em produção seria um modelo de IA no servidor.</div>
               <div class="form">
                 <div><label>Esforço baixo — definição</label><Textarea v-model="db.parametros.prioridadeBacklog.definicoesEsforco.baixo" rows="3" autoResize :disabled="!pode('modelo')"/></div>
@@ -12427,6 +12626,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
                 <div><label>Alerta de ações e documentos (dias)</label><InputNumber v-model="db.parametros.alertaPadraoDias" :min="1" :disabled="!pode('modelo')"/></div>
                 <div><label>Aviso à gerência (dias antes do vencimento)</label><InputNumber v-model="db.parametros.avisoGerenciaDias" :min="0" :disabled="!pode('modelo')"/></div>
                 <div><label>Reprogramações para escalonar a N2</label><InputNumber v-model="db.parametros.reprogramacoesParaN2" :min="1" :disabled="!pode('modelo')"/></div>
+                <div><label>Próximos passos: aviso após (dias sem atualização)</label><InputNumber v-model="db.parametros.diasSemAtualizacaoPassos" :min="1" :disabled="!pode('modelo')"/></div>
                 <div><label>Meta % PPAP no prazo</label><InputNumber v-model="db.parametros.metaPPAPNoPrazo" suffix=" %" :disabled="!pode('modelo')"/></div>
                 <div><label>Meta % eficiência QCD</label><InputNumber v-model="db.parametros.metaEficienciaQCD" suffix=" %" :disabled="!pode('modelo')"/></div>
                 <div><label>Data de referência (simulação)</label><DatePicker v-model="ui.dataRefDate" dateFormat="dd/mm/yy" showIcon :disabled="!pode('modelo')"/></div>
@@ -12448,11 +12648,12 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
               <Column field="area" header="Área" sortable style="width:190px"><template #body="{data}">{{ nomeArea(data.area) }}</template></Column>
               <Column header="Tipo"><template #body="{data}">{{ (db.perfis[data.perfil]||{}).nome || data.perfil }}</template></Column>
               <Column header="Situação" style="width:110px"><template #body="{data}"><Tag class="tg" :class="data.ativo===false?'tg-na':'tg-ok'" :value="data.ativo===false?'Inativo':'Ativo'"/></template></Column>
-              <Column header="" style="width:96px"><template #body="{data}">
+              <Column header="" style="width:130px"><template #body="{data}">
                 <Button icon="pi pi-pencil" text size="small" v-tooltip.left="'Editar'" :disabled="!pode('resp')" @click="editarResp(data)"/>
-                <Button :icon="data.ativo===false?'pi pi-replay':'pi pi-ban'" text size="small" :severity="data.ativo===false?'secondary':'danger'" v-tooltip.left="data.ativo===false?'Reativar':'Inativar'" :disabled="!pode('admin')||data.id===usuario.id" @click="alternarAtivo(data)"/></template></Column>
+                <Button :icon="data.ativo===false?'pi pi-replay':'pi pi-ban'" text size="small" :severity="data.ativo===false?'secondary':'danger'" v-tooltip.left="data.ativo===false?'Reativar':'Inativar'" :disabled="!pode('admin')||data.id===usuario.id" @click="alternarAtivo(data)"/>
+                <Button icon="pi pi-trash" text size="small" severity="danger" v-tooltip.left="'Excluir (só quem não tem registros)'" :disabled="!pode('admin')||data.id===usuario.id" @click="excluirResp(data)"/></template></Column>
             </DataTable>
-            <div class="nota">Pessoas inativas não aparecem nas listas de seleção; o histórico continua mostrando o nome. O e-mail cadastrado é usado pelo agente de notificações. <b>Use somente dados fictícios no protótipo</b> (ex.: nome@exemplo.com.br).</div>
+            <div class="nota">Pessoas inativas não aparecem nas listas de seleção; o histórico continua mostrando o nome. O e-mail cadastrado é usado pelo agente de notificações. <b>Excluir</b> só é possível para quem nunca foi usado no sistema; quem tem registros deve ser inativado (rastreabilidade). <b>Use somente dados fictícios no protótipo</b> (ex.: nome@exemplo.com.br).</div>
           </TabPanel>
           <TabPanel value="perfis">
             <table class="matriz" style="border-collapse:collapse">
@@ -12477,7 +12678,12 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
     </TabPanel>
     </TabPanels>
   </Tabs>
-  </main>
+  <Dialog v-model:visible="ui.ps.vis" modal :header="'Atualizar próximos passos – '+(ui.ps.p?ui.ps.p.apqp:'')" style="width:620px">
+    <div class="mini" style="margin-bottom:6px" v-if="ui.ps.p && ultPasso(ui.ps.p)"><b>Atual:</b> {{ ultPasso(ui.ps.p).texto }}</div>
+    <Textarea v-model="ui.ps.txt" rows="5" style="width:100%" placeholder="Ex.: 1 - Comercial solicitar carta de nomeação; 2 - Fornecedor enviar cronograma do dispositivo até 10/11"/>
+    <div class="mini" style="margin-top:6px">O texto anterior vai para o histórico de atualizações (não é apagado).</div>
+    <template #footer><Button label="Cancelar" text @click="ui.ps.vis=false"/><Button label="Salvar atualização" icon="pi pi-check" :disabled="!(ui.ps.txt||'').trim()" @click="salvarPasso"/></template></Dialog>
+</main>
   </div>
 
   <!-- ======= v11: indicadores de acompanhamento em janela ======= -->
@@ -12551,7 +12757,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             <Column header="Projeto · gate" style="width:130px"><template #body="{data}"><a class="lnk b" @click="ui.sec=null;abrirGate(data.p,data.p.gates.indexOf(data.g))">{{ data.p.apqp }}</a><div class="an-m">{{ data.g.codigo }} · {{ data.p.cliente }}</div></template></Column>
             <Column header="Documento"><template #body="{data}"><div class="an-d"><i v-if="data.i.blocante" class="pi pi-lock blq" v-tooltip.top="'Documento blocante'"></i> {{ data.i.etapa }}</div><div class="an-m">{{ data.i.evidencia.arquivo }} · v{{ data.i.evidencia.versao||1 }}</div></template></Column>
             <Column header="Entregue por"><template #body="{data}"><span class="an-rp"><span class="av sm">{{ ini(nome(data.por)) }}</span><span>{{ nomeCurto(data.por) }}<br><small class="an-m">{{ fmtTs(data.i.evidencia.em) }}</small></span></span></template></Column>
-            <Column header="Aguardando" style="width:110px"><template #body="{data}"><span class="an-st" :style="{'--c':data.aguarda>5?'#b31671':(data.aguarda>2?'#d67c2f':'#148ec2')}">{{ data.aguarda===0?'hoje':data.aguarda+' dia(s)' }}</span></template></Column>
+            <Column header="Aguardando" style="width:110px"><template #body="{data}"><span class="an-st" :style="{'--c':data.aguarda>5?'#b31671':(data.aguarda>2?'#d67c2f':'#5b78a8')}">{{ data.aguarda===0?'hoje':data.aguarda+' dia(s)' }}</span></template></Column>
             <Column header="" style="width:210px"><template #body="{data}">
               <Button icon="pi pi-eye" text size="small" v-tooltip.top="'Abrir o arquivo'" @click="abrirArquivo(data.i.evidencia)"/>
               <Button label="Validar" icon="pi pi-check" size="small" :disabled="!pode('validar')" @click="validar(data.p,data.i)"/>
@@ -12579,22 +12785,22 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
               </div>
             </div>
           </div>
-          <div class="legenda"><span><i style="background:#a4ae2d"></i>No prazo</span><span><i style="background:#d67c2f"></i>Atenção</span><span><i style="background:#b31671"></i>Crítico</span><span class="mini">Clique na barra ou no nome para ver os projetos</span></div>
+          <div class="legenda"><span><i style="background:#1b3d79"></i>No prazo</span><span><i style="background:#d67c2f"></i>Atenção</span><span><i style="background:#b31671"></i>Crítico</span><span class="mini">Clique na barra ou no nome para ver os projetos</span></div>
         </div>
 
         <!-- 2. Sprint e backlog -->
         <div class="sec-body" v-if="ui.sec==='sprint'">
           
           <div class="sp4">
-            <div class="sp4-c clk" @click="irSprint()" v-tooltip.top="'Abrir o quadro da sprint'"><div v-html="ringSVG(saude(sprintAtiva).total?saude(sprintAtiva).feitas/saude(sprintAtiva).total:0,'#a4ae2d',null,saude(sprintAtiva).feitas+'/'+saude(sprintAtiva).total,'concluídos')"></div>
+            <div class="sp4-c clk" @click="irSprint()" v-tooltip.top="'Abrir o quadro da sprint'"><div v-html="ringSVG(saude(sprintAtiva).total?saude(sprintAtiva).feitas/saude(sprintAtiva).total:0,'#1b3d79',null,saude(sprintAtiva).feitas+'/'+saude(sprintAtiva).total,'concluídos')"></div>
               <div class="mini" style="text-align:center">Velocidade anterior: <b>{{ ultimaSprint ? ultimaSprint.concluidos+'/'+ultimaSprint.planejados : '—' }}</b></div></div>
             <div class="sp4-c"><div class="sp4-t">Cartões por coluna</div>
               <div class="vcols"><div v-for="c in COLUNAS" :key="c.id" class="vc clk" @click="irSprint()" v-tooltip.top="'Abrir o quadro — '+c.t"><span class="vc-v">{{ cartoesSprint(sprintAtiva,c.id).length }}</span><span class="vc-t"><i :style="{height:(cartoesSprint(sprintAtiva,c.id).length/Math.max(1,saude(sprintAtiva).total)*100)+'%',background:c.cor}"></i></span><span class="vc-l">{{ c.t }}</span></div></div>
               <div class="mini" style="margin-top:6px"><span class="chip c-venc">↪ {{ sprintAtiva.itens.filter(i=>i.carryOver>0 && colunaDe(i)!=='FEITO').length }} em atraso de semana anterior</span></div></div>
             <div class="sp4-c clk" @click="irSprint()" v-tooltip.top="'Abrir o quadro da sprint'"><div class="sp4-t">Progresso · ciclo de trabalho</div><div v-html="burndownSVG(sprintAtiva,130)"></div></div>
             <div class="sp4-c"><div class="sp4-t">Backlog ({{ backlog.length }})</div>
-              <div class="bk-st"><i :style="{flex:Math.max(.01,backlog.filter(c=>c.tipo==='ITEM').length),background:'#148ec2'}"></i><i :style="{flex:Math.max(.01,backlog.filter(c=>c.tipo==='ACAO').length),background:'#1b3d79'}"></i></div>
-              <div class="leg" style="margin-top:8px"><div class="lg-c" @click="irSprint('ITEM')"><i style="background:#148ec2"></i><b>{{ backlog.filter(c=>c.tipo==='ITEM').length }}</b> documentos de gate</div><div class="lg-c" @click="irSprint('ACAO')"><i style="background:#1b3d79"></i><b>{{ backlog.filter(c=>c.tipo==='ACAO').length }}</b> ações</div>
+              <div class="bk-st"><i :style="{flex:Math.max(.01,backlog.filter(c=>c.tipo==='ITEM').length),background:'#5b78a8'}"></i><i :style="{flex:Math.max(.01,backlog.filter(c=>c.tipo==='ACAO').length),background:'#1b3d79'}"></i></div>
+              <div class="leg" style="margin-top:8px"><div class="lg-c" @click="irSprint('ITEM')"><i style="background:#5b78a8"></i><b>{{ backlog.filter(c=>c.tipo==='ITEM').length }}</b> documentos de gate</div><div class="lg-c" @click="irSprint('ACAO')"><i style="background:#1b3d79"></i><b>{{ backlog.filter(c=>c.tipo==='ACAO').length }}</b> ações</div>
                 <div><i style="background:#b31671"></i><b>{{ backlog.filter(c=>c.prazo && dias(c.prazo)<0).length }}</b> já vencidos</div><div><i class="pi pi-lock blq" style="background:none;width:auto"></i><b>{{ backlog.filter(c=>c.blocante).length }}</b> blocantes</div></div></div>
           </div>
         </div>
@@ -12628,7 +12834,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
             </div>
             <div v-if="!gantt5.linhas.length" class="mini" style="padding:12px">Nenhum projeto neste filtro.</div>
           </div></div>
-          <div class="legenda"><span><i style="background:#a4ae2d"></i>Gate aprovado</span><span><i style="background:#1b3d79"></i>Gate atual</span><span><i style="background:#b31671"></i>Gate atual vencido</span><span><i style="background:#dfe5ee"></i>Gate futuro</span><span><b style="color:#b31671">◆</b> PPAP</span><span><b style="color:#1b3d79">◆</b> SOP</span><span><i style="border-left:2px dashed #b31671;width:2px;border-radius:0"></i>Hoje</span><span><i style="background:#eaeef5"></i>Mês atual</span></div>
+          <div class="legenda"><span><i style="background:#1b3d79"></i>Gate aprovado</span><span><i style="background:#1b3d79"></i>Gate atual</span><span><i style="background:#b31671"></i>Gate atual vencido</span><span><i style="background:#dfe5ee"></i>Gate futuro</span><span><b style="color:#b31671">◆</b> PPAP</span><span><b style="color:#1b3d79">◆</b> SOP</span><span><i style="border-left:2px dashed #b31671;width:2px;border-radius:0"></i>Hoje</span><span><i style="background:#eaeef5"></i>Mês atual</span></div>
         </div>
 
         <!-- 4. Necessidade da gerência -->
@@ -12674,6 +12880,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
               <div class="gpills"><span v-for="(g,gi) in p.gates" :key="g.codigo" class="gpl clk" :class="pilula(p,gi)" v-tooltip.top="g.codigo+' · '+pctTxt(pctGate(g))+' — abrir'" @click.stop="ui.sec=null;abrirGate(p,gi)">{{ g.codigo }}</span></div>
               <div class="cr-pr"><span><i :style="{width:pctProjeto(p)*100+'%'}"></i></span><b>{{ Math.round(pctProjeto(p)*100) }}%</b><small>validado</small></div>
               <div class="cr-m"><div v-for="m in semaforo(p).motivos" :key="m" class="cr-mi"><i :class="'pi '+motivoIc(m)"></i>{{ m }}</div></div>
+              <div class="cr-pp" v-if="ultPasso(p)"><i class="pi pi-comment"></i> <b>Última atualização ({{ fmt(ultPasso(p).em.slice(0,10)) }}):</b> {{ ultPasso(p).texto }}</div>
             </div>
             <div v-if="!criticos.length" class="mini">Nenhum projeto crítico.</div>
           </div>
@@ -12705,11 +12912,18 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
           </div>
           <div class="pj-meta"><i class="pi pi-history"></i> Origem {{ P.origem.processo }}{{ P.origem.nomeacao?' · '+P.origem.nomeacao:'' }} · criado por {{ nome(P.criadoPor) }} em {{ fmtTs(P.criadoEm) }} · revisão {{ P.revisao }}
             <Button label="Editar cadastro e equipe" icon="pi pi-pencil" size="small" outlined :disabled="!pode('cadastro',P.apqp)" @click="abrirEditarCadastro" style="margin-left:auto"/></div>
+          <div class="pp-box"><div class="pp-h"><i class="pi pi-comment"></i><b>Próximos passos / última atualização</b>
+              <span v-if="ultPasso(P)" class="mini">· {{ fmtTs(ultPasso(P).em) }} · {{ ultPasso(P).por==='PLANILHA'?'Planilha':nome(ultPasso(P).por) }}</span>
+              <span v-if="passoVelho(P)" class="pp-old">sem atualização há {{ diasPasso(P) }} dias</span>
+              <Button label="Atualizar" icon="pi pi-pencil" size="small" text :disabled="!pode('anexar',P.apqp)&&!pode('cadastro',P.apqp)" @click="abrirPasso(P)" style="margin-left:auto"/></div>
+            <div class="pp-t">{{ ultPasso(P) ? ultPasso(P).texto : 'Nenhuma atualização registrada.' }}</div>
+            <a v-if="(P.passos||[]).length>1" href="#" class="mini" @click.prevent="ui.ps.hist=!ui.ps.hist">{{ ui.ps.hist?'Ocultar':'Ver' }} atualizações anteriores ({{ P.passos.length-1 }})</a>
+            <div v-if="ui.ps.hist" class="pp-hist"><div v-for="(x,k) in [...(P.passos||[])].slice(0,-1).reverse()" :key="k"><span class="mini">{{ fmtTs(x.em) }} · {{ x.por==='PLANILHA'?'Planilha':nome(x.por) }}</span><div>{{ x.texto }}</div></div></div></div>
           <div class="conf-box" v-if="P.conferir&&P.conferir.pendente"><i class="pi pi-sparkles"></i><div><b>Projeto criado pelo Agente IA a partir do e-mail de nomeação<span v-if="P.kom||P.rfqArq"> e {{ [P.kom?'da ficha KOM':'',P.rfqArq?'da planilha RFQ':''].filter(Boolean).join(' e ') }}</span>.</b> O N° APQP {{ P.apqp }} foi sugerido pelo sistema. Confira e informe <b>N° CI</b>, <b>líder</b><span v-if="P.conferir.campos.filter(c=>!['ci','lider'].includes(c)).length"> e os campos vazios ({{ P.conferir.campos.filter(c=>!['ci','lider'].includes(c)).map(c=>({pnCliente:'PN cliente',familia:'família',contatoCliente:'contato',ppapAcordado:'PPAP',sop:'SOP',ccvEstimado:'CCV'}[c]||c)).join(', ') }})</span>. Anexe os documentos na aba “Nomeação”.</div>
             <Button label="Conferir cadastro" icon="pi pi-check-square" size="small" :disabled="!pode('cadastro',P.apqp)" @click="abrirEditarCadastro"/></div>
         </div>
         <div class="pj-k">
-          <div class="pk clk" @click="ui.projTab='chk'" v-tooltip.top="'Ver documentos dos gates'"><div v-html="ring2SVG(pctEntregue(P),pctProjeto(P))"></div><div><div class="pk-t">Evolução</div><div class="pk-l"><i style="background:#1b3d79"></i>validado <b>{{ pctTxt(pctProjeto(P)) }}</b></div><div class="pk-l"><i style="background:#a9cbe6"></i>entregue <b>{{ pctTxt(pctEntregue(P)) }}</b></div></div></div>
+          <div class="pk clk" @click="ui.projTab='chk'" v-tooltip.top="'Ver documentos dos gates'"><div v-html="ring2SVG(pctEntregue(P),pctProjeto(P))"></div><div><div class="pk-t">Evolução</div><div class="pk-l"><i style="background:#1b3d79"></i>validado <b>{{ pctTxt(pctProjeto(P)) }}</b></div><div class="pk-l"><i style="background:#c9d3e4"></i>entregue <b>{{ pctTxt(pctEntregue(P)) }}</b></div></div></div>
           <div class="pk clk" @click="abrirGate(P,gateDoPPAP(P),true)" v-tooltip.top="'Ver o gate do PPAP'" :class="P.ppapAprovadoEm?'ok':(dias(P.ppapAcordado)<0?'venc':(dias(P.ppapAcordado)<=15?'aten':''))"><span class="pk-ic"><i class="pi pi-flag"></i></span><div><div class="pk-t">PPAP</div><div class="pk-v">{{ P.ppapAprovadoEm ? 'Aprovado' : contagem(P.ppapAcordado) }}</div><div class="pk-d">{{ P.ppapAprovadoEm ? 'em '+fmt(P.ppapAprovadoEm) : 'acordado '+fmt(P.ppapAcordado) }}</div></div></div>
           <div class="pk clk" @click="abrirGate(P,P.gates.length-1,true)" v-tooltip.top="'Ver o gate do SOP'" :class="dias(P.sop)<0?'venc':(dias(P.sop)<=15?'aten':'')"><span class="pk-ic"><i class="pi pi-play"></i></span><div><div class="pk-t">SOP</div><div class="pk-v">{{ contagem(P.sop) }}</div><div class="pk-d">{{ fmt(P.sop) }}</div></div></div>
         </div>
@@ -12720,20 +12934,20 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
         <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#eaeef5;color:#1b3d79"><i class="pi pi-id-card"></i></span>Identificação</div>
           <div class="pc-g"><div><label>N° RFQ</label>{{ P.rfq }}</div><div><label>N° CI</label>{{ P.ci }}</div><div><label>PN cliente</label>{{ P.pnCliente || '—' }}</div><div><label>Contato cliente</label>{{ P.contatoCliente || '—' }}</div></div>
           <div class="pc-pasta"><i class="pi pi-folder-open"></i> {{ P.pasta }}<div class="mini">Pasta virtual (substitui a pasta da rede)</div></div></div>
-        <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#fbeee2;color:#d67c2f"><i class="pi pi-calendar"></i></span>Prazos</div>
+        <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#f6f7f9;color:#d67c2f"><i class="pi pi-calendar"></i></span>Prazos</div>
           <div class="tl-w"><div class="tl-line"></div>
             <div v-for="(m,k) in prazosLinha(P)" :key="m.t" class="tl-pt" :class="m.cls" :style="{left:(prazosLinha(P).length>1?k/(prazosLinha(P).length-1)*100:50)+'%'}"><i></i><b>{{ m.t }}</b><span>{{ fmt(m.d).slice(0,5) }}</span><em>{{ m.sub }}</em></div></div>
           <div class="mini" style="margin-top:4px">PPAP aprovado: <b>{{ P.ppapAprovadoEm?fmt(P.ppapAprovadoEm):'—' }}</b></div></div>
-        <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#f1f3d9;color:#6f7a12"><i class="pi pi-dollar"></i></span>Custo QCD</div>
+        <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#eef1f6;color:#1b3d79"><i class="pi pi-dollar"></i></span>Custo QCD</div>
           <div class="pc-g"><div><label>CCV estimado (RFQ)</label>{{ moeda(P.ccvEstimado) }}</div><div><label>CCV Run@Rate</label>{{ P.ccvRR?moeda(P.ccvRR):'—' }}</div></div>
           <div class="pc-ef"><span>Eficiência S2-1</span><b :class="effAbaixo(P)?'r':''">{{ P.ccvRR&&P.ccvEstimado ? pctTxt(P.ccvEstimado/P.ccvRR) : '—' }}</b>
             <span class="chip" :class="!P.ccvRR?'c-na':(effAbaixo(P)?'c-venc':'c-ok')">{{ !P.ccvRR ? 'Aguarda Run@Rate' : (effAbaixo(P)?'Abaixo da meta':'Na meta') }}</span></div></div>
-        <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#f7e3ee;color:#b31671"><i class="pi pi-shield"></i></span>Rastreabilidade</div>
+        <div class="pc"><div class="pc-h"><span class="pc-ic" style="background:#f6f7f9;color:#b31671"><i class="pi pi-shield"></i></span>Rastreabilidade</div>
           <div class="pc-g"><div><label>Origem</label>{{ P.origem.processo }}{{ P.origem.nomeacao?' · '+P.origem.nomeacao:'' }}</div><div><label>Via</label>{{ P.origem.via || 'Agente/registro' }}</div><div><label>Criado por</label>{{ nome(P.criadoPor) }}</div><div><label>Criado em</label>{{ fmtTs(P.criadoEm) }}</div><div><label>Revisão do cadastro</label>rev. {{ P.revisao }}</div><div><label>Alterações</label>{{ db.auditoria.filter(h=>h.apqp===P.apqp).length }} registros</div></div></div>
       </div>
 
       <div class="pj-eq"><span class="pj-lb">Equipe do projeto</span>
-        <span v-for="(v,a) in P.equipe" :key="a" class="eqp"><span class="av" :style="{background:a==='S2'?'#1b3d79':'#148ec2'}">{{ ini(nome(v)) }}</span><span class="chip c-blue">{{ a }}</span>{{ nome(v) }}</span></div>
+        <span v-for="(v,a) in P.equipe" :key="a" class="eqp"><span class="av" :style="{background:a==='S2'?'#1b3d79':'#5b78a8'}">{{ ini(nome(v)) }}</span><span class="chip c-blue">{{ a }}</span>{{ nome(v) }}</span></div>
 
       <div class="stp">
         <div v-for="(g,gi) in P.gates" :key="g.codigo" class="st" :class="pilula(P,gi)" @click="ui.gateAberto[gi]=true">
@@ -12780,9 +12994,11 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
                 <Column header="Data planejada" style="width:105px"><template #body="{data}">{{ fmt(data.dataPlanejada) }}<div class="mini venc" v-if="data.aplica && ['PEND','NOK'].includes(data.status) && dias(data.dataPlanejada)<0">{{ diasTxt(data.dataPlanejada) }}</div></template></Column>
                 <Column header="Status" style="width:140px"><template #body="{data}"><Tag class="tg" :class="'tg-'+(data.aplica?data.status.toLowerCase():'na')" :value="data.aplica?STATUS[data.status]:'Não aplicável'"/></template></Column>
                 <Column header="Documento anexado"><template #body="{data}"><span v-if="data.evidencia"><span class="linkarq" @click="abrirArquivo(data.evidencia)"><i :class="iconeArq(data.evidencia)"></i> {{ data.evidencia.arquivo }}</span> <span class="chip">v{{ data.evidencia.versao||1 }}</span> <a v-if="(data.versoes||[]).length>1" href="#" class="mini" @click.prevent="verVersoes(data)">{{ data.versoes.length }} versões</a>
+                  <div v-for="x in (data.evidencia.extras||[])" :key="x.arquivoId" class="ev-x"><span class="linkarq" @click="abrirArquivo(x)"><i :class="iconeArq(x)"></i> {{ x.arquivo }}</span><i class="pi pi-download" v-tooltip.top="'Baixar'" @click="baixarArquivo(x)"></i><i v-if="data.status==='ENT' && (x.por===usuario.id||pode('validar'))" class="pi pi-times" v-tooltip.top="'Retirar antes da validação'" @click="retirarExtra(P,data,x)"></i></div>
                   <div class="mini">anexado por {{ nome(data.evidencia.por) }} · {{ fmtTs(data.evidencia.em) }}<span v-if="data.evidencia.tamanho"> · {{ tamTxt(data.evidencia.tamanho) }}</span></div><div class="mini" v-if="data.validacao">{{ data.status==='OK'?'validado':'avaliado' }} por {{ nome(data.validacao.por) }} · {{ fmtTs(data.validacao.em) }}</div></span><span v-else class="mini">—</span></template></Column>
-                <Column header="" style="width:150px"><template #body="{data}"><span v-if="data.aplica && !g.aprovacao">
-                  <Button icon="pi pi-upload" text size="small" v-tooltip="'Anexar documento (PDF/Excel)'" :disabled="!pode('anexar',P.apqp)||data.status==='OK'||data.status==='NA'" @click="anexar(P,g,data)"/>
+                <Column header="" style="width:180px"><template #body="{data}"><span v-if="data.aplica && !g.aprovacao">
+                  <Button icon="pi pi-upload" text size="small" v-tooltip="data.status==='ENT'?'Nova entrega (substitui; vira nova versão)':'Anexar documento (PDF/Excel)'" :disabled="!pode('anexar',P.apqp)||data.status==='OK'||data.status==='NA'" @click="anexar(P,g,data)"/>
+                  <Button v-if="data.status==='ENT'" icon="pi pi-plus" text size="small" v-tooltip="'Anexar mais um arquivo nesta entrega'" :disabled="!pode('anexar',P.apqp)" @click="anexarMais(P,g,data)"/>
                   <Button icon="pi pi-check" text size="small" v-tooltip="'Validar (OK)'" :disabled="!pode('validar')||data.status!=='ENT'" @click="validar(P,data)"/>
                   <Button icon="pi pi-times" text severity="danger" size="small" v-tooltip="'Rejeitar (NOK)'" :disabled="!pode('validar')||data.status!=='ENT'" @click="abrirRejeitar(P,data)"/>
                   <Button icon="pi pi-pencil" text size="small" v-tooltip="'Data, responsável, comentário, N/A'" :disabled="!(pode('anexar',P.apqp)||pode('na',P.apqp))" @click="abrirEditarItem(P,data)"/>
@@ -12939,7 +13155,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
       <div class="ad-blk n2" v-if="ui.ad.a.n2"><b><i class="pi pi-arrow-up"></i> N2 · gerência</b> — escalonada em {{ fmtTs(ui.ad.a.n2.em) }} por {{ nome(ui.ad.a.n2.por) }} · prazo N2 {{ fmt(ui.ad.a.n2.prazo) }}
         <div v-if="ui.ad.a.n2.decisao" class="mini">Decisão: <b>{{ ui.ad.a.n2.decisao }}</b> · {{ nome(ui.ad.a.n2.decididoPor) }} · {{ fmtTs(ui.ad.a.n2.decididoEm) }}</div></div>
       <div class="ad-blk n3" v-if="ui.ad.a.n3"><b><i class="pi pi-angle-double-up"></i> N3 · direção</b> — {{ nome(ui.ad.a.n3.por) }} · {{ fmtTs(ui.ad.a.n3.em) }}<div class="mini">Justificativa: {{ ui.ad.a.n3.justificativa }}</div><div class="mini" v-if="ui.ad.a.n3.decisao">Tratativa da direção: <b>{{ ui.ad.a.n3.decisao }}</b></div></div>
-      <div class="pc-h" style="margin-top:12px"><span class="pc-ic" style="background:#fbeee2;color:#d67c2f"><i class="pi pi-calendar-clock"></i></span>Histórico de prazos</div>
+      <div class="pc-h" style="margin-top:12px"><span class="pc-ic" style="background:#f6f7f9;color:#d67c2f"><i class="pi pi-calendar-clock"></i></span>Histórico de prazos</div>
       <DataTable :value="ui.ad.a.reprogramacoes" size="small"><template #empty><span class="mini">Sem reprogramações.</span></template>
         <Column header="#"><template #body="{index}"><span class="chip" :class="index+1>=db.parametros.reprogramacoesParaN2?'c-n2':'c-blue'">{{ index+1 }}ª</span></template></Column>
         <Column header="De → para"><template #body="{data}">{{ fmt(data.de) }} → <b>{{ fmt(data.para) }}</b></template></Column>
@@ -13384,9 +13600,10 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
       <div v-if="ui.cp.modo==='editar'"><label>PPAP aprovado pelo cliente em</label><DatePicker v-model="ui.cp.f.ppapAprD" dateFormat="dd/mm/yy" showIcon showButtonBar/></div>
       <div v-if="ui.cp.modo==='editar'"><label>Próximo evento</label><span style="display:flex;gap:6px"><InputText v-model="ui.cp.f.proxDesc" placeholder="descrição"/><DatePicker v-model="ui.cp.f.proxD" dateFormat="dd/mm/yy"/></span></div>
       <div class="full" v-if="ui.cp.modo==='editar'"><label>Equipe do projeto — responsável por área (pessoa cadastrada com e-mail)</label>
-        <div class="equipe eq-ed"><div v-for="a in Object.keys(ui.cp.f.equipe||{})" :key="a"><label>{{ a }}</label><Select v-model="ui.cp.f.equipe[a]" :options="pessoasArea(a)" optionLabel="nome" optionValue="id" filter size="small" style="width:100%" placeholder="Selecione">
+        <div class="equipe eq-ed"><div v-for="a in Object.keys(ui.cp.f.equipe||{})" :key="a"><label style="display:flex;align-items:center">{{ a }}<i class="pi pi-times eq-x" v-tooltip.top="'Retirar a área '+a+' da equipe'" @click="retirarAreaEq(a)"></i></label><Select v-model="ui.cp.f.equipe[a]" :options="pessoasArea(a)" optionLabel="nome" optionValue="id" filter size="small" style="width:100%" placeholder="Selecione">
           <template #option="{option}"><div class="ps-o"><b>{{ option.nome }}</b><small>{{ option.email }} · {{ nomeArea(option.area) }}</small></div></template>
-        <template #footer><div class="ps-new" v-if="pode('resp')"><Button text size="small" icon="pi pi-user-plus" label="Cadastrar novo responsável" @click="novoResp(id=>ui.cp.f.equipe[a]=id,null,a)"/></div></template></Select></div></div></div>
+        <template #footer><div class="ps-new" v-if="pode('resp')"><Button text size="small" icon="pi pi-user-plus" label="Cadastrar novo responsável" @click="novoResp(id=>ui.cp.f.equipe[a]=id,null,a)"/></div></template></Select></div></div>
+        <div class="eq-add" v-if="areasForaEquipe.length"><Select v-model="ui.cp.novaArea" :options="areasForaEquipe" optionLabel="t" optionValue="v" placeholder="+ Incluir área" size="small" style="width:240px" @change="incluirAreaEq(ui.cp.novaArea)"/><span class="mini">Escolha a área e depois a pessoa responsável. O × retira a área da equipe.</span></div></div>
     </div>
     <div class="nota" v-if="ui.cp.modo!=='editar'">Pasta virtual: <b>APQP {{ (ui.cp.f.apqp||'').replace('/','-') }} · {{ ui.cp.f.cliente }} · {{ ui.cp.f.pnCliente||'PN' }} · {{ ui.cp.f.ci }}</b><br>Checklist gerado: {{ itensAplicaveisModelo() }} itens do modelo ({{ blocantesModelo() }} blocantes; o que não se aplicar é marcado N/A no projeto), datas distribuídas até o PPAP{{ ui.cp.f.ppapD?'':' (sem PPAP: 180 dias)' }}. O líder recebe um alerta de novo projeto.</div>
     <div class="nota" v-else>Cada campo alterado fica registrado no histórico (de → para) e a revisão do cadastro é incrementada.</div>
@@ -13439,13 +13656,13 @@ const AREAS_EQUIPE = ['S1','S2','S3','S4','M2','TQM','R3','R4'];
 const NOME_AREA = {S1:'S1 - COMERCIAL',S2:'S2 - ENGENHARIA',S3:'S3 - COMPRAS',S4:'S4 - MANUTENÇÃO',S5:'S5 - RECURSOS HUMANOS',R3:'R3 - PRODUÇÃO',R4:'R4 - LOGÍSTICA',TQM:'TQM - QUALIDADE',M2:'M2 - DIREÇÃO'};
 const nomeArea = a => NOME_AREA[a] || a || '—';
 const AREAS_USU = ['S1','S2','S3','S4','S5','R3','R4','TQM','M2'].map(a=>({v:a,t:NOME_AREA[a]}));
-const COLUNAS = [{id:'AFAZER',t:'A fazer',cor:'#869199'},{id:'ANDAMENTO',t:'Em andamento',cor:'#148ec2'},{id:'VALIDACAO',t:'Validação',cor:'#d67c2f'},{id:'FEITO',t:'Feito',cor:'#a4ae2d'}];
+const COLUNAS = [{id:'AFAZER',t:'A fazer',cor:'#869199'},{id:'ANDAMENTO',t:'Em andamento',cor:'#5b78a8'},{id:'VALIDACAO',t:'Validação',cor:'#3f5f95'},{id:'FEITO',t:'Feito',cor:'#1b3d79'}];
 const CAMPOS_NOM = [{k:'rfq',t:'N° RFQ'},{k:'cliente',t:'Cliente'},{k:'projeto',t:'Projeto'},{k:'familia',t:'Família'},{k:'pnCliente',t:'PN cliente'},{k:'ppapAcordado',t:'PPAP',d:1},{k:'sop',t:'SOP',d:1},{k:'ccvEstimado',t:'CCV estimado',m:1},{k:'contatoCliente',t:'Contato'}];
 const NAV = [
  {id:'painel',nome:'Gestão',icon:'pi-chart-bar',grupo:'Gestão'},{id:'alertas',nome:'Alertas',icon:'pi-bell',grupo:'Gestão'},{id:'notificacoes',nome:'Notificações',icon:'pi-send',grupo:'Gestão'},
  {id:'nomeacoes',nome:'Nomeações (IA)',icon:'pi-sparkles',grupo:'Execução'},{id:'projetos',nome:'Projetos',icon:'pi-folder',grupo:'Execução'},
  {id:'sprint',nome:'Sprint e backlog',icon:'pi-th-large',grupo:'Execução'},{id:'acoes',nome:'Ações',icon:'pi-flag',grupo:'Execução'},{id:'meios',nome:'Meios de controle e produção',icon:'pi-wrench',grupo:'Execução'},{id:'amostras',nome:'Amostras em desenvolvimento',icon:'pi-box',grupo:'Execução'},
- {id:'interfaces',nome:'Interfaces',icon:'pi-arrow-right-arrow-left',grupo:'Referência'},{id:'historico',nome:'Histórico',icon:'pi-history',grupo:'Referência'},
+{id:'historico',nome:'Histórico',icon:'pi-history',grupo:'Referência'},
  {id:'regras',nome:'Regras',icon:'pi-book',grupo:'Referência'},{id:'config',nome:'Configuração',icon:'pi-cog',grupo:'Referência'}];
 const GRUPOS = ['Gestão','Execução','Referência'];
 const CAT_MEIO = {'Controle':['Dispositivo de controle','Gabarito','Calibrador'],'Produção':['Máquina','Estação de montagem','Linha de produção'],'Ferramenta':['Molde','Matriz','Estampo']};
@@ -13459,7 +13676,7 @@ const TIPOS_EVID = ['Laudo de medição','Validação de montagem','Liberação 
 const FORN_PADRAO = 'Fornecedora Delta (fictícia)';
 /* ---------- v17: Amostras (S2-K) — constantes ---------- */
 const SOLICITANTES_AM = ['Cliente','Fornecedor','S2-A (APQP)','S2-B (PPAP)'];
-const STATUS_AM = [{t:'Em andamento',c:'#148ec2'},{t:'Pendente',c:'#d67c2f'},{t:'Aguardando retorno',c:'#c98a2e'},{t:'Concluído',c:'#a4ae2d'}];
+const STATUS_AM = [{t:'Em andamento',c:'#5b78a8'},{t:'Pendente',c:'#d67c2f'},{t:'Aguardando retorno',c:'#5b78a8'},{t:'Concluído',c:'#1b3d79'}];
 const GUT_OPC = [1,3,5];
 const M6_KEYS = ['MP','MO','MQ','MA','MD','MT'];
 const M6_OPC = ['Pendente','Ok','Nok','N/A'];
@@ -13483,7 +13700,7 @@ const PAGINAS = {
  interfaces:{t:'Interfaces',d:'O que chega de cada processo e o que sai para cada processo, por projeto.'},
  historico:{t:'Histórico de alterações',d:'Trilha de auditoria: quem, quando, o quê, de → para.'},
  regras:{t:'Regras e funcionamento',d:'Como o sistema funciona e as regras de cada etapa.'},
- config:{t:'Configuração',d:'Modelo de gates, parâmetros, responsáveis e e-mails, perfis e dados (JSON).'}};
+ config:{t:'Configuração',d:'Fluxograma, modelo de gates, interfaces, parâmetros, responsáveis e e-mails, perfis e dados (JSON).'}};
 const VERSOES = [
  {v:'v14', data:'21/10/2026', itens:['Janela do projeto sem a aba “Interfaces”; as interfaces continuam nos dados, nas etiquetas ←/→ de cada documento e na página Interfaces do menu']},
  {v:'v13', data:'21/10/2026', itens:['Nome exibido no cabeçalho, na aba do navegador e nos e-mails do agente: “Gestão de Projetos APQP” (nome oficial do protótipo no índice continua PainelGerencialAPQP)','Página inicial e item do menu renomeados de “Visão geral” para “Gestão”; texto de apoio abaixo do título removido','“Indicadores de acompanhamento” passa a “KPIs de acompanhamento”, sem o ícone de olho']},
@@ -13572,6 +13789,7 @@ function migrarV1paraV2(db){
   db.nomeacoes.forEach(m=>{ if(!m.textoOriginal) m.textoOriginal='(e-mail não armazenado na v1)'; if(!m.lidoEm) m.lidoEm=m.recebidoEm; if(!m.confianca) m.confianca={}; });
   (db.usuarios||[]).forEach(u=>{ if(u.area==='Diretoria') u.area='M2'; });
   if(db.parametros.metaPPAPNoPrazo==null) db.parametros.metaPPAPNoPrazo=100;
+  if(db.parametros.diasSemAtualizacaoPassos==null) db.parametros.diasSemAtualizacaoPassos=7;
   try{ const sp=JSON.parse(localStorage.getItem('pga.parametros')||'null'); if(sp&&typeof sp==='object') Object.assign(db.parametros,sp); }catch(e){}
   db.agenteNomeacoes = db.agenteNomeacoes || {nome:'Agente de nomeações (IA)',fonte:'Outlook – caixa da Analista APQP (Microsoft 365)',filtro:"Remetente do Comercial (S1) e assunto contendo 'Nomeação'",frequencia:'A cada hora, em dias úteis',situacao:'Simulado no v2',ultimaLeitura:null};
   db.integracoesExternas = db.integracoesExternas || [{codigo:'S2-K',nome:'Gestão de Amostras (painel próprio)',situacao:'A integrar'},{codigo:'TQM-G',nome:'Gestão de dispositivos de controle',situacao:'A integrar'}];
@@ -13631,7 +13849,7 @@ const app = Vue.createApp({
     const ui = reactive({ usuarioId:'U01', aba:'painel', sec:null, alertas:false, projAberto:false, projSel:null, gateAberto:{}, modeloAberto:{0:true}, verEmail:{},
       det:{vis:false,titulo:'',colunas:[],linhas:[],nota:'',filtro:null}, ag:{vis:false,pend:[]}, rp:{vis:false}, hp:{vis:false}, n3:{vis:false}, n2:{vis:false}, tr:{vis:false},
       na:{vis:false}, nr:{vis:false,id:null,nome:'',email:'',area:'S2',tipo:'COLAB',cb:null}, novoMenu:false, fx:{modo:'bpmn',i:0,z:1}, pr:{vis:false,c:null,ag:null,esforco:'Baixo',ajustada:null,motivo:''}, oo:{txt:''}, tb:{vis:false,x:null,p:null,it:null,g:null,txt:'',prazo:null}, ev:{vis:false,m:null,sel:0,url:null,erro:null,anx:{vis:false,file:null,titulo:'',tipo:'',ref:''},rm:{vis:false,motivo:''}}, it:{vis:false}, rj:{vis:false}, vs:{vis:false}, ng:{vis:false}, nd:{tipo:'KOM'}, rg:{perfil:null}, eg:{vis:false,g:null,nome:''}, ni:{vis:false}, cp:{vis:false,f:{}}, ex:{vis:false}, ds:{vis:false}, pl:{vis:false},
-      sprintSel:null, cfgTab:'modelo', crMais:false, nmFil:'todas', nmAberto:{}, nmComo:false, alMais:{}, acompOculto:(()=>{ try{ return localStorage.getItem('pga.acomp')==='oculto'; }catch(e){ return false; } })(), menu:(()=>{ try{ const m=localStorage.getItem('pga.menu'); return m==='oculto'?'oculto':'aberto'; }catch(e){ return 'aberto'; } })(), gerFiltro:null, nt:{vis:false,n:null}, destaqueItem:null, ad:{vis:false,a:null}, mn2:{vis:false}, projTab:'chk', destaque:null, gtFiltro:'todos', gtLider:null, dragOver:null, arrastando:null, backlogAberto:true,
+      sprintSel:null, cfgTab:'modelo', ps:{vis:false,p:null,txt:'',hist:false}, crMais:false, nmFil:'todas', nmAberto:{}, nmComo:false, alMais:{}, acompOculto:(()=>{ try{ return localStorage.getItem('pga.acomp')==='oculto'; }catch(e){ return false; } })(), menu:(()=>{ try{ const m=localStorage.getItem('pga.menu'); return m==='oculto'?'oculto':'aberto'; }catch(e){ return 'aberto'; } })(), gerFiltro:null, nt:{vis:false,n:null}, destaqueItem:null, ad:{vis:false,a:null}, mn2:{vis:false}, projTab:'chk', destaque:null, gtFiltro:'todos', gtLider:null, dragOver:null, arrastando:null, backlogAberto:true,
       alertasTxt: db.parametros.alertasPPAPSOP.join(', '), dataRefDate: paraData(db.parametros.dataReferencia) });
     const f = reactive({ mcCat:null, acPrio:null, vlApqp:null, vlPor:null, vlBlq:false, acOrigem:null, rBusca:'', rTipo:null, rInat:false, intSit:null, an:{apqp:null,g:null,st:null,resp:null,busca:'',so:false,tab:'a'}, busca:'', cliente:null, lider:null, gate:null, sem:null, concluidos:false, excluidos:false, bkTipo:null,
       acNivel:null, acStatus:null, acApqp:null, acVencidas:false, intApqp:'101/26', sp7:false, acGrp:{}, ntSit:null, ntPara:null, ntEv:null, alFaixa:null, alCat:null, alApqp:null, acModo:'Por projeto', acAberto:{}, hBusca:'', hApqp:null, spResp:null, spVenc:false, spAtr:false });
@@ -13873,13 +14091,13 @@ const app = Vue.createApp({
     function pilula(p,gi){ const g=p.gates[gi]; if(g.aprovacao) return 'done'; if(gi===gateAtualIdx(p)) return (g.dataPrevista && dias(g.dataPrevista)<0)?'late':'cur'; return 'fut'; }
     /* Gráficos SVG desenhados no próprio HTML (cores do Brand Book CGR) */
     function ringSVG(pct, cor, meta, centro, sub){ const r=46, c=2*Math.PI*r, v=Math.max(0,Math.min(1,pct||0));
-      let s='<svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="'+centro+' '+sub+'"><circle cx="60" cy="60" r="'+r+'" fill="none" stroke="#e3e8ec" stroke-width="12"/>';
+      let s='<svg viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="'+centro+' '+sub+'"><circle cx="60" cy="60" r="'+r+'" fill="none" stroke="#d8dfe9" stroke-width="12"/>';
       s+='<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="'+cor+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+(c*v)+' '+c+'" transform="rotate(-90 60 60)"/>';
       if(meta!=null){ const a=(meta*360-90)*Math.PI/180; s+='<line x1="'+(60+38*Math.cos(a))+'" y1="'+(60+38*Math.sin(a))+'" x2="'+(60+56*Math.cos(a))+'" y2="'+(60+56*Math.sin(a))+'" stroke="#1b3d79" stroke-width="3"/>'; }
-      s+='<text x="60" y="62" text-anchor="middle" font-size="22" font-weight="900" fill="'+(cor==='#a4ae2d'?'#1b3d79':cor)+'">'+centro+'</text><text x="60" y="80" text-anchor="middle" font-size="10" fill="#869199">'+sub+'</text></svg>'; return s; }
+      s+='<text x="60" y="62" text-anchor="middle" font-size="22" font-weight="900" fill="'+(cor==='#1b3d79'?'#1b3d79':cor)+'">'+centro+'</text><text x="60" y="80" text-anchor="middle" font-size="10" fill="#869199">'+sub+'</text></svg>'; return s; }
     function gaugeSVG(pct, meta){ const min=0.7, max=1.3; const ang=v=>Math.PI*(1-(Math.max(min,Math.min(max,v))-min)/(max-min)); const P=(v,r)=>[80+r*Math.cos(ang(v)),82-r*Math.sin(ang(v))];
       const arco=(a,b,cor)=>{ const [x1,y1]=P(a,58),[x2,y2]=P(b,58); return '<path d="M'+x1+' '+y1+' A58 58 0 0 1 '+x2+' '+y2+'" fill="none" stroke="'+cor+'" stroke-width="14"/>'; };
-      let s='<svg viewBox="0 0 160 110" width="170" height="117" role="img" aria-label="Eficiência QCD">'+arco(min,meta-0.05,'#f7e3ee')+arco(meta-0.05,meta,'#fbeee2')+arco(meta,max,'#f1f3d9');
+      let s='<svg viewBox="0 0 160 110" width="170" height="117" role="img" aria-label="Eficiência QCD">'+arco(min,meta-0.05,'#d8dfe9')+arco(meta-0.05,meta,'#d8dfe9')+arco(meta,max,'#d8dfe9');
       const [mx1,my1]=P(meta,48),[mx2,my2]=P(meta,68); s+='<line x1="'+mx1+'" y1="'+my1+'" x2="'+mx2+'" y2="'+my2+'" stroke="#1b3d79" stroke-width="2" stroke-dasharray="3 2"/>';
       if(pct!=null){ const [nx,ny]=P(pct,50); s+='<line x1="80" y1="82" x2="'+nx+'" y2="'+ny+'" stroke="'+(pct>=meta?'#1b3d79':'#d67c2f')+'" stroke-width="4" stroke-linecap="round"/>'; }
       s+='<circle cx="80" cy="82" r="6" fill="#1b3d79"/><text x="80" y="106" text-anchor="middle" font-size="20" font-weight="900" fill="'+(pct!=null&&pct<meta?'#d67c2f':'#1b3d79')+'">'+(pct==null?'—':(pct*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%')+'</text>';
@@ -13919,8 +14137,8 @@ const app = Vue.createApp({
       if(p.sop) L.push({t:'SOP',d:p.sop,cls:'sop',sub:diasTxt(p.sop)});
       return L.sort((a,b)=>a.d<b.d?-1:1); }
     function ring2SVG(ent, val){ const c1=2*Math.PI*36, c2=2*Math.PI*25;
-      return '<svg viewBox="0 0 90 90" width="78" height="78" role="img" aria-label="Evolução"><circle cx="45" cy="45" r="36" fill="none" stroke="#eef1f5" stroke-width="8"/><circle cx="45" cy="45" r="36" fill="none" stroke="#a9cbe6" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+(c1*ent)+' '+c1+'" transform="rotate(-90 45 45)"/>'
-        +'<circle cx="45" cy="45" r="25" fill="none" stroke="#eef1f5" stroke-width="8"/><circle cx="45" cy="45" r="25" fill="none" stroke="#1b3d79" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+(c2*val)+' '+c2+'" transform="rotate(-90 45 45)"/>'
+      return '<svg viewBox="0 0 90 90" width="78" height="78" role="img" aria-label="Evolução"><circle cx="45" cy="45" r="36" fill="none" stroke="#d8dfe9" stroke-width="8"/><circle cx="45" cy="45" r="36" fill="none" stroke="#c9d3e4" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+(c1*ent)+' '+c1+'" transform="rotate(-90 45 45)"/>'
+        +'<circle cx="45" cy="45" r="25" fill="none" stroke="#d8dfe9" stroke-width="8"/><circle cx="45" cy="45" r="25" fill="none" stroke="#1b3d79" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+(c2*val)+' '+c2+'" transform="rotate(-90 45 45)"/>'
         +'<text x="45" y="50" text-anchor="middle" font-size="15" font-weight="900" fill="#1b3d79">'+Math.round(val*100)+'%</text></svg>'; }
     /* ---------- Gantt v5: fases por gate (início = data prevista do gate anterior) ---------- */
     const gantt5 = computed(()=>{
@@ -13971,7 +14189,7 @@ const app = Vue.createApp({
 
     /* ---------- v9: página de Alertas e navegação direta ao item ---------- */
     const faixaAlerta = a => a.cat==='blq' ? 'venc' : (a.cat==='novo' ? 'novo' : (a.dias<0 ? 'venc' : (a.dias<=db.parametros.avisoGerenciaDias ? 'd2' : (a.dias<=7 ? 'd7' : (a.dias<=15 ? 'd15' : 'd30')))));
-    const FAIXAS = [{id:'venc',t:'Vencidos',c:'#b31671',i:'pi-exclamation-circle'},{id:'d2',t:'D-2 gerência',c:'#d67c2f',i:'pi-briefcase'},{id:'d7',t:'D-7',c:'#c98a2e',i:'pi-clock'},{id:'d15',t:'D-15',c:'#148ec2',i:'pi-calendar'},{id:'d30',t:'D-30',c:'#1b3d79',i:'pi-calendar-plus'}];
+    const FAIXAS = [{id:'venc',t:'Vencidos',c:'#b31671',i:'pi-exclamation-circle'},{id:'d2',t:'D-2 gerência',c:'#1b3d79',i:'pi-briefcase'},{id:'d7',t:'D-7',c:'#3f5f95',i:'pi-clock'},{id:'d15',t:'D-15',c:'#7d93b8',i:'pi-calendar'},{id:'d30',t:'D-30',c:'#a9b8d0',i:'pi-calendar-plus'}];
     const CATS = [{v:'prazo',t:'PPAP / SOP',i:'pi-flag'},{v:'doc',t:'Documentos',i:'pi-file'},{v:'acao',t:'Ações',i:'pi-check-square'},{v:'blq',t:'Avanço sem blocante',i:'pi-ban'},{v:'meio',t:'Meios de controle e produção',i:'pi-wrench'},{v:'amostra',t:'Amostras',i:'pi-box'}];
     const contFaixa = computed(()=>{ const c={}; FAIXAS.forEach(x=>c[x.id]=0); alertasUsuario.value.forEach(a=>c[faixaAlerta(a)]++); return c; });
     const alertasFiltrados = computed(()=> alertasUsuario.value.filter(a=>(!f.alFaixa||faixaAlerta(a)===f.alFaixa)&&(!f.alCat||a.cat===f.alCat)&&(!f.alApqp||a.apqp===f.alApqp)));
@@ -14144,7 +14362,7 @@ const app = Vue.createApp({
     // Coluna derivada do status real: ação/documento validado = Feito; aguardando validação = Validação
     function colunaDe(si){ const c=resolverRef(si.ref,si); if(!c) return si.coluna;
       if(c.tipo==='ACAO'){ return {CONCLUIDA:'FEITO',VALIDACAO:'VALIDACAO',ANDAMENTO:'ANDAMENTO',ABERTA:'AFAZER'}[c.obj.status]; }
-      if(c.obj.status==='OK'||c.obj.status==='NA') return 'FEITO'; if(c.obj.status==='ENT') return 'VALIDACAO'; return si.coluna==='ANDAMENTO'?'ANDAMENTO':'AFAZER'; }
+      if(c.obj.status==='OK'||c.obj.status==='NA') return 'FEITO'; if(c.obj.status==='ENT') return 'VALIDACAO'; return si.coluna==='ANDAMENTO'?'ANDAMENTO':(si.coluna==='VALIDACAO'?'VALIDACAO':'AFAZER'); }
     const cartoesSprint = (s,col) => s ? s.itens.filter(i=>colunaDe(i)===col).map(i=>resolverRef(i.ref,i)).filter(Boolean) : [];
     const cartoesFiltrados = col => cartoesSprint(sprintSel.value,col).filter(k=>(!f.spResp||k.resp===f.spResp)&&(!f.spVenc||(!k.done&&k.prazo&&dias(k.prazo)<0))&&(!f.sp7||(!k.done&&k.prazo&&dias(k.prazo)>=0&&dias(k.prazo)<=7))&&(!f.spAtr||(k.carryOver>0&&!k.done)));
     function saude(s){ if(!s) return {total:0,feitas:0,pct:0}; const t=s.itens.length; const fz=s.itens.filter(i=>colunaDe(i)==='FEITO').length; return {total:t,feitas:fz,pct:t?Math.round(fz/t*100):0}; }
@@ -14176,13 +14394,23 @@ const app = Vue.createApp({
       if(c.tipo==='ACAO'){
         if(col==='FEITO') return concluirAcao(c.obj);
         mudarStatusAcao(c.obj,{AFAZER:'ABERTA',ANDAMENTO:'ANDAMENTO',VALIDACAO:'VALIDACAO'}[col],'Cartão movido na sprint '+s.id);
+        if(col==='VALIDACAO' && !(c.obj.evidencias||[]).length){ toast('info','Cartão em “Validação”','Anexe a evidência da ação.'); anexarEvidAcao(c.obj); }
       } else {
         const it=c.obj;
-        if(col==='FEITO'){ if(it.status!=='ENT'){ toast('warn','Documento sem anexo','O documento precisa estar entregue (em Validação) para ser validado.'); return; } validar(c.p,it); }
-        else if(col==='VALIDACAO'){ if(it.status!=='ENT'){ anexar(c.p,c.g,it); toast('info','Anexe o documento','O cartão vai para “Validação” depois do anexo.'); return; } }
+        if(col==='FEITO'){ if(it.status!=='ENT'){ toast('warn','Falta evidência','Anexe a evidência antes de validar (botão “Anexar” no cartão).'); return; } validar(c.p,it); }
+        else if(col==='VALIDACAO'){ si.coluna='VALIDACAO'; log('Sprint',s.id,c.apqp,'Cartão movido: '+ref,'coluna',de,col); if(it.status!=='ENT'){ toast('info','Cartão em “Validação”','Anexe a evidência do documento.'); anexar(c.p,c.g,it); } }
         else { if(it.status==='ENT'||it.status==='OK'){ toast('warn','Documento já entregue','Para voltar, a Analista deve rejeitar o documento.'); return; } si.coluna=col; log('Sprint',s.id,c.apqp,'Cartão movido: '+ref,'coluna',de,col); }
       }
     }
+    // v58: evidência da ação (anexada ao mover para Validação ou pelo botão do cartão)
+    function anexarEvidAcao(a){ escolherArquivo(async file=>{ if(file.size>25*1024*1024){ toast('error','Arquivo muito grande','Limite do protótipo: 25 MB'); return; }
+        const id='ARQ-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+        await IDB.put({id,nome:file.name,tipo:file.type,tamanho:file.size,blob:file,apqp:a.apqp,itemId:a.id,versao:1,por:usuario.value.id,em:agoraISO()});
+        a.evidencias=[...(a.evidencias||[]),{arquivo:file.name,arquivoId:id,tipo:file.type,tamanho:file.size,por:usuario.value.id,em:agoraISO()}];
+        log('Ação',a.id,a.apqp,'Evidência anexada: '+file.name); toast('info','Evidência anexada',file.name); }, ACEITOS); }
+    function evidCard(k){ if(k.tipo==='ITEM'){ const it=k.obj; if(!it.evidencia||!(it.status==='ENT'||it.status==='OK')) return null; return {ev:it.evidencia,n:(it.evidencia.extras||[]).length}; }
+      const L=k.obj.evidencias||[]; return L.length?{ev:L[L.length-1],n:L.length-1}:null; }
+    function anexarCard(k){ if(k.tipo==='ITEM') anexar(k.p,k.g,k.obj); else anexarEvidAcao(k.obj); }
     function soltarBacklog(){ ui.dragOver=null; const d=ui.arrastando; ui.arrastando=null; if(!d||d.de!=='sprint') return;
       if(!pode('sprint')){ toast('warn','Sem permissão','Somente a Analista APQP planeja a sprint.'); return; }
       const s=sprintAtiva.value; const i=s.itens.findIndex(x=>x.ref===d.ref); if(i<0) return; if(colunaDe(s.itens[i])==='FEITO'){ toast('warn','Concluído','Cartão concluído não volta ao backlog.'); return; }
@@ -14352,6 +14580,7 @@ const app = Vue.createApp({
         const p=ui.cp.ref; let mud=0;
         const novo={rfq:F.rfq,ci:F.ci,cliente:F.cliente,projeto:F.projeto,pnCliente:F.pnCliente,familia:F.familia,lider:F.lider,contatoCliente:F.contatoCliente,ppapAcordado:iso(F.ppapD),sop:iso(F.sopD),ccvEstimado:F.ccvEstimado,ccvRR:F.ccvRR||null,ppapAprovadoEm:iso(F.ppapAprD)};
         Object.entries(novo).forEach(([k,v])=>{ if((p[k]??null)!==(v??null)){ log('Projeto',p.apqp,p.apqp,'Cadastro alterado',k,p[k],v); p[k]=v; mud++; if(p.origemCampos) p.origemCampos[k]='Alterado por '+nome(usuario.value.id); if(k==='sop') p.sopEstimado=null; } });
+        Object.keys(p.equipe||{}).forEach(a=>{ if(F.equipe && !(a in F.equipe)){ log('Projeto',p.apqp,p.apqp,'Área retirada da equipe: '+a,'equipe.'+a,nome(p.equipe[a]),null); delete p.equipe[a]; mud++; } });
         Object.entries(F.equipe||{}).forEach(([a,v])=>{ if((p.equipe[a]||'')!==(v||'')){ log('Projeto',p.apqp,p.apqp,'Equipe alterada (área '+a+')','equipe.'+a,nome(p.equipe[a]),nome(v)); p.equipe[a]=v; mud++; } });
         const pe = F.proxDesc ? {descricao:F.proxDesc,data:iso(F.proxD)} : null;
         if(JSON.stringify(pe)!==JSON.stringify(p.proxEvento)){ log('Projeto',p.apqp,p.apqp,'Próximo evento alterado','proxEvento',p.proxEvento?p.proxEvento.descricao:null,pe?pe.descricao+' '+fmt(pe.data):null); p.proxEvento=pe; mud++; }
@@ -14436,14 +14665,14 @@ const app = Vue.createApp({
     }
 
     /* ---------- v16: Meios de controle (S2-J) e Amostras (S2-K) — somente consulta ---------- */
-    const COR_MEIO={atras:'#b31671',aten:'#d67c2f',aprov:'#1b3d79',prazo:'#148ec2',conc:'#6f7a12',lib:'#a4ae2d',cong:'#869199',canc:'#b8c0c8'};
+    const COR_MEIO={atras:'#b31671',aten:'#d67c2f',aprov:'#1b3d79',prazo:'#5b78a8',conc:'#1b3d79',lib:'#1b3d79',cong:'#869199',canc:'#b8c0c8'};
     const rowsMeios = computed(()=> meiosVisiveis.value.map(x=>{ const s=statusMeio(x); const dd=dias(x.prazoAtual); const at=meioAtivo(x)&&!x.liberado&&Number(x.pct)<100;
       return {_x:x, id:x.id, apqp:x.apqp, ci:ciMeio(x), descricao:x.descricao, tipo:x.tipo, etapa:x.etapa, fornecedor:x.fornecedor||'—', responsavel:x.responsavel,
         prazo:x.prazoAtual, prazoOriginal:x.prazoOriginal, reprogramacoes:(x.reprogramacoes||[]).length, pct:Number(x.pct||0)/100, pendencia:(x.pend||[]).join(', '),
         evidencias:(x.evidencias||[]).length, dd, st:s.t, k:s.k, cor:COR_MEIO[s.k]||'#869199', ativo:at, atrasado:s.k==='atras', vence7:at&&dd!==null&&dd>=0&&dd<=7,
         bloqueado:meioAtivo(x)&&meioPend(x), liberado:!!x.liberado}; }));
     const RAI_TXT = x => x.rai && x.rai.resultado ? x.rai.resultado : 'Sem RAI';
-    const COR_AM={atras:'#b31671',risco:'#d67c2f',sematu:'#b8862b',ent:'#6f7a12',ok:'#148ec2',conc:'#a4ae2d'};
+    const COR_AM={atras:'#b31671',risco:'#d67c2f',sematu:'#5b78a8',ent:'#1b3d79',ok:'#5b78a8',conc:'#1b3d79'};
     const rowsAmo = computed(()=> amVisiveis.value.map(x=>{ const s=statusPrazoAm(x); const L=etapasAm(x); const enc=encerrada(x);
       return {_x:x, id:x.id, numero:x.numero, apqp:x.apqp, cliente:nomeCli(x), familia:x.familia, pn:x.pnCliente, pnCgr:x.pnCgr, rfq:(projetoDe(x.apqp)||{}).rfq,
         descricao:'PN CGR '+x.pnCgr, quantidade:x.qtd, etapa:L.filter(e=>e.ok).length, etapas:10, etapaAtual:etapaAtualAm(x).t, responsavel:x.responsavel,
@@ -14451,7 +14680,7 @@ const app = Vue.createApp({
         dd:dias(x.prazoEntrega), st:enc?'Encerrada':s.t, cor:enc?'#869199':(COR_AM[s.k]||'#869199'), concl:x.status==='Concluído'||enc,
         atrasada:s.k==='atras', risco:s.k==='risco', semAtual:semAtuAm(x), pronta:prontaAm(x)}; }));
     /* v44: Acompanhamento em faixa única (anéis + barras) */
-    function anelSVG(segs,total,txt,cor){ const r=17,C=2*Math.PI*r; let off=0; let s='<svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="'+r+'" fill="none" stroke="#eef1f6" stroke-width="5"/>';
+    function anelSVG(segs,total,txt,cor){ const r=17,C=2*Math.PI*r; let off=0; let s='<svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="'+r+'" fill="none" stroke="#d8dfe9" stroke-width="5"/>';
       const tot=Math.max(total||0,1); segs.forEach(g=>{ if(!g.v) return; const len=C*Math.min(g.v,tot)/tot; s+='<circle cx="23" cy="23" r="'+r+'" fill="none" stroke="'+g.c+'" stroke-width="5" stroke-dasharray="'+Math.max(0,len-(segs.length>1?1.2:0))+' '+C+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 23 23)"'+(segs.length===1?' stroke-linecap="round"':'')+'/>'; off+=len; });
       const fs=String(txt).length>3?10:12; return s+'<text x="23" y="'+(23+fs/3)+'" text-anchor="middle" font-size="'+fs+'" font-weight="900" fill="'+(cor||'#1b3d79')+'" font-family="Lato,Arial,sans-serif">'+txt+'</text></svg>'; }
     const marcosPrazo = computed(()=>{ const L=[]; ativos.value.forEach(p=>{ const ok=semaforo(p).cor==='g'; const add=d=>{ if(d && dias(d)>=0 && dias(d)<=30) L.push(ok); }; if(!p.ppapAprovadoEm) add(p.ppapAcordado); add(p.sop); p.gates.forEach(g=>{ if(!g.aprovacao) add(g.dataPrevista); }); }); return {tot:L.length, ok:L.filter(Boolean).length}; });
@@ -14477,6 +14706,30 @@ const app = Vue.createApp({
     function abrirOutlook(m){ if(m.linkOutlook){ window.open(m.linkOutlook,'_blank','noopener'); return; }
       window.open('https://outlook.office.com/mail/','_blank','noopener'); toast('info','Abrindo o Outlook na web','Neste protótipo os e-mails são fictícios: o link direto para a mensagem funciona quando o agente estiver ligado ao Microsoft 365.'); }
     function conferirDaNom(p){ abrirProjeto(p); Vue.nextTick(()=>abrirEditarCadastro()); }
+    /* v53 */
+    function usoPessoa(id){ let n=0; db.projetos.forEach(p=>{ if(p.lider===id||p.criadoPor===id) n++; Object.values(p.equipe||{}).forEach(v=>{ if(v===id) n++; }); p.gates.forEach(g=>g.itens.forEach(i=>{ if(i.responsavel===id||(i.evidencia&&i.evidencia.por===id)||(i.validacao&&i.validacao.por===id)) n++; })); (p.passos||[]).forEach(x=>{ if(x.por===id) n++; }); });
+      (db.acoes||[]).forEach(a=>{ if(a.responsavel===id||a.criadoPor===id) n++; }); (db.amostras||[]).forEach(a=>{ if(a.responsavel===id) n++; }); (db.meios||[]).forEach(m=>{ if(m.responsavel===id) n++; });
+      (db.notificacoes||[]).forEach(x=>{ if((x.para||[]).includes&&(x.para||[]).includes(id)) n++; }); return n; }
+    function excluirResp(u){ const n=usoPessoa(u.id); if(n){ toast('warn','Não é possível excluir',u.nome+' tem '+n+' registro(s) no sistema e no histórico; use Inativar.'); return; }
+      const i=db.usuarios.indexOf(u); if(i<0) return; db.usuarios.splice(i,1); log('Responsável',u.id,null,'Responsável excluído: '+u.nome+' <'+(u.email||'')+'>','usuario',u.nome,null); toast('success','Responsável excluído',u.nome); }
+    const areasForaEquipe = computed(()=>{ const F=ui.cp.f; const tem=Object.keys(F.equipe||{}); return Object.keys(NOME_AREA).filter(a=>!tem.includes(a)).map(a=>({v:a,t:NOME_AREA[a]})); });
+    function incluirAreaEq(a){ if(!a||!ui.cp.f.equipe) return; ui.cp.f.equipe[a]=null; ui.cp.novaArea=null; }
+    function docsDaArea(p,a){ if(!p) return 0; let n=0; p.gates.forEach(g=>g.itens.forEach(i=>{ if(areaPrincipal(i.area)===a && !i.responsavel && i.status!=='NA') n++; })); return n; }
+    function retirarAreaEq(a){ const p=ui.cp.ref; const n=docsDaArea(p,a); if(n && !confirm(n+' documento(s) da área '+a+' ficarão sem responsável padrão (vai para o líder). Retirar a área '+a+' da equipe?')) return; delete ui.cp.f.equipe[a]; }
+    function anexarMais(p,g,it){ escolherArquivo(async file=>{ if(file.size>25*1024*1024){ toast('error','Arquivo muito grande','Limite do protótipo: 25 MB'); return; }
+        const id='ARQ-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+        await IDB.put({id,nome:file.name,tipo:file.type,tamanho:file.size,blob:file,apqp:p.apqp,itemId:it.id,versao:(it.evidencia||{}).versao||1,por:usuario.value.id,em:agoraISO()});
+        const x={arquivo:file.name,arquivoId:id,tipo:file.type,tamanho:file.size,por:usuario.value.id,em:agoraISO()};
+        it.evidencia.extras=[...(it.evidencia.extras||[]),x]; const v=it.versoes[it.versoes.length-1]; if(v) v.extras=[...(v.extras||[]),x];
+        log('Item de gate',it.id,p.apqp,'Arquivo adicional anexado ('+g.codigo+', v'+(it.evidencia.versao||1)+'): '+file.name,'evidencia.extras',null,file.name); toast('success','Arquivo adicionado',file.name); }, ACEITOS); }
+    function retirarExtra(p,it,x){ if(it.status!=='ENT') return; it.evidencia.extras=it.evidencia.extras.filter(e=>e!==x); const v=it.versoes[it.versoes.length-1]; if(v&&v.extras) v.extras=v.extras.filter(e=>e.arquivoId!==x.arquivoId);
+      log('Item de gate',it.id,p.apqp,'Arquivo adicional retirado antes da validação: '+x.arquivo,'evidencia.extras',x.arquivo,null); }
+    const ultPasso = p => (p.passos&&p.passos.length) ? p.passos[p.passos.length-1] : null;
+    const diasPasso = p => { const u=ultPasso(p); return u ? -dias(u.em.slice(0,10)) : null; };
+    const passoVelho = p => { const d=diasPasso(p); return d!=null && d>(db.parametros.diasSemAtualizacaoPassos||7); };
+    function abrirPasso(p){ Object.assign(ui.ps,{vis:true,p,txt:'',hist:false}); }
+    function salvarPasso(){ const p=ui.ps.p, txt=(ui.ps.txt||'').trim(); if(!txt) return; p.passos=[...(p.passos||[]),{texto:txt,em:agoraISO(),por:usuario.value.id}];
+      log('Projeto',p.apqp,p.apqp,'Próximos passos atualizados','passos',null,txt.slice(0,80)); ui.ps.vis=false; toast('success','Próximos passos atualizados',p.apqp); }
     function togAcomp(){ ui.acompOculto=!ui.acompOculto; try{ localStorage.setItem('pga.acomp',ui.acompOculto?'oculto':'visivel'); }catch(e){} }
     const intMeios = computed(()=>{ const K=kpiMeios.value; return {atr:K.atrasadas, v7:K.vencem7, blq:K.bloqueados, lib:K.liberados}; });
     const intAmo = computed(()=>{ const K=kpiAmostras.value; return {atr:K.atrasadas, risco:K.risco, sem:K.semAtu, pront:K.prontas}; });
@@ -14486,18 +14739,18 @@ const app = Vue.createApp({
       const stCampo = M ? 'st' : 'status';
       const setSo = ()=>{ f.an.so=true; f.an.st=null; };
       const kpis = M ? [
-        {t:'Em andamento', n:cnt(x=>x.ativo), s:'de '+rows.length+' dispositivo(s)', c:'#148ec2', fx:()=>{ limparAn(); }},
+        {t:'Em andamento', n:cnt(x=>x.ativo), s:'de '+rows.length+' dispositivo(s)', c:'#5b78a8', fx:()=>{ limparAn(); }},
         {t:'Aguardando / bloqueados', n:cnt(x=>x.bloqueado), s:'aprovação, orçamento/RFQ pendentes', c:'#1b3d79', fx:()=>{ f.an.so=false; f.an.st='Aguardando aprovação'; }},
         {t:'Atrasados', n:cnt(x=>x.atrasado), s:'prazo vencido', c:'#b31671', fx:()=>{ f.an.so=false; f.an.st='Atrasado'; }},
         {t:'Vencem em 7 dias', n:cnt(x=>x.vence7), s:'atenção na semana', c:'#d67c2f', fx:()=>{ f.an.so=false; f.an.st='Atenção'; }},
-        {t:'Liberados', n:cnt(x=>x.liberado), s:'liberados para produção', c:'#a4ae2d', fx:()=>{ f.an.so=false; f.an.st='Liberado p/ produção'; }} ] : [
-        {t:'Em andamento', n:cnt(x=>x.status==='Em andamento'), s:'de '+rows.length+' amostra(s)', c:'#148ec2', fx:()=>{ f.an.so=false; f.an.st='Em andamento'; }},
+        {t:'Liberados', n:cnt(x=>x.liberado), s:'liberados para produção', c:'#1b3d79', fx:()=>{ f.an.so=false; f.an.st='Liberado p/ produção'; }} ] : [
+        {t:'Em andamento', n:cnt(x=>x.status==='Em andamento'), s:'de '+rows.length+' amostra(s)', c:'#5b78a8', fx:()=>{ f.an.so=false; f.an.st='Em andamento'; }},
         {t:'Pendentes / aguardando', n:cnt(x=>x.status==='Pendente'||x.status==='Aguardando retorno'), s:'pendente ou aguardando retorno', c:'#d67c2f', fx:()=>{ f.an.so=false; f.an.st='Pendente'; }},
         {t:'Entrega atrasada', n:cnt(x=>x.atrasada), s:cnt(x=>x.risco)+' em risco (até 5 dias)', c:'#b31671', fx:setSo},
-        {t:'Sem atualização', n:cnt(x=>x.semAtual), s:'há mais de 7 dias', c:'#b8862b', fx:null},
-        {t:'Prontas p/ encerrar', n:cnt(x=>x.pronta), s:cnt(x=>x.concl)+' já concluída(s)', c:'#a4ae2d', fx:()=>{ f.an.so=false; f.an.st='Concluído'; }} ];
+        {t:'Sem atualização', n:cnt(x=>x.semAtual), s:'há mais de 7 dias', c:'#5b78a8', fx:null},
+        {t:'Prontas p/ encerrar', n:cnt(x=>x.pronta), s:cnt(x=>x.concl)+' já concluída(s)', c:'#1b3d79', fx:()=>{ f.an.so=false; f.an.st='Concluído'; }} ];
       const ordem = M ? OP_STATUS_MEIO.map(o=>[o.t,COR_MEIO[o.v]])
-                      : [['Em andamento','#148ec2'],['Pendente','#d67c2f'],['Aguardando retorno','#b8862b'],['Concluído','#a4ae2d']];
+                      : [['Em andamento','#5b78a8'],['Pendente','#d67c2f'],['Aguardando retorno','#5b78a8'],['Concluído','#1b3d79']];
       const barras = ordem.map(([b,c])=>({k:b,c,n:rows.filter(x=>x[stCampo]===b).length})).filter(b=>b.n||!M);
       const max = Math.max(1,...barras.map(b=>b.n));
       const agrupar=(campo,rot)=>{ const ks=[...new Set(rows.map(x=>rot?rot(x[campo]):x[campo]))].sort();
@@ -14561,8 +14814,8 @@ const app = Vue.createApp({
       const s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520"><rect width="800" height="520" fill="#eef1f5"/>'
        +'<rect x="0" y="0" width="800" height="44" fill="#1b3d79"/><text x="20" y="29" font-family="Lato,Arial" font-size="18" font-weight="700" fill="#fff">'+esc(a.titulo)+' · '+esc(m.ci)+' · APQP '+esc(m.apqp)+'</text>'
        +'<rect x="150" y="300" width="500" height="40" rx="6" fill="#869199"/><rect x="190" y="340" width="40" height="110" fill="#5f6b75"/><rect x="570" y="340" width="40" height="110" fill="#5f6b75"/>'
-       +(mont?'<rect x="250" y="170" width="300" height="130" rx="10" fill="#148ec2" opacity=".85"/><circle cx="320" cy="235" r="28" fill="#fff" opacity=".8"/><circle cx="480" cy="235" r="28" fill="#fff" opacity=".8"/>'
-             :'<rect x="330" y="130" width="140" height="170" rx="8" fill="#a4ae2d"/><path d="M360 150 q40 25 0 50 q-40 25 0 50 q40 25 0 50" stroke="#fff" stroke-width="8" fill="none"/><rect x="380" y="90" width="40" height="40" fill="#d67c2f"/>')
+       +(mont?'<rect x="250" y="170" width="300" height="130" rx="10" fill="#5b78a8" opacity=".85"/><circle cx="320" cy="235" r="28" fill="#fff" opacity=".8"/><circle cx="480" cy="235" r="28" fill="#fff" opacity=".8"/>'
+             :'<rect x="330" y="130" width="140" height="170" rx="8" fill="#1b3d79"/><path d="M360 150 q40 25 0 50 q-40 25 0 50 q40 25 0 50" stroke="#fff" stroke-width="8" fill="none"/><rect x="380" y="90" width="40" height="40" fill="#d67c2f"/>')
        +'<text x="400" y="290" text-anchor="middle" transform="rotate(-18 400 290)" font-family="Lato,Arial" font-size="52" font-weight="900" fill="#b31671" opacity=".35">EVIDÊNCIA FICTÍCIA</text>'
        +'<text x="20" y="505" font-family="Lato,Arial" font-size="14" fill="#1b3d79">'+esc(a.nome)+' · '+esc(m.descricao)+'</text></svg>';
       return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s); }
@@ -14655,8 +14908,8 @@ const app = Vue.createApp({
     const novoOpcoes = computed(()=>{ const ap=novoCtx.value.apqp;
       return [
         {k:'acao',t:'Ação',s:novoCtx.value.x?'vinculada ao item aberto':'pendência com prazo, sprint e N2/N3',i:'pi-flag',c:'#1b3d79',ok: ap?pode('acao',ap):podeCriarAcaoAlgum.value, motivo:'Somente Analista APQP ou Líder do projeto'},
-        {k:'amostra',t:'Amostra em desenvolvimento',s:'Solicitação de amostra',i:'pi-box',c:'#a4ae2d',ok: ap?pode('amostra',ap):apqpsAmostras.value.length>0, motivo:'Seu perfil não inclui amostras'},
-        {k:'meio',t:'Meio de controle ou produção',s:'Dispositivo, máquina ou ferramenta',i:'pi-wrench',c:'#148ec2',ok: ap?pode('meio',ap):apqpsMeios.value.length>0, motivo:'Seu perfil não inclui dispositivos'},
+        {k:'amostra',t:'Amostra em desenvolvimento',s:'Solicitação de amostra',i:'pi-box',c:'#1b3d79',ok: ap?pode('amostra',ap):apqpsAmostras.value.length>0, motivo:'Seu perfil não inclui amostras'},
+        {k:'meio',t:'Meio de controle ou produção',s:'Dispositivo, máquina ou ferramenta',i:'pi-wrench',c:'#5b78a8',ok: ap?pode('meio',ap):apqpsMeios.value.length>0, motivo:'Seu perfil não inclui dispositivos'},
         {k:'projeto',t:'Projeto APQP',s:'cadastro manual do projeto',i:'pi-folder',c:'#d67c2f',ok:pode('cadastro'), motivo:'Somente Analista APQP ou Líder'} ]; });
     function novoDe(k){ const C=novoCtx.value; ui.novoMenu=false;
       if(k==='acao'){ if(C.x) return novaAcaoDe(C.tipo,C.x); return novaAcao(C.apqp||null); }
@@ -14671,7 +14924,7 @@ const app = Vue.createApp({
     const filaValidar = computed(()=> docsAguardando.value.filter(x=>x.i.evidencia).map(x=>({...x, k:x.p.apqp+'|'+x.i.id, por:x.i.evidencia.por, aguarda:Math.max(0,-(dias(String(x.i.evidencia.em).slice(0,10))||0))}))
       .sort((a,b)=>(b.i.blocante-a.i.blocante)||(b.aguarda-a.aguarda)));
     const filaValidarF = computed(()=> filaValidar.value.filter(x=>(!f.vlApqp||x.p.apqp===f.vlApqp)&&(!f.vlPor||x.por===f.vlPor)&&(!f.vlBlq||x.i.blocante)));
-    const COR_PRIO={P1:'#a4ae2d',P2:'#d67c2f',P3:'#148ec2',P4:'#869199'};
+    const COR_PRIO={P1:'#1b3d79',P2:'#d67c2f',P3:'#5b78a8',P4:'#869199'};
     function origemAlta(origem){ const P=db.parametros.prioridadeBacklog; const s=String(origem||'').replace(/^Outro:\s*/,'').trim().toLowerCase(); if(!s) return false;
       return (P.origensAltoImpacto||[]).filter(o=>o!=='Outro').some(o=>{ const t=o.toLowerCase(); return s===t || s.startsWith(t); }); }
     function impactoSug(c){ const P=db.parametros.prioridadeBacklog;
@@ -14712,13 +14965,13 @@ const app = Vue.createApp({
     /* ---------- v34: página Regras e funcionamento ---------- */
     const RG_PASSOS = [
       {t:'E-mail de nomeação',q:'Comercial (S1)',i:'pi-envelope',c:'#869199'},
-      {t:'Lê e-mail, KOM e RFQ e cria o projeto',q:'Agente IA',i:'pi-sparkles',c:'#148ec2'},
+      {t:'Lê e-mail, KOM e RFQ e cria o projeto',q:'Agente IA',i:'pi-sparkles',c:'#5b78a8'},
       {t:'Checklist GR0–GR4 e anexos no projeto',q:'Sistema',i:'pi-list-check',c:'#1b3d79'},
       {t:'Confere cadastro: N° CI e líder',q:'Analista APQP',i:'pi-check-square',c:'#1b3d79'},
-      {t:'Anexa documentos e atualiza ações',q:'Líder do projeto',i:'pi-paperclip',c:'#148ec2'},
+      {t:'Anexa documentos e atualiza ações',q:'Líder do projeto',i:'pi-paperclip',c:'#5b78a8'},
       {t:'Valida os documentos',q:'Analista / Gerente',i:'pi-verified',c:'#1b3d79'},
       {t:'Gate aprovado',q:'blocantes OK',i:'pi-lock-open',c:'#d67c2f'},
-      {t:'PPAP → SOP',q:'Cliente aprova',i:'pi-flag-fill',c:'#a4ae2d'}];
+      {t:'PPAP → SOP',q:'Cliente aprova',i:'pi-flag-fill',c:'#1b3d79'}];
     const RG_SECOES = [{id:'cadastro',t:'Cadastro',i:'pi-folder-plus'},{id:'nomeacao',t:'Nomeação e anexos',i:'pi-envelope'},{id:'perfis',t:'Perfis',i:'pi-users'},{id:'docs',t:'Documentos',i:'pi-paperclip'},{id:'gate',t:'Gate',i:'pi-lock'},{id:'acoes',t:'Ações',i:'pi-flag'},{id:'prio',t:'Prioridade',i:'pi-sparkles'},{id:'sprint',t:'Sprint',i:'pi-th-large'},{id:'alertas',t:'Alertas',i:'pi-bell'},{id:'kpi',t:'Acompanhamento',i:'pi-chart-bar'},{id:'meios',t:'Meios de controle e produção',i:'pi-wrench'},{id:'amostras',t:'Amostras',i:'pi-box'},{id:'rastreio',t:'Rastreabilidade',i:'pi-history'},{id:'como',t:'Como fazer',i:'pi-compass'}];
     const RG_COMO = [
       {k:'LIDER',t:'Líder',passos:[['Anexar um documento','Projetos › projeto › gate › clipe no documento. Entra na fila da Analista.'],['Registrar uma ação','+ Novo › Ação: descrição, prazo, responsável e origem. O Agente IA define a prioridade.'],['Ajustar a prioridade','Se discordar do agente, clique em outro quadrante da matriz e escreva o motivo.'],['Atualizar e reprogramar','Na ação: andamento, envio para validação ou novo prazo com motivo (3ª reprogramação vai para N2).'],['Meio de controle ou amostra','+ Novo › Meio de controle ou Amostra, sempre ligados ao N° APQP.']]},
@@ -14768,7 +15021,7 @@ const app = Vue.createApp({
     const podePrio = c => !!c && (pode('sprint') || (c.tipo==='ACAO' && pode('acao',c.apqp)));
     function abrirPrioAcao(a){ const c=cardAcao(a); if(!c) return; if(!podePrio(c)){ toast('info','Prioridade',prioDe(c).dica); return; } const o=a.prioridade||{}; Object.assign(ui.pr,{vis:true,c,ag:null,esforco:o.esforco||'Baixo',ajustada:o.ajustada||null,motivo:o.motivo||''}); }
     const histPrio = a => db.auditoria.filter(h=>h.ref===a.id && h.campo==='prioridade').slice().reverse();
-    const COR_SIT={'tg-intg':'#1b3d79','tg-ok':'#a4ae2d','tg-ent':'#148ec2','tg-pend':'#d67c2f','tg-na':'#869199','tg-y':'#b31671','tg-int':'#869199'};
+    const COR_SIT={'tg-intg':'#1b3d79','tg-ok':'#1b3d79','tg-ent':'#5b78a8','tg-pend':'#d67c2f','tg-na':'#869199','tg-y':'#b31671','tg-int':'#869199'};
     const intCor = cls => COR_SIT[cls]||'#869199';
     function intResumo(apqp){
       const all=[...interfacesProjeto(apqp,'recebe'),...interfacesProjeto(apqp,'entrega')];
@@ -15141,10 +15394,10 @@ const app = Vue.createApp({
 
     db.nomeacoes.filter(m=>!m.processado).forEach(m=>criarProjetoAuto(m,true));
     /* v45: Gestão ocupa a altura da tela */
-    function ajustaGes(){ const el=document.querySelector('.ges'); if(el) document.documentElement.style.setProperty('--ges-top',(el.getBoundingClientRect().top+window.scrollY)+'px'); }
+    function ajustaGes(){ const el=document.querySelector('.ges'); if(!el) return; document.documentElement.style.setProperty('--ges-top',(el.getBoundingClientRect().top+window.scrollY-(parseFloat(getComputedStyle(el).marginTop)||0))+'px'); document.documentElement.style.setProperty('--gh',el.offsetHeight+'px'); }
     Vue.onMounted(()=>{ setTimeout(ajustaGes,50); window.addEventListener('resize',ajustaGes); });
     Vue.watch(()=>[ui.aba,ui.menu,ui.acompOculto],()=>Vue.nextTick(()=>setTimeout(ajustaGes,30)));
-    return { TIPOS_DOC_NOM, faltaValidar, DESC_FX, srcLbl, CAMPOS_NM, nomInfo, nmKpi, nmLista, nmAberto, abrirOutlook, conferirDaNom, anelSVG, marcosPrazo, togAcomp, NOME_AREA, nomeArea, AREAS_USU, RFQ_CEL, origem, ROT_KOM, ORD_KOM, kv, lancarFerrKOM, lancarFerrRFQ, ferrLancada, anexarDocNom, baixarArquivo, criarProjetoAuto, STATUS_AM, SOLICITANTES_AM, GUT_OPC, M6_KEYS, M6_OPC, RAI_OPC, ACAO_AM_STATUS, FAB_ESTADOS, FAB_LOCAIS, DEST_ENTREGA,
+    return { TIPOS_DOC_NOM, faltaValidar, excluirResp, usoPessoa, areasForaEquipe, incluirAreaEq, retirarAreaEq, docsDaArea, anexarMais, retirarExtra, ultPasso, diasPasso, passoVelho, abrirPasso, salvarPasso, DESC_FX, srcLbl, CAMPOS_NM, nomInfo, nmKpi, nmLista, nmAberto, abrirOutlook, conferirDaNom, anelSVG, marcosPrazo, togAcomp, NOME_AREA, nomeArea, AREAS_USU, RFQ_CEL, origem, ROT_KOM, ORD_KOM, kv, lancarFerrKOM, lancarFerrRFQ, ferrLancada, anexarDocNom, baixarArquivo, criarProjetoAuto, STATUS_AM, SOLICITANTES_AM, GUT_OPC, M6_KEYS, M6_OPC, RAI_OPC, ACAO_AM_STATUS, FAB_ESTADOS, FAB_LOCAIS, DEST_ENTREGA,
       amVivas, amVisiveis, amDe, apqpsAmostras, nomeCli, gutScore, gutCls, encerrada, acoesAbertasAm, m6Res, m6Ok, raiOk, entregaOk, condAm, prontaAm, statusPrazoAm, etapasAm, etapaAtualAm, semanaAm,
       kpiAmostras, amostrasPorStatus, amostrasAgrupadas, opApqpAm, opCliAm, opRespAm, amostrasFiltradas, amStatusOpc, amEdita, amMotivoBloqueio, amPrazoMudou, amValido,
       abrirNovaAmostra, abrirEditarAmostra, salvarAmostra, setM6, aprovar6M, anexarRAI, registrarRAI, gerarNovaAmostra, adicionarAcaoAm, statusAcaoAm, registrarAtualizacao, confirmarEntregaAm, desfazerEntregaAm,
@@ -15155,7 +15408,7 @@ const app = Vue.createApp({
       semaforo, kpiPPAP, kpiQCD, kpiConclusao, kpiPorGate, porLider, necGerencia, criticos, togSec, docsAguardando, gantt, alertasUsuario, explodir,
       opClientes, lideres, opGates, opSemaforo, opApqp, projetosFiltrados, P, abrirProjeto, abrirExcluir, confirmarExcluir, restaurarProjeto,
       statusAcaoTxt, opStatusAcao, acoesFiltradas, abrirReprog, confirmarReprog, verHistPrazo, enviarValidacaoAcao, concluirAcao, abrirN3, confirmarN3, abrirPrazoN2, confirmarPrazoN2, abrirTratativa, confirmarTratativa, novaAcao, criarAcao,
-      sprintAtiva, sprintSel, ultimaSprint, sprintDaAcao, colunaDe, cartoesSprint, cartoesFiltrados, saude, rkVenc, rk7, rkAtr, respSprint, urgCls, diaSprint, backlog, backlogFiltrado, puxarSprint, soltar, soltarBacklog, encerrarSprint, burndownSVG,
+      evidCard, anexarCard, anexarEvidAcao, sprintAtiva, sprintSel, ultimaSprint, sprintDaAcao, colunaDe, cartoesSprint, cartoesFiltrados, saude, rkVenc, rk7, rkAtr, respSprint, urgCls, diaSprint, backlog, backlogFiltrado, puxarSprint, soltar, soltarBacklog, encerrarSprint, burndownSVG,
       nomeacoesPendentes, nomeacoesOrdenadas, simularLeitura, proxAPQP, itensAplicaveisModelo, blocantesModelo, erroAPQP, erroCI, cfBaixa, cadastroValido, abrirCriarAPQP, abrirNovoProjeto, abrirEditarCadastro, confirmarCadastro, abrirDescarte, confirmarDescarte,
       opPosGate, abrirNovoGate, confirmarNovoGate, abrirNovoItem, confirmarNovoItem, abrirEditarGate, salvarEditarGate, abrirEditarItem, interfacesProjeto, verPayload, RG_PASSOS, RG_SECOES, RG_COMO, rgComo, irRegra, fxLista, fxAtual, baixarFx, naPrio, naAg, QUADS, escolherQuad, outroMarcado, addOrigem, remOrigem, listaTxt, setLista, reclassificar, prioAg, prioDiverge, prioPrecisaMotivo, prioImp, prioAcao, podePrio, abrirPrioAcao, histPrio, nomeCurto, filaValidar, filaValidarF, COR_PRIO, prioDe, abrirPrio, prioCalc, prioPrev, salvarPrio, ORIGENS_ACAO, novoCtx, novoOpcoes, novoDe, vincTxt, abrirVinculo, meioChip, amChip, m6Dots, m6Dica, limparMc, opRespMeios, meiosPorStatus, meiosAgrupados, evLista, novaAcaoDe, acoesVinculadas, abrirTratarBlq, salvarTratarBlq, blqAbrirDoc, blqCriarAcao, rowsMeios, rowsAmo, abrirDet, pessoasSel, pessoasArea, respFiltrados, novoResp, editarResp, erroResp, salvarResp, alternarAtivo, AREAS_EQUIPE, secInfo, motivoIc, intCor, intResumo, semanasFuturas, logSemana, irProjetos, irSprint, detSits, detLinhas, pdfURL, PDF_PREV, escolherEvid, confirmarEvid, removerEvid, evHref, abrirEvid, evAtual, evSVG, anl, intMeios, intAmo, limparAn, historicoFiltrado, salvarParametros, resumoDados, exportarJSON, importarJSON, restaurar };
   }
