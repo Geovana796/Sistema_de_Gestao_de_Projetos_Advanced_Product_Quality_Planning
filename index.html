@@ -4,10 +4,11 @@
   Setor: S2 — Engenharia / Desenvolvimento de Processo e Industrialização
   Processo: S2-A · APQP (Painel gerencial)  ·  Cartografia: S2-1 APQP / S2-2 PPAP
   Autor: Citizen Developer S2 (Geovana Correia) com apoio do Claude
-  Versão: v58      Data: 04/11/2026      Versão anterior: v57 (04/11/2026)
+  Versão: v59      Data: 04/11/2026      Versão anterior: v58 (04/11/2026)
   Biblioteca: Vue 3.5.13 + PrimeVue 4.5.5 (tema Aura com preset nas cores do brandbook CGR) · Fonte: Lato · SheetJS 0.18.5 (sob demanda, leitura da RFQ)
   ATENÇÃO: todos os dados são fictícios. Nenhum cliente, part number, pessoa ou valor é real.
-  O QUE MUDOU (v57 → v58): Sprint — cartão vai para “Validação” na hora e a evidência é pedida em seguida;
+  O QUE MUDOU (v58 → v59): título da aba e mensagem de carregamento sem o número da revisão.
+  v58 (v57 → v58): Sprint — cartão vai para “Validação” na hora e a evidência é pedida em seguida;
      o cartão mostra o arquivo anexado (clique abre) ou “Falta evidência” com botão Anexar; Validação → Feito
      exige evidência no documento. Regras (Sprint) atualizadas.
   v57 (v56 → v57): mais contraste (fundo cinza-azulado, borda e sombra nos cartões, trilho dos gráficos
@@ -170,7 +171,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gestão de Projetos APQP · v58</title>
+<title>Gestão de Projetos APQP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@7.0.0/primeicons.css">
@@ -483,7 +484,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .mc-fch i{font-size:10px;cursor:pointer}.mc-fil a{color:#5b78a8;font-weight:700;margin-left:4px}
 .p-datatable .p-datatable-tbody>tr.mc-sel>td{background:#e3eaf5!important;font-weight:700}
 
-/* ===== v58 — projeto criado pelo agente + documentos da nomeação ===== */
+/* ===== v59 — projeto criado pelo agente + documentos da nomeação ===== */
 .chip.c-conf{background:#f6f7f9;color:#b05f1d;font-weight:700}
 .m-ges>.banner-fict,.m-ges>.page-title,.m-ges .ges{max-width:1560px;margin-left:auto;margin-right:auto}
 .m-ges .page-title{width:100%}
@@ -568,7 +569,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .pl-pp{font-size:12px;color:#334155;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
 .cr-pp{font-size:11.5px;color:#334155;border-top:1px dashed var(--line);padding-top:6px;margin-top:6px}.cr-pp .pi{color:#869199}
 
-/* ===== v58 — Gestão ajustada à altura da tela (sem sobra), gráficos com tamanho máximo ===== */
+/* ===== v59 — Gestão ajustada à altura da tela (sem sobra), gráficos com tamanho máximo ===== */
 .ges{min-height:calc(100vh - var(--ges-top,220px) - 42px)}
 .ges .kp3{flex:1 1 auto;grid-auto-rows:1fr}
 .ges .kp{min-height:0}
@@ -581,7 +582,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .ges .sec-wrap{flex:0 0 auto;margin-top:clamp(12px,2.2vh,24px)}
 .ges .ac-f{padding:clamp(10px,2.4vh,28px) 8px}
 .ges .ac-r>span:first-child svg{width:clamp(46px,min(9.5vh,4.4vw),92px)}
-/* ===== v58 — tamanho fixo de notebook em telas grandes, conjunto centralizado ===== */
+/* ===== v59 — tamanho fixo de notebook em telas grandes, conjunto centralizado ===== */
 .m-ges>.banner-fict,.m-ges>.page-title,.m-ges .ges{max-width:1180px}
 .ges .ac-f{grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,2fr)}.ges .ac-r{gap:8px;padding:6px 6px}.ges .ac-l{grid-template-columns:clamp(128px,9.5vw,150px) minmax(40px,1fr) 24px;gap:8px}.ges .ac-q{padding-left:10px}
 .ges{min-height:min(calc(100vh - var(--ges-top,220px) - 42px),610px);margin-top:max(0px,calc((100vh - var(--ges-top,220px) - 42px - 610px)/2))}
@@ -595,15 +596,15 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .ges .ac-r>span:first-child svg{width:clamp(46px,min(9.5vh,4.4vw),60px)}
 .ges .kp-t{font-size:clamp(15px,1.9vh,15px)}.ges .kp-s,.ges .kp-f{font-size:clamp(11px,1.4vh,11px)}
 .ges .ac-r{gap:clamp(10px,1.4vh,11px)}.ges .ac-tx b{font-size:clamp(12.5px,1.65vh,12.7px)}.ges .ac-tx small{font-size:11px}.ges .ac-q{gap:clamp(2px,1vh,7.7px)}.ges .ac-l{font-size:12px}.ges .ac-l s{height:clamp(7px,1.2vh,9.2px)}
-/* ===== v58 — cartões na altura do conteúdo; centraliza só a sobra pequena (notebook) ===== */
+/* ===== v59 — cartões na altura do conteúdo; centraliza só a sobra pequena (notebook) ===== */
 .ges{min-height:0!important;margin-top:min(50px,max(0px,calc((100vh - var(--ges-top,116px) - 42px - var(--gh,600px))/2)))!important}
 .ges .kp3{flex:0 0 auto!important;grid-auto-rows:auto!important}.ges .kp-b{padding:14px 0 10px!important}
-/* ===== v58 — evidência no cartão da sprint ===== */
+/* ===== v59 — evidência no cartão da sprint ===== */
 .k-ev{display:flex;align-items:center;gap:6px;margin-top:7px;padding:5px 8px;border-radius:6px;background:#eef2f8;color:#1b3d79;font-size:11.5px;font-weight:700;cursor:pointer;min-width:0}
 .k-ev span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:underline}.k-ev b{margin-left:auto;font-size:11px;color:#5b78a8}
 .k-falta{display:flex;align-items:center;gap:6px;margin-top:7px;padding:5px 8px;border-radius:6px;background:#fdf3ea;color:#d67c2f;font-size:11.5px;font-weight:700}
 .k-anx{margin-left:auto;border:1px solid #d67c2f;background:#fff;color:#d67c2f;border-radius:6px;padding:2px 8px;font:inherit;font-size:11px;cursor:pointer}
-/* ===== v58 — contraste: fundo, borda dos cartões e trilho dos gráficos; detalhe do Acompanhamento em uma linha ===== */
+/* ===== v59 — contraste: fundo, borda dos cartões e trilho dos gráficos; detalhe do Acompanhamento em uma linha ===== */
 :root{--bg:#e9edf3}body{background:#e9edf3!important}
 .kp,.ac-f,.card,.rf{border:1px solid #d5dde9!important;box-shadow:0 2px 6px rgba(27,61,121,.10)!important}
 .gc-t,.mb-t,.ac-l s{background:#d8dfe9!important}
@@ -612,7 +613,7 @@ pre.json{background:#0c1c38;color:#dfe7f5;padding:12px;border-radius:6px;font-si
 .ges .ac-f{grid-template-columns:repeat(5,auto) minmax(250px,1fr)!important;column-gap:clamp(6px,1vw,22px);justify-content:space-between}.ges .ac-tx{overflow:visible}.ges .ac-l{grid-template-columns:150px minmax(50px,1fr) 22px!important}.ges .ac-l span{white-space:nowrap}.ges .ac-q{padding-left:12px!important}
 .kp-mot{font-size:12px;font-weight:700;color:#d67c2f;margin:4px 0 2px;text-align:center}
 .kp-b .mini.kp-mot{display:block}
-/* ===== v58 — paleta neutra: azul-marinho e cinza; laranja = atenção; rosa = crítico ===== */
+/* ===== v59 — paleta neutra: azul-marinho e cinza; laranja = atenção; rosa = crítico ===== */
 .kp,.kp.abaixo,.kp.neutro,.kp.ok{border-top:1px solid var(--line)!important}
 .kp-ic,.kp.abaixo .kp-ic,.kp.neutro .kp-ic{background:#f0f2f6!important;color:#5d6a75!important}
 .kp-sel,.kp.neutro .kp-sel{background:#fff!important;color:#5d6a75!important;border-color:#dfe5ee!important}
@@ -1413,7 +1414,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
 </head>
 <body>
 <div id="app" v-cloak></div>
-<div class="carregando" id="carregando">Carregando Gestão de Projetos APQP v58…</div>
+<div class="carregando" id="carregando">Carregando Gestão de Projetos APQP…</div>
 
 <!-- =========================================================
      BLOCO DE DADOS DE EXEMPLO (JSON, schemaVersion 2) — 100% FICTÍCIOS
@@ -11962,7 +11963,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
         </div>
       </div>
 
-      <!-- ===== v58 · Acompanhamento em faixa única ===== -->
+      <!-- ===== v59 · Acompanhamento em faixa única ===== -->
       <div class="sec-wrap">
         <div class="sec-h ac-h">Acompanhamento <span class="mini" style="font-weight:400" v-if="!ui.acompOculto">— clique em um indicador ou fila para abrir o detalhe</span>
           <Button :label="ui.acompOculto?'Mostrar':'Ocultar'" :icon="ui.acompOculto?'pi pi-eye':'pi pi-eye-slash'" text size="small" class="ac-tg" @click="togAcomp"/></div>
@@ -12507,7 +12508,7 @@ tr.destaque>td:first-child{border-left:4px solid var(--cgr-orange)}
           <TabPanel value="fluxo">
             <div class="fx-top">
               <b class="fx-tt">Processo (BPMN)</b>
-              <span class="mini">Consulta para todos os perfis · versão v58 · 04/11/2026</span>
+              <span class="mini">Consulta para todos os perfis · versão v59 · 04/11/2026</span>
             </div>
             <div class="fx-l">
               <div class="fx-nav">
